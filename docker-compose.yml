@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  nextjs:
+    build:
+      context: .
+      dockerfile: DockerfileNextJS
+    command: sh -c "npm run dev"
+    environment: 
+      - CHOKIDAR_USEPOLLING=true
+    volumes:
+      - ./front:/usr/src/app:cached
+      - /usr/src/app/node_modules
+    ports:
+      - "3000:3000"
+
