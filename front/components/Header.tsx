@@ -1,4 +1,4 @@
-export const Header=()=>{
+const Header=()=>{
     return (
         <nav>
             <div className="flex justify-between bg-blue-200 max-w-full mx-auto">
@@ -12,3 +12,5 @@ export const Header=()=>{
         </nav>
     )
 }
+
+export default Header
