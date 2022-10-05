@@ -2,3 +2,10 @@ front/.next
 front/node_modules
 front/yarn.lock
 front/package-locl.json
+
+backend/**/__pycache__
+backend/db.sqlite3
+backend/**/migrations
+
+db
+configdb
