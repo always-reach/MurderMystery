@@ -1,3 +1,4 @@
 Django==4.1.2
+django-cors-headers
 graphene-django
 psycopg2
