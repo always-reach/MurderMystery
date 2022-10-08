@@ -8,16 +8,16 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: password
     ports:
-      - "27017:27017"
+      - 27017:27017
     volumes:
       - ./db:/data/db
-      - ./configdb:/data/confiddb
+      - ./configdb:/data/configdb
 
-  mongo-espress:
+  mongo-express:
     image: mongo-express
     restart: always
     ports:
-      - "8081:8081"
+      - 8081:8081
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: password
