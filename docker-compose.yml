@@ -1,15 +1,29 @@
 version: '3'
 
 services:
-  db:
-    image: postgres
+  mongo:
+    image: mongo
+    restart: always
     environment:
-      - "POSTGRES_USER=postgres"
-      - "POSTGRES_PASSWORD=postgres"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
     ports:
-      - "5432-5432"
+      - 27017:27017
+    volumes:
+      - ./db:/data/db
+      - ./configdb:/data/configdb
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+      ME_CONFIG_MONGODB_SERVER: mongo
+    depends_on:
+      - mongo
 
   nextjs:
     build:
@@ -34,20 +48,4 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - db
-
-  pgadmin4:
-    image: dpage/pgadmin4
-    ports:
-      - 8888:80
-    volumes:
-      - pgadmin4_data:/var/lib/pgadmin
-    environment:
-      PGADMIN_DEFAULT_EMAIL: bytheway811@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: password
-    depends_on:
-      - db
-
-volumes:
-  postgres_data:
-  pgadmin4_data:
+      - mongo

@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
     'api.apps.ApiConfig'
 ]
 
@@ -76,12 +75,14 @@ WSGI_APPLICATION = 'murder_mystery.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'db',
-        'PORT': 5432,
+        'ENGINE': 'djongo',
+        'NAME': 'mudermystery',
+        'CLIENT': {
+            'host': 'mongo',
+            'username': 'root',
+            'password': 'password',
+            'port': 27017
+        }
     }
 }
 
