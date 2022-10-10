@@ -30,7 +30,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(verbose_name="メールアドレス", unique=True, blank=False, null=False)
     is_active = models.BooleanField(verbose_name="ログイン可不可", default=True)
     is_staff = models.BooleanField(verbose_name="管理画面ログイン可不可", default=True)
-    date_joined = models.DateTimeField(verbose_name="ログイン日時", default=timezone.now)
 
     objects = UserManager()
 

@@ -1,4 +1,6 @@
 import graphene
+from django.contrib.auth.hashers import make_password
+from django.utils.datetime_safe import datetime
 from graphene_django import DjangoObjectType
 from api.models import User
 
@@ -7,6 +9,25 @@ class UserType(DjangoObjectType):
     class Meta:
         model = User
         fields = "__all__"
+
+
+class LoginUserMutation(graphene.Mutation):
+    id = graphene.String()
+    username = graphene.String()
+    email = graphene.String()
+    user = graphene.Field(UserType)
+
+    class Arguments:
+        password = graphene.String(required=True)
+        email = graphene.String(required=True)
+
+    def mutate(self, _, password, email):
+        user = User.objects.filter(email=email).first()
+        if not (user or user.check_password(password)):
+            return None
+        user.last_login = datetime.now()
+        user.save()
+        return LoginUserMutation(user=user)
 
 
 class Query(graphene.ObjectType):
@@ -29,7 +50,6 @@ class Query(graphene.ObjectType):
         -------
 
         """
-
         return User.objects.all()
 
     @staticmethod
@@ -53,4 +73,8 @@ class Query(graphene.ObjectType):
             return None
 
 
-schema = graphene.Schema(query=Query)
+class Mutation(graphene.ObjectType):
+    login_user = LoginUserMutation.Field()
+
+
+schema = graphene.Schema(query=Query, mutation=Mutation)
