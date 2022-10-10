@@ -1,4 +1,5 @@
 import graphene
+from graphql import GraphQLError
 from django.contrib.auth.hashers import make_password
 from django.utils.datetime_safe import datetime
 from graphene_django import DjangoObjectType
@@ -23,8 +24,8 @@ class LoginUserMutation(graphene.Mutation):
 
     def mutate(self, _, password, email):
         user = User.objects.filter(email=email).first()
-        if not (user or user.check_password(password)):
-            return None
+        if not (user and user.check_password(password)):
+            return GraphQLError("ユーザーが存在しません")
         user.last_login = datetime.now()
         user.save()
         return LoginUserMutation(user=user)
