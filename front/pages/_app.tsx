@@ -1,7 +1,8 @@
 import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-
+import * as React from 'react'
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
+import { NextPage } from 'next'
+import type { AppProps } from 'next/app'
 
 const cache = new InMemoryCache()
 const client = new ApolloClient({
@@ -9,12 +10,22 @@ const client = new ApolloClient({
   cache
 })
 
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: React.ReactElement) => React.ReactNode
+}
 
-function MyApp({ Component, pageProps }: AppProps) {
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
+}
+
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const getlayout = Component.getLayout ?? ((page) => page)
   return (
-    <ApolloProvider client={client}>
-      <Component {...pageProps} />
-    </ApolloProvider>
+    getlayout(
+      <ApolloProvider client={client}>
+        <Component {...pageProps} />
+      </ApolloProvider>
+    )
   )
 }
 

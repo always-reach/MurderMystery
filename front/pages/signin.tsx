@@ -5,9 +5,9 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from "@apollo/client"
 import { useRouter } from "next/router"
 
+import { NextPageWithLayout } from "./_app"
 import PrimaryButton from "../components/button/primaryButton"
 import Divider from "../components/Divider"
-import Header from "../components/Header"
 import HyperLink from "../components/HyperLink"
 import CheckBoxForm from "../components/inputForm/CheckBocForm"
 import EmailForm from "../components/inputForm/EmailForm"
@@ -15,6 +15,8 @@ import PasswordForm from "../components/inputForm/PasswordForm"
 import ErrorCard from "../components/error/ErrorCard"
 
 import { SIGNIN_USER } from "../graphql/mutation/User.mutation"
+import Layout from "../layout/Layout"
+
 
 type LoginInput = {
     email: string
@@ -25,7 +27,7 @@ const validateSchema = yup.object().shape({
     password: yup.string().required("必須入力です").min(8, "パスワードは８文字以上です")
 })
 
-function SignIn() {
+const SignIn:NextPageWithLayout=()=>{
     const [signIn] = useMutation(
         SIGNIN_USER,
         {
@@ -48,7 +50,6 @@ function SignIn() {
     }
     return (
         <div>
-            <Header />
             <div className="h-screen w-screen flex flex-col items-center">
                 {errorMessage && <ErrorCard errorMessage={errorMessage} />}
                 <div className="bg-gray-100 border-2 border-gray-900 rounded-lg w-5/12 mt-10 mb-auto py-12">
@@ -61,7 +62,7 @@ function SignIn() {
                         </div>
                         <Divider />
                         <div className="flex justify-evenly">
-                            <HyperLink href="/signon">新規登録の方はこちら</HyperLink>
+                            <HyperLink href="/signup">新規登録の方はこちら</HyperLink>
                             <HyperLink href="/forgot">パスワードを忘れた</HyperLink>
                         </div>
                     </form>
@@ -70,4 +71,5 @@ function SignIn() {
         </div>)
 }
 
+SignIn.getLayout=(page)=><Layout>{page}</Layout>
 export default SignIn
