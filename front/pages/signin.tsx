@@ -14,7 +14,7 @@ import EmailForm from "../components/inputForm/EmailForm"
 import PasswordForm from "../components/inputForm/PasswordForm"
 import ErrorCard from "../components/error/ErrorCard"
 
-import { LOGIN_USER } from "../graphql/mutation/User.mutation"
+import { SIGNIN_USER } from "../graphql/mutation/User.mutation"
 
 type LoginInput = {
     email: string
@@ -25,9 +25,9 @@ const validateSchema = yup.object().shape({
     password: yup.string().required("必須入力です").min(8, "パスワードは８文字以上です")
 })
 
-function Login() {
-    const [login] = useMutation(
-        LOGIN_USER,
+function SignIn() {
+    const [signIn] = useMutation(
+        SIGNIN_USER,
         {
             onCompleted(_) {
                 router.push("/top")
@@ -42,7 +42,7 @@ function Login() {
     const [errorMessage, setErrorMessage] = React.useState("")
 
     const onSubmit: SubmitHandler<LoginInput> = async (loginInput) => {
-        await login({ variables: { email: loginInput.email, password: loginInput.password } })
+        await signIn({ variables: { email: loginInput.email, password: loginInput.password } })
 
 
     }
@@ -70,4 +70,4 @@ function Login() {
         </div>)
 }
 
-export default Login
+export default SignIn

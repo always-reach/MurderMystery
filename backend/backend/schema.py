@@ -12,7 +12,7 @@ class UserType(DjangoObjectType):
         fields = "__all__"
 
 
-class LoginUserMutation(graphene.Mutation):
+class SignInUserMutation(graphene.Mutation):
     id = graphene.String()
     username = graphene.String()
     email = graphene.String()
@@ -22,13 +22,14 @@ class LoginUserMutation(graphene.Mutation):
         password = graphene.String(required=True)
         email = graphene.String(required=True)
 
-    def mutate(self, _, password, email):
+    @staticmethod
+    def mutate(_, password, email):
         user = User.objects.filter(email=email).first()
         if not (user and user.check_password(password)):
             return GraphQLError("ユーザーが存在しません")
         user.last_login = datetime.now()
         user.save()
-        return LoginUserMutation(user=user)
+        return SignInUserMutation(user=user)
 
 
 class Query(graphene.ObjectType):
@@ -75,7 +76,7 @@ class Query(graphene.ObjectType):
 
 
 class Mutation(graphene.ObjectType):
-    login_user = LoginUserMutation.Field()
+    login_user = SignInUserMutation.Field()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
