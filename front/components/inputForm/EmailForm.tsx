@@ -1,5 +1,5 @@
 import { forwardRef } from "react"
-import ErrorMessage from "../ErrorMessage"
+import ErrorMessage from "../error/ErrorMessage"
 
 type InputProps = JSX.IntrinsicElements["input"]
 type EmailProps = InputProps & { error?: boolean, errorMessage?: string }
