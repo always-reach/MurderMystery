@@ -18,13 +18,13 @@ import { SIGNIN_USER } from "../graphql/mutation/User.mutation"
 import Layout from "../layout/Layout"
 
 
-type LoginInput = {
+type SignInInput = {
     email: string
     password: string
 }
 const validateSchema = yup.object().shape({
     email: yup.string().email("メールアドレスの形式が違います").required("必須入力です"),
-    password: yup.string().required("必須入力です").min(8, "パスワードは８文字以上です")
+    password: yup.string().required("必須入力です")
 })
 
 const SignIn:NextPageWithLayout=()=>{
@@ -39,11 +39,11 @@ const SignIn:NextPageWithLayout=()=>{
             }
         }
     );
-    const { register, handleSubmit, formState: { errors } } = useForm<LoginInput>({ mode: "onSubmit", resolver: yupResolver(validateSchema) })
+    const { register, handleSubmit, formState: { errors } } = useForm<SignInInput>({ mode: "onSubmit", resolver: yupResolver(validateSchema) })
     const router = useRouter()
     const [errorMessage, setErrorMessage] = React.useState("")
 
-    const onSubmit: SubmitHandler<LoginInput> = async (loginInput) => {
+    const onSubmit: SubmitHandler<SignInInput> = async (loginInput) => {
         await signIn({ variables: { email: loginInput.email, password: loginInput.password } })
 
 
