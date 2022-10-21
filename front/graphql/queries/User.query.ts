@@ -9,16 +9,22 @@ export const GET_ALL_USERS = gql`
   }
 `;
 
-export const GET_USER_BY_EMAIL=gql`
+export const GET_USER_BY_EMAIL = gql`
   query ($email:String!){
     userByEmail(email:$email){
-        id
-        username
-        email
+      id
+      username
+      email
     }
   }
 `
 
-export type Users={
-    data:[]
+export type UserByEmail = {
+  data: {
+    userByEmail: null | {
+      id: string,
+      username: string,
+      email: string
+    }
+  }
 }
