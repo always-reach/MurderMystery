@@ -33,7 +33,7 @@ const SignUp: NextPageWithLayout = () => {
         rePassword: yup.string().required("必須入力です").oneOf([yup.ref("password")], "パスワードが一致しません")
     })
 
-    const { register, handleSubmit, formState: { errors } } = useForm<SignUpInput>({ mode: "onSubmit", resolver: yupResolver(validateSchema) })
+    const { register, handleSubmit, formState: { errors } } = useForm<SignUpInput>({ mode: "onSubmit",reValidateMode:"onSubmit", resolver: yupResolver(validateSchema) })
 
     const onSubmit: SubmitHandler<SignUpInput> = (signUpInput) => {
         console.log({ signUpInput })
