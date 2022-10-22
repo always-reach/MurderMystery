@@ -1,9 +1,14 @@
-import { useLazyQuery } from "@apollo/client";
-import { GET_USER_BY_EMAIL } from "../graphql/queries/User.query";
+import { LazyQueryExecFunction } from "@apollo/client";
+import { Exact, Get_User_By_EmailQuery } from "../graphql/codegen";
 
-export async function EmailDuplicateValidation(getUser:({variables:{}})=>{},email: string|undefined) {
-
-    const response = await getUser({ variables: { email: email } })
-    console.log({response})
+export default async function EmailDuplicateValidation(getUser: LazyQueryExecFunction<Get_User_By_EmailQuery, Exact<{ email: string; }>>, email: string | undefined) {
+    //メールアドレスのダブりだけを検出
+    //存在しなくても、アドレスの形式が不正でもここでは関与しない
+    if (email) {
+        const response = await getUser({ variables: { email } })
+        if (response.error) {
+            return false
+        }
+    }
     return true
 }

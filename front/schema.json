@@ -107,22 +107,26 @@
       "subscriptionType": null,
       "types": [
         {
-          "description": "Query\u306e\u5b9f\u88c5\n\u547d\u540d\u898f\u5247\u3068\u3057\u3066staticmethod\u304cresolve_xxx\u3068\u306a\u308b\u5fc5\u8981\u304c\u3042\u308b",
+          "description": null,
           "enumValues": null,
           "fields": [
             {
               "args": [],
               "deprecationReason": null,
-              "description": null,
+              "description": "\u30e6\u30fc\u30b6\u30fc\u53d6\u5f97API",
               "isDeprecated": false,
               "name": "allUsers",
               "type": {
                 "kind": "LIST",
                 "name": null,
                 "ofType": {
-                  "kind": "OBJECT",
-                  "name": "UserType",
-                  "ofType": null
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "UserType",
+                    "ofType": null
+                  }
                 }
               }
             },
@@ -144,13 +148,48 @@
                 }
               ],
               "deprecationReason": null,
-              "description": null,
+              "description": "\u30e1\u30fc\u30eb\u30a2\u30c9\u30ec\u30b9\u691c\u7d22API",
               "isDeprecated": false,
               "name": "userByEmail",
               "type": {
-                "kind": "OBJECT",
-                "name": "UserType",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "UserType",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "username",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": "\u30e6\u30fc\u30b6\u30fc\u540d\u691c\u7d22API",
+              "isDeprecated": false,
+              "name": "userByUsername",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "UserType",
+                  "ofType": null
+                }
               }
             }
           ],

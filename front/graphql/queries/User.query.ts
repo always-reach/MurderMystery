@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client"
 
 export const GET_ALL_USERS = gql`
-  query {
+  query GET_ALL_USERS{
     allUsers {
       id
       username
@@ -10,7 +10,7 @@ export const GET_ALL_USERS = gql`
 `;
 
 export const GET_USER_BY_EMAIL = gql`
-  query ($email:String!){
+  query GET_USER_BY_EMAIL($email:String!){
     userByEmail(email:$email){
       id
       username
@@ -19,12 +19,12 @@ export const GET_USER_BY_EMAIL = gql`
   }
 `
 
-export type UserByEmail = {
-  data: {
-    userByEmail: null | {
-      id: string,
-      username: string,
-      email: string
+export const GET_USER_BY_USERNAME = gql`
+  query GET_USER_BY_USERNAME($username:String!){
+    userByUsername(username:$username){
+      id
+      username
+      email
     }
   }
-}
+`
