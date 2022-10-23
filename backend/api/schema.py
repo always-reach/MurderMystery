@@ -1,35 +1,17 @@
 import graphene
 from graphql import GraphQLError
+from graphene_django import DjangoObjectType
+from graphene_django.rest_framework.mutation import SerializerMutation
 from django.contrib.auth.hashers import make_password
 from django.utils.datetime_safe import datetime
-from graphene_django import DjangoObjectType
 from .models import User
+from .serializer import UserSerializer
 
 
 class UserType(DjangoObjectType):
     class Meta:
         model = User
         fields = "__all__"
-
-
-class SignInUserMutation(graphene.Mutation):
-    id = graphene.String()
-    username = graphene.String()
-    email = graphene.String()
-    user = graphene.Field(UserType)
-
-    class Arguments:
-        password = graphene.String(required=True)
-        email = graphene.String(required=True)
-
-    @staticmethod
-    def mutate(_, password, email):
-        user = User.objects.filter(email=email).first()
-        if not (user and user.check_password(password)):
-            return GraphQLError("ユーザーが存在しません")
-        user.last_login = datetime.now()
-        user.save()
-        return SignInUserMutation(user=user)
 
 
 class Query(graphene.ObjectType):
@@ -85,5 +67,45 @@ class Query(graphene.ObjectType):
             return GraphQLError("ユーザーが存在しません")
 
 
+class SignInUserMutation(graphene.Mutation):
+    user = graphene.Field(UserType)
+
+    class Arguments:
+        password = graphene.String(required=True)
+        email = graphene.String(required=True)
+
+    @staticmethod
+    def mutate(_, __, password, email):
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return GraphQLError("ユーザーが存在しません")
+        if user.check_password(password):
+            return GraphQLError("ユーザーが存在しません")
+        user.last_login = datetime.now()
+        user.save()
+        return SignInUserMutation(user=user)
+
+
+class SignUpUserMutation(graphene.Mutation):
+    user = graphene.Field(UserType)
+
+    class Arguments:
+        username = graphene.String(required=True)
+        password = graphene.String(required=True)
+        email = graphene.String(required=True)
+
+    @staticmethod
+    def mutate(_, __, username, password, email):
+        serializer = UserSerializer(data={"username": username, "password": password, "email": email})
+        if serializer.is_valid():
+            serializer.save()
+            user = User.objects.get(email=email, username=username)
+            return SignUpUserMutation(user=user)
+        else:
+            return GraphQLError(serializer.errors)
+
+
 class Mutation(graphene.ObjectType):
-    login_user = SignInUserMutation.Field()
+    signin_user = SignInUserMutation.Field()
+    signup_user = SignUpUserMutation.Field()

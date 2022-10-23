@@ -16,6 +16,7 @@ import ErrorCard from "../components/error/ErrorCard"
 
 import { SIGNIN_USER } from "../graphql/mutation/User.mutation"
 import Layout from "../layout/Layout"
+import { useSignin_UserMutation } from "../graphql/codegen"
 
 
 type SignInInput = {
@@ -27,7 +28,7 @@ const validateSchema = yup.object().shape({
     password: yup.string().required("必須入力です")
 })
 
-const SignIn:NextPageWithLayout=()=>{
+const SignIn: NextPageWithLayout = () => {
     const [signIn] = useMutation(
         SIGNIN_USER,
         {
@@ -39,13 +40,16 @@ const SignIn:NextPageWithLayout=()=>{
             }
         }
     );
+    const [test] = useSignin_UserMutation()
     const { register, handleSubmit, formState: { errors } } = useForm<SignInInput>({ mode: "onSubmit", resolver: yupResolver(validateSchema) })
     const router = useRouter()
     const [errorMessage, setErrorMessage] = React.useState("")
 
     const onSubmit: SubmitHandler<SignInInput> = async (loginInput) => {
-        await signIn({ variables: { email: loginInput.email, password: loginInput.password } })
-
+        //await signIn({ variables: { email: loginInput.email, password: loginInput.password } })
+        console.log({loginInput})
+        const response = await test({ variables: { email: loginInput.email, password: loginInput.password } })
+        console.log({ response })
 
     }
     return (
@@ -71,5 +75,5 @@ const SignIn:NextPageWithLayout=()=>{
         </div>)
 }
 
-SignIn.getLayout=(page)=><Layout>{page}</Layout>
+SignIn.getLayout = (page) => <Layout>{page}</Layout>
 export default SignIn
