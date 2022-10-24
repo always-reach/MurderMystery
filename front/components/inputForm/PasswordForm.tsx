@@ -17,7 +17,7 @@ const PasswordForm = forwardRef<HTMLInputElement, PasswordProps>((props, ref) =>
     }
     
     return (
-        <div className="w-full mb-6">
+        <div className="w-full mb-4">
             <input type="password"
                 {...others}
                 autoComplete="current-password"

@@ -1,82 +1,12 @@
 import graphene
-from graphql import GraphQLError
-from django.contrib.auth.hashers import make_password
-from django.utils.datetime_safe import datetime
-from graphene_django import DjangoObjectType
-from api.models import User
+import api.schema
 
 
-class UserType(DjangoObjectType):
-    class Meta:
-        model = User
-        fields = "__all__"
 
+class Query(api.schema.Query,graphene.ObjectType):
+    pass
 
-class SignInUserMutation(graphene.Mutation):
-    id = graphene.String()
-    username = graphene.String()
-    email = graphene.String()
-    user = graphene.Field(UserType)
-
-    class Arguments:
-        password = graphene.String(required=True)
-        email = graphene.String(required=True)
-
-    @staticmethod
-    def mutate(_, password, email):
-        user = User.objects.filter(email=email).first()
-        if not (user and user.check_password(password)):
-            return GraphQLError("ユーザーが存在しません")
-        user.last_login = datetime.now()
-        user.save()
-        return SignInUserMutation(user=user)
-
-
-class Query(graphene.ObjectType):
-    """
-    Queryの実装
-    命名規則としてstaticmethodがresolve_xxxとなる必要がある
-    """
-    all_users = graphene.List(UserType)
-    user_by_email = graphene.Field(UserType, email=graphene.String(required=True))
-
-    @staticmethod
-    def resolve_all_users(_, __):
-        """
-        Userテーブル全件検索
-        Parameters
-        ----------
-        _ 使わない変数 root
-        __ 使わない変数 info
-        Returns User全件
-        -------
-
-        """
-        return User.objects.all()
-
-    @staticmethod
-    def resolve_user_by_email(_, __, email):
-        """
-        メールアドレスでUserを検索
-        メールアドレスはユニーク項目なので一件のみ取得される
-        Parameters
-        ----------
-        _ 使わない変数 root
-        __ 使わない変数 info
-        email 検索するメールアドレス
-
-        Returns emailを持つUser
-        -------
-
-        """
-        try:
-            return User.objects.all().get(email=email)
-        except User.DoesNotExist:
-            return None
-
-
-class Mutation(graphene.ObjectType):
-    login_user = SignInUserMutation.Field()
-
+class Mutation(api.schema.Mutation,graphene.ObjectType):
+    pass
 
 schema = graphene.Schema(query=Query, mutation=Mutation)

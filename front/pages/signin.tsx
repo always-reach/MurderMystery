@@ -2,7 +2,7 @@ import * as React from "react"
 import * as yup from 'yup'
 import { SubmitHandler, useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useMutation } from "@apollo/client"
+import { ApolloError, useMutation } from "@apollo/client"
 import { useRouter } from "next/router"
 
 import { NextPageWithLayout } from "./_app"
@@ -16,18 +16,19 @@ import ErrorCard from "../components/error/ErrorCard"
 
 import { SIGNIN_USER } from "../graphql/mutation/User.mutation"
 import Layout from "../layout/Layout"
+import { useSignin_UserMutation } from "../graphql/codegen"
 
 
-type LoginInput = {
+type SignInInput = {
     email: string
     password: string
 }
 const validateSchema = yup.object().shape({
     email: yup.string().email("メールアドレスの形式が違います").required("必須入力です"),
-    password: yup.string().required("必須入力です").min(8, "パスワードは８文字以上です")
+    password: yup.string().required("必須入力です")
 })
 
-const SignIn:NextPageWithLayout=()=>{
+const SignIn: NextPageWithLayout = () => {
     const [signIn] = useMutation(
         SIGNIN_USER,
         {
@@ -39,13 +40,21 @@ const SignIn:NextPageWithLayout=()=>{
             }
         }
     );
-    const { register, handleSubmit, formState: { errors } } = useForm<LoginInput>({ mode: "onSubmit", resolver: yupResolver(validateSchema) })
+    const [test] = useSignin_UserMutation()
+    const { register, handleSubmit, formState: { errors } } = useForm<SignInInput>({ mode: "onSubmit", resolver: yupResolver(validateSchema) })
     const router = useRouter()
     const [errorMessage, setErrorMessage] = React.useState("")
 
-    const onSubmit: SubmitHandler<LoginInput> = async (loginInput) => {
-        await signIn({ variables: { email: loginInput.email, password: loginInput.password } })
-
+    const onSubmit: SubmitHandler<SignInInput> = async (loginInput) => {
+        console.log({loginInput})
+        try {
+            await test({ variables: { email: loginInput.email, password: loginInput.password } })
+            router.push("/top")
+        } catch (e) {
+            if (e instanceof ApolloError) {
+                setErrorMessage("メールアドレス、またはパスワードが間違っています")
+            }
+        }
 
     }
     return (
@@ -71,5 +80,5 @@ const SignIn:NextPageWithLayout=()=>{
         </div>)
 }
 
-SignIn.getLayout=(page)=><Layout>{page}</Layout>
+SignIn.getLayout = (page) => <Layout>{page}</Layout>
 export default SignIn

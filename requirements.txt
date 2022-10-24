@@ -1,4 +1,5 @@
 Django==4.1.2
-django-cors-headers
-graphene-django
-psycopg2
+django-cors-headers==3.13.0
+djangorestframework==3.14.0
+graphene-django==3.0.0
+psycopg2==2.9.4
