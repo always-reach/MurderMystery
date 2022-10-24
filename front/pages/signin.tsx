@@ -2,7 +2,7 @@ import * as React from "react"
 import * as yup from 'yup'
 import { SubmitHandler, useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useMutation } from "@apollo/client"
+import { ApolloError, useMutation } from "@apollo/client"
 import { useRouter } from "next/router"
 
 import { NextPageWithLayout } from "./_app"
@@ -46,10 +46,15 @@ const SignIn: NextPageWithLayout = () => {
     const [errorMessage, setErrorMessage] = React.useState("")
 
     const onSubmit: SubmitHandler<SignInInput> = async (loginInput) => {
-        //await signIn({ variables: { email: loginInput.email, password: loginInput.password } })
         console.log({loginInput})
-        const response = await test({ variables: { email: loginInput.email, password: loginInput.password } })
-        console.log({ response })
+        try {
+            await test({ variables: { email: loginInput.email, password: loginInput.password } })
+            router.push("/top")
+        } catch (e) {
+            if (e instanceof ApolloError) {
+                setErrorMessage("メールアドレス、またはパスワードが間違っています")
+            }
+        }
 
     }
     return (
