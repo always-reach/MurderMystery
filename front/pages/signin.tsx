@@ -17,6 +17,7 @@ import ErrorCard from "../components/error/ErrorCard"
 import { SIGNIN_USER } from "../graphql/mutation/User.mutation"
 import Layout from "../layout/Layout"
 import { useSignin_UserMutation } from "../graphql/codegen"
+import { GetServerSideProps } from "next"
 
 
 type SignInInput = {
