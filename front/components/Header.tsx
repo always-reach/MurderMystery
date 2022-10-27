@@ -1,4 +1,8 @@
-const Header=()=>{
+import * as React from "react"
+import { useReactiveVar } from "@apollo/client"
+import { isSignInVar } from "../pages/_app"
+
+const Header = () => {
     return (
         <nav>
             <div className="flex justify-between bg-blue-200 max-w-full mx-auto">

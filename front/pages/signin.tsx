@@ -2,7 +2,7 @@ import * as React from "react"
 import * as yup from 'yup'
 import { SubmitHandler, useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
-import { ApolloError, useMutation } from "@apollo/client"
+import { ApolloError } from "@apollo/client"
 import { useRouter } from "next/router"
 
 import { NextPageWithLayout } from "./_app"
@@ -14,10 +14,8 @@ import EmailForm from "../components/inputForm/EmailForm"
 import PasswordForm from "../components/inputForm/PasswordForm"
 import ErrorCard from "../components/error/ErrorCard"
 
-import { SIGNIN_USER } from "../graphql/mutation/User.mutation"
 import Layout from "../layout/Layout"
 import { useSignin_UserMutation } from "../graphql/codegen"
-import { GetServerSideProps } from "next"
 
 
 type SignInInput = {
@@ -30,26 +28,15 @@ const validateSchema = yup.object().shape({
 })
 
 const SignIn: NextPageWithLayout = () => {
-    const [signIn] = useMutation(
-        SIGNIN_USER,
-        {
-            onCompleted(_) {
-                router.push("/top")
-            },
-            onError(_) {
-                setErrorMessage("メールアドレス、またはパスワードが間違っています")
-            }
-        }
-    );
-    const [test] = useSignin_UserMutation()
+
+    const [signIn] = useSignin_UserMutation()
     const { register, handleSubmit, formState: { errors } } = useForm<SignInInput>({ mode: "onSubmit", resolver: yupResolver(validateSchema) })
     const router = useRouter()
     const [errorMessage, setErrorMessage] = React.useState("")
 
     const onSubmit: SubmitHandler<SignInInput> = async (loginInput) => {
-        console.log({loginInput})
         try {
-            await test({ variables: { email: loginInput.email, password: loginInput.password } })
+            await signIn({ variables: { email: loginInput.email, password: loginInput.password } })
             router.push("/top")
         } catch (e) {
             if (e instanceof ApolloError) {
