@@ -3,19 +3,11 @@ import * as React from 'react'
 import { ApolloClient, InMemoryCache, ApolloProvider, makeVar } from '@apollo/client'
 import { NextPage } from 'next'
 import type { AppProps } from 'next/app'
+import { Signin_UserMutation } from '../graphql/codegen'
 
 
-export const isSignInVar=makeVar("")
-console.log("reset cache")
-const cache = new InMemoryCache({
-  typePolicies:{
-    Mutation:{
-      fields:{
-        signinUser:{read(){return isSignInVar()}}
-      }
-    }
-  }
-})
+export const isSignInVar=makeVar<Signin_UserMutation>({})
+const cache = new InMemoryCache()
 const client = new ApolloClient({
   uri: "http://localhost:8000/graphql",
   cache

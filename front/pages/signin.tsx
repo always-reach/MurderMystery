@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { ApolloError } from "@apollo/client"
 import { useRouter } from "next/router"
 
-import { NextPageWithLayout } from "./_app"
+import { isSignInVar, NextPageWithLayout } from "./_app"
 import PrimaryButton from "../components/button/primaryButton"
 import Divider from "../components/Divider"
 import HyperLink from "../components/HyperLink"
@@ -36,8 +36,14 @@ const SignIn: NextPageWithLayout = () => {
 
     const onSubmit: SubmitHandler<SignInInput> = async (loginInput) => {
         try {
-            await signIn({ variables: { email: loginInput.email, password: loginInput.password } })
-            router.push("/top")
+            const response = await signIn({ variables: { email: loginInput.email, password: loginInput.password } })
+            if (response.data) {
+                isSignInVar(response.data)
+                router.push("/top")
+            } else {
+                setErrorMessage("メールアドレス、またはパスワードが間違っています")
+            }
+
         } catch (e) {
             if (e instanceof ApolloError) {
                 setErrorMessage("メールアドレス、またはパスワードが間違っています")
@@ -55,7 +61,7 @@ const SignIn: NextPageWithLayout = () => {
                             <EmailForm {...register("email", { required: true })} error={"email" in errors} errorMessage={errors.email?.message} />
                             <PasswordForm {...register("password", { required: true })} error={"password" in errors} errorMessage={errors.password?.message} />
                             <CheckBoxForm id="checkbox" label="ログイン状態を保持する" />
-                            <PrimaryButton type="submit" label="ログインする" onClick={() => { console.log(errors) }} />
+                            <PrimaryButton type="submit" label="ログインする" />
                         </div>
                         <Divider />
                         <div className="flex justify-evenly">
