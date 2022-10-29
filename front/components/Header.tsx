@@ -1,4 +1,12 @@
-const Header=()=>{
+import { useReactiveVar } from "@apollo/client"
+import * as React from "react"
+import { isSignInVar } from "../pages/_app"
+
+const Header = () => {
+    const isSignIn=useReactiveVar(isSignInVar)
+    const signout=()=>{
+        isSignInVar({})
+    }
     return (
         <nav>
             <div className="flex justify-between bg-blue-200 max-w-full mx-auto">
@@ -6,7 +14,9 @@ const Header=()=>{
                     <h2 className="text-5xl text-gray-900 font-bold p-5">MURDER MYSTERY</h2>
                 </div>
                 <div className="flex flex-col justify-center p-3">
-                    <h4 className="text-2xl text-gray-900">LOGIN</h4>
+                    {isSignIn.signinUser && <h4 className="text-2xl text-gray-900">
+                        <button onClick={signout}>SIGNOUT</button>
+                        </h4>}
                 </div>
             </div>
         </nav>

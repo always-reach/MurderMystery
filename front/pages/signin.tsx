@@ -2,10 +2,10 @@ import * as React from "react"
 import * as yup from 'yup'
 import { SubmitHandler, useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
-import { ApolloError, useMutation } from "@apollo/client"
+import { ApolloError } from "@apollo/client"
 import { useRouter } from "next/router"
 
-import { NextPageWithLayout } from "./_app"
+import { isSignInVar, NextPageWithLayout } from "./_app"
 import PrimaryButton from "../components/button/primaryButton"
 import Divider from "../components/Divider"
 import HyperLink from "../components/HyperLink"
@@ -14,10 +14,8 @@ import EmailForm from "../components/inputForm/EmailForm"
 import PasswordForm from "../components/inputForm/PasswordForm"
 import ErrorCard from "../components/error/ErrorCard"
 
-import { SIGNIN_USER } from "../graphql/mutation/User.mutation"
 import Layout from "../layout/Layout"
 import { useSignin_UserMutation } from "../graphql/codegen"
-import { GetServerSideProps } from "next"
 
 
 type SignInInput = {
@@ -30,27 +28,22 @@ const validateSchema = yup.object().shape({
 })
 
 const SignIn: NextPageWithLayout = () => {
-    const [signIn] = useMutation(
-        SIGNIN_USER,
-        {
-            onCompleted(_) {
-                router.push("/top")
-            },
-            onError(_) {
-                setErrorMessage("メールアドレス、またはパスワードが間違っています")
-            }
-        }
-    );
-    const [test] = useSignin_UserMutation()
+
+    const [signIn] = useSignin_UserMutation()
     const { register, handleSubmit, formState: { errors } } = useForm<SignInInput>({ mode: "onSubmit", resolver: yupResolver(validateSchema) })
     const router = useRouter()
     const [errorMessage, setErrorMessage] = React.useState("")
 
     const onSubmit: SubmitHandler<SignInInput> = async (loginInput) => {
-        console.log({loginInput})
         try {
-            await test({ variables: { email: loginInput.email, password: loginInput.password } })
-            router.push("/top")
+            const response = await signIn({ variables: { email: loginInput.email, password: loginInput.password } })
+            if (response.data) {
+                isSignInVar(response.data)
+                router.push("/top")
+            } else {
+                setErrorMessage("メールアドレス、またはパスワードが間違っています")
+            }
+
         } catch (e) {
             if (e instanceof ApolloError) {
                 setErrorMessage("メールアドレス、またはパスワードが間違っています")
@@ -68,7 +61,7 @@ const SignIn: NextPageWithLayout = () => {
                             <EmailForm {...register("email", { required: true })} error={"email" in errors} errorMessage={errors.email?.message} />
                             <PasswordForm {...register("password", { required: true })} error={"password" in errors} errorMessage={errors.password?.message} />
                             <CheckBoxForm id="checkbox" label="ログイン状態を保持する" />
-                            <PrimaryButton type="submit" label="ログインする" onClick={() => { console.log(errors) }} />
+                            <PrimaryButton type="submit" label="ログインする" />
                         </div>
                         <Divider />
                         <div className="flex justify-evenly">
