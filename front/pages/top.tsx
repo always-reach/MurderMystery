@@ -1,5 +1,4 @@
 import * as React from "react"
-import { useReactiveVar } from "@apollo/client"
 import Layout from "../layout/Layout"
 import { isSignInVar, NextPageWithLayout } from "./_app"
 
@@ -8,4 +7,7 @@ const Top:NextPageWithLayout=()=>{
 }
 
 Top.getLayout = (page) => <Layout>{page}</Layout>
+Top.getAccessControl=(user)=>{
+    return user.signinUser ?null:{type:"replace",destination:"/signin"}
+}
 export default Top

@@ -18,6 +18,7 @@ import EmailDuplicateValidation from '../validation/EmailValidation'
 import UsernameDuplicateValidation from '../validation/UsernameValidation'
 
 
+
 type SignUpInput = {
     username: string
     email: string
@@ -29,7 +30,7 @@ const SignUp: NextPageWithLayout = () => {
     const [getUserByEmail] = useGet_User_By_EmailLazyQuery()
     const [getUserByUsername] = useGet_User_By_UsernameLazyQuery()
     const [signUpUser] = useSignup_UserMutation()
-    const router=useRouter()
+    const router = useRouter()
 
     const validateSchema = yup.object().shape({
         username: yup.string().required("必須入力です").max(20, "ユーザー名は最大20文字までです。").test("sameUsername", "既に使用されている名前です。", (inputUsername) => UsernameDuplicateValidation(getUserByUsername, inputUsername)),
@@ -73,6 +74,9 @@ const SignUp: NextPageWithLayout = () => {
 }
 
 SignUp.getLayout = (page) => <Layout>{page}</Layout>
+SignUp.getAccessControl = (user) => {
+    return user.signinUser? { type: "replace", destination: "/top" } : null
+}
 
 export default SignUp
 

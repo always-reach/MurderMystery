@@ -1,9 +1,9 @@
 import * as React from "react"
 import * as yup from 'yup'
+import { useRouter } from "next/router"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
 import { ApolloError } from "@apollo/client"
-import { useRouter } from "next/router"
 
 import { isSignInVar, NextPageWithLayout } from "./_app"
 import PrimaryButton from "../components/button/primaryButton"
@@ -75,4 +75,7 @@ const SignIn: NextPageWithLayout = () => {
 }
 
 SignIn.getLayout = (page) => <Layout>{page}</Layout>
+SignIn.getAccessControl = (user) => {
+    return user.signinUser ? { type: "replace", destination: "/top" } : null
+}
 export default SignIn
