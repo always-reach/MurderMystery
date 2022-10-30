@@ -16,6 +16,20 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type GameMastType = {
+  __typename?: 'GameMastType';
+  auther?: Maybe<Scalars['String']>;
+  gmLess: Scalars['Boolean'];
+  id: Scalars['ID'];
+  image?: Maybe<Scalars['String']>;
+  maxPlayerCount: Scalars['Int'];
+  minPlayerCount: Scalars['Int'];
+  note?: Maybe<Scalars['String']>;
+  playTimeMinute?: Maybe<Scalars['Int']>;
+  playedUsers: Array<UserType>;
+  title: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   signinUser?: Maybe<SignInUserMutation>;
@@ -37,12 +51,21 @@ export type MutationSignupUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  /** マダミス作品取得API */
+  allGameMasts?: Maybe<Array<GameMastType>>;
   /** ユーザー取得API */
   allUsers?: Maybe<Array<UserType>>;
+  /** 履修済み作品検索API */
+  gameByUserId?: Maybe<Array<GameMastType>>;
   /** メールアドレス検索API */
   userByEmail: UserType;
   /** ユーザー名検索API */
   userByUsername: UserType;
+};
+
+
+export type QueryGameByUserIdArgs = {
+  userId: Scalars['Int'];
 };
 
 
@@ -75,6 +98,7 @@ export type UserType = {
   isSuperuser: Scalars['Boolean'];
   lastLogin?: Maybe<Scalars['DateTime']>;
   password: Scalars['String'];
+  playedTitle: Array<GameMastType>;
   username: Scalars['String'];
 };
 
@@ -94,6 +118,18 @@ export type Signup_UserMutationVariables = Exact<{
 
 
 export type Signup_UserMutation = { __typename?: 'Mutation', signupUser?: { __typename?: 'SignUpUserMutation', user?: { __typename?: 'UserType', id: string, username: string, email: string } | null } | null };
+
+export type Get_All_Game_MastQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type Get_All_Game_MastQuery = { __typename?: 'Query', allGameMasts?: Array<{ __typename?: 'GameMastType', id: string, title: string, auther?: string | null, gmLess: boolean, playTimeMinute?: number | null, maxPlayerCount: number, minPlayerCount: number, note?: string | null, image?: string | null, playedUsers: Array<{ __typename?: 'UserType', id: string }> }> | null };
+
+export type Get_Game_Mast_By_User_IdQueryVariables = Exact<{
+  userId: Scalars['Int'];
+}>;
+
+
+export type Get_Game_Mast_By_User_IdQuery = { __typename?: 'Query', gameByUserId?: Array<{ __typename?: 'GameMastType', id: string, title: string, auther?: string | null, gmLess: boolean, playTimeMinute?: number | null, maxPlayerCount: number, minPlayerCount: number, note?: string | null, image?: string | null }> | null };
 
 export type Get_All_UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -192,6 +228,94 @@ export function useSignup_UserMutation(baseOptions?: Apollo.MutationHookOptions<
 export type Signup_UserMutationHookResult = ReturnType<typeof useSignup_UserMutation>;
 export type Signup_UserMutationResult = Apollo.MutationResult<Signup_UserMutation>;
 export type Signup_UserMutationOptions = Apollo.BaseMutationOptions<Signup_UserMutation, Signup_UserMutationVariables>;
+export const Get_All_Game_MastDocument = gql`
+    query GET_ALL_GAME_MAST {
+  allGameMasts {
+    id
+    title
+    auther
+    gmLess
+    playTimeMinute
+    maxPlayerCount
+    minPlayerCount
+    note
+    image
+    playedUsers {
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __useGet_All_Game_MastQuery__
+ *
+ * To run a query within a React component, call `useGet_All_Game_MastQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGet_All_Game_MastQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGet_All_Game_MastQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGet_All_Game_MastQuery(baseOptions?: Apollo.QueryHookOptions<Get_All_Game_MastQuery, Get_All_Game_MastQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<Get_All_Game_MastQuery, Get_All_Game_MastQueryVariables>(Get_All_Game_MastDocument, options);
+      }
+export function useGet_All_Game_MastLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Get_All_Game_MastQuery, Get_All_Game_MastQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<Get_All_Game_MastQuery, Get_All_Game_MastQueryVariables>(Get_All_Game_MastDocument, options);
+        }
+export type Get_All_Game_MastQueryHookResult = ReturnType<typeof useGet_All_Game_MastQuery>;
+export type Get_All_Game_MastLazyQueryHookResult = ReturnType<typeof useGet_All_Game_MastLazyQuery>;
+export type Get_All_Game_MastQueryResult = Apollo.QueryResult<Get_All_Game_MastQuery, Get_All_Game_MastQueryVariables>;
+export const Get_Game_Mast_By_User_IdDocument = gql`
+    query GET_GAME_MAST_BY_USER_ID($userId: Int!) {
+  gameByUserId(userId: $userId) {
+    id
+    title
+    auther
+    gmLess
+    playTimeMinute
+    maxPlayerCount
+    minPlayerCount
+    note
+    image
+  }
+}
+    `;
+
+/**
+ * __useGet_Game_Mast_By_User_IdQuery__
+ *
+ * To run a query within a React component, call `useGet_Game_Mast_By_User_IdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGet_Game_Mast_By_User_IdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGet_Game_Mast_By_User_IdQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useGet_Game_Mast_By_User_IdQuery(baseOptions: Apollo.QueryHookOptions<Get_Game_Mast_By_User_IdQuery, Get_Game_Mast_By_User_IdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<Get_Game_Mast_By_User_IdQuery, Get_Game_Mast_By_User_IdQueryVariables>(Get_Game_Mast_By_User_IdDocument, options);
+      }
+export function useGet_Game_Mast_By_User_IdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Get_Game_Mast_By_User_IdQuery, Get_Game_Mast_By_User_IdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<Get_Game_Mast_By_User_IdQuery, Get_Game_Mast_By_User_IdQueryVariables>(Get_Game_Mast_By_User_IdDocument, options);
+        }
+export type Get_Game_Mast_By_User_IdQueryHookResult = ReturnType<typeof useGet_Game_Mast_By_User_IdQuery>;
+export type Get_Game_Mast_By_User_IdLazyQueryHookResult = ReturnType<typeof useGet_Game_Mast_By_User_IdLazyQuery>;
+export type Get_Game_Mast_By_User_IdQueryResult = Apollo.QueryResult<Get_Game_Mast_By_User_IdQuery, Get_Game_Mast_By_User_IdQueryVariables>;
 export const Get_All_UsersDocument = gql`
     query GET_ALL_USERS {
   allUsers {
