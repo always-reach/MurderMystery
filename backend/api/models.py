@@ -55,3 +55,14 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def has_perm(self, perm, obj=None):
         return True
+
+
+class GameMast(models.Model):
+    title = models.CharField(verbose_name="ゲームタイトル", max_length=255, null=False, blank=False)
+    auther = models.CharField(verbose_name="作者", max_length=255, null=True, blank=True)
+    gm_less = models.BooleanField(verbose_name="GMレス", default=True)
+    max_player_count = models.IntegerField(verbose_name="最大参加人数", null=False, blank=False)
+    min_player_count = models.IntegerField(verbose_name="最小参加人数", null=False, blank=False)
+    note = models.TextField(verbose_name="備考", null=True, blank=True)
+    played_users = models.ManyToManyField(to=User, verbose_name="履修済みユーザー", related_name="played_users", blank=True,
+                                          null=True)
