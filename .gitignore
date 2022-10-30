@@ -6,7 +6,7 @@ front/package-locl.json
 backend/**/__pycache__
 backend/db.sqlite3
 backend/**/migrations
-backend/images
+backend/media
 
 .idea
 db

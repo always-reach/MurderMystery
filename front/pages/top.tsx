@@ -1,9 +1,18 @@
 import * as React from "react"
+import { NextPageWithLayout } from "./_app"
 import Layout from "../layout/Layout"
-import { isSignInVar, NextPageWithLayout } from "./_app"
+import Card from "../components/Card"
+import { useGet_All_Game_MastQuery } from "../graphql/codegen"
 
 const Top:NextPageWithLayout=()=>{
-    return <div>{isSignInVar().signinUser?.user?.id}</div>
+    const {loading,error,data}=useGet_All_Game_MastQuery()
+
+    if(loading) return <div>loading</div>
+    console.log(data)
+    return (
+    <div>
+        {data?.allGameMasts?.map((element)=><Card title={element.title} image={element.image}/>)}
+    </div>)
 }
 
 Top.getLayout = (page) => <Layout>{page}</Layout>
