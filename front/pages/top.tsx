@@ -4,19 +4,28 @@ import Layout from "../layout/Layout"
 import Card from "../components/Card"
 import { useGet_All_Game_MastQuery } from "../graphql/codegen"
 
-const Top:NextPageWithLayout=()=>{
-    const {loading,error,data}=useGet_All_Game_MastQuery()
+const Top: NextPageWithLayout = () => {
+    const { loading, error, data, refetch } = useGet_All_Game_MastQuery()
 
-    if(loading) return <div>loading</div>
-    console.log(data)
+    React.useEffect(() => { refetch() }, [])
+    if (loading) return <div>loading</div>
     return (
-    <div>
-        {data?.allGameMasts?.map((element)=><Card title={element.title} image={element.image}/>)}
-    </div>)
+        <div className="flex flex-wrap">
+            {data?.allGameMasts?.map((element) =>
+                <Card
+                    title={element.title}
+                    auther={element.auther}
+                    playTime={element.playTimeMinute}
+                    image={element.image}
+                    minPlayer={element.minPlayerCount}
+                    maxPlayer={element.maxPlayerCount}
+                    note={element.note} />
+            )}
+        </div>)
 }
 
 Top.getLayout = (page) => <Layout>{page}</Layout>
-Top.getAccessControl=(user)=>{
-    return user.signinUser ?null:{type:"replace",destination:"/signin"}
+Top.getAccessControl = (user) => {
+    return user.signinUser ? null : { type: "replace", destination: "/signin" }
 }
 export default Top
