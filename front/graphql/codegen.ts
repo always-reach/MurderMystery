@@ -32,8 +32,22 @@ export type GameMastType = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  playedGame?: Maybe<PlayedGameMutation>;
+  removePlayedGame?: Maybe<RemovePlayedGameMutation>;
   signinUser?: Maybe<SignInUserMutation>;
   signupUser?: Maybe<SignUpUserMutation>;
+};
+
+
+export type MutationPlayedGameArgs = {
+  gameId: Scalars['Int'];
+  userId: Scalars['Int'];
+};
+
+
+export type MutationRemovePlayedGameArgs = {
+  gameId: Scalars['Int'];
+  userId: Scalars['Int'];
 };
 
 
@@ -47,6 +61,11 @@ export type MutationSignupUserArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
   username: Scalars['String'];
+};
+
+export type PlayedGameMutation = {
+  __typename?: 'PlayedGameMutation';
+  gameMast?: Maybe<GameMastType>;
 };
 
 export type Query = {
@@ -78,6 +97,11 @@ export type QueryUserByUsernameArgs = {
   username: Scalars['String'];
 };
 
+export type RemovePlayedGameMutation = {
+  __typename?: 'RemovePlayedGameMutation';
+  gameMast?: Maybe<GameMastType>;
+};
+
 export type SignInUserMutation = {
   __typename?: 'SignInUserMutation';
   user?: Maybe<UserType>;
@@ -101,6 +125,22 @@ export type UserType = {
   playedTitle: Array<GameMastType>;
   username: Scalars['String'];
 };
+
+export type Played_GameMutationVariables = Exact<{
+  userId: Scalars['Int'];
+  gameId: Scalars['Int'];
+}>;
+
+
+export type Played_GameMutation = { __typename?: 'Mutation', playedGame?: { __typename?: 'PlayedGameMutation', gameMast?: { __typename?: 'GameMastType', title: string, auther?: string | null, gmLess: boolean, playTimeMinute?: number | null, maxPlayerCount: number, minPlayerCount: number, note?: string | null, image?: string | null, playedUsers: Array<{ __typename?: 'UserType', id: string, username: string, email: string }> } | null } | null };
+
+export type Remove_Played_GameMutationVariables = Exact<{
+  userId: Scalars['Int'];
+  gameId: Scalars['Int'];
+}>;
+
+
+export type Remove_Played_GameMutation = { __typename?: 'Mutation', removePlayedGame?: { __typename?: 'RemovePlayedGameMutation', gameMast?: { __typename?: 'GameMastType', title: string, auther?: string | null, gmLess: boolean, playTimeMinute?: number | null, maxPlayerCount: number, minPlayerCount: number, note?: string | null, image?: string | null, playedUsers: Array<{ __typename?: 'UserType', id: string, username: string, email: string }> } | null } | null };
 
 export type Signin_UserMutationVariables = Exact<{
   email: Scalars['String'];
@@ -151,6 +191,102 @@ export type Get_User_By_UsernameQueryVariables = Exact<{
 export type Get_User_By_UsernameQuery = { __typename?: 'Query', userByUsername: { __typename?: 'UserType', id: string, username: string, email: string } };
 
 
+export const Played_GameDocument = gql`
+    mutation PLAYED_GAME($userId: Int!, $gameId: Int!) {
+  playedGame(userId: $userId, gameId: $gameId) {
+    gameMast {
+      title
+      auther
+      gmLess
+      playTimeMinute
+      maxPlayerCount
+      minPlayerCount
+      note
+      image
+      playedUsers {
+        id
+        username
+        email
+      }
+    }
+  }
+}
+    `;
+export type Played_GameMutationFn = Apollo.MutationFunction<Played_GameMutation, Played_GameMutationVariables>;
+
+/**
+ * __usePlayed_GameMutation__
+ *
+ * To run a mutation, you first call `usePlayed_GameMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePlayed_GameMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [playedGameMutation, { data, loading, error }] = usePlayed_GameMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      gameId: // value for 'gameId'
+ *   },
+ * });
+ */
+export function usePlayed_GameMutation(baseOptions?: Apollo.MutationHookOptions<Played_GameMutation, Played_GameMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<Played_GameMutation, Played_GameMutationVariables>(Played_GameDocument, options);
+      }
+export type Played_GameMutationHookResult = ReturnType<typeof usePlayed_GameMutation>;
+export type Played_GameMutationResult = Apollo.MutationResult<Played_GameMutation>;
+export type Played_GameMutationOptions = Apollo.BaseMutationOptions<Played_GameMutation, Played_GameMutationVariables>;
+export const Remove_Played_GameDocument = gql`
+    mutation REMOVE_PLAYED_GAME($userId: Int!, $gameId: Int!) {
+  removePlayedGame(userId: $userId, gameId: $gameId) {
+    gameMast {
+      title
+      auther
+      gmLess
+      playTimeMinute
+      maxPlayerCount
+      minPlayerCount
+      note
+      image
+      playedUsers {
+        id
+        username
+        email
+      }
+    }
+  }
+}
+    `;
+export type Remove_Played_GameMutationFn = Apollo.MutationFunction<Remove_Played_GameMutation, Remove_Played_GameMutationVariables>;
+
+/**
+ * __useRemove_Played_GameMutation__
+ *
+ * To run a mutation, you first call `useRemove_Played_GameMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemove_Played_GameMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removePlayedGameMutation, { data, loading, error }] = useRemove_Played_GameMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      gameId: // value for 'gameId'
+ *   },
+ * });
+ */
+export function useRemove_Played_GameMutation(baseOptions?: Apollo.MutationHookOptions<Remove_Played_GameMutation, Remove_Played_GameMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<Remove_Played_GameMutation, Remove_Played_GameMutationVariables>(Remove_Played_GameDocument, options);
+      }
+export type Remove_Played_GameMutationHookResult = ReturnType<typeof useRemove_Played_GameMutation>;
+export type Remove_Played_GameMutationResult = Apollo.MutationResult<Remove_Played_GameMutation>;
+export type Remove_Played_GameMutationOptions = Apollo.BaseMutationOptions<Remove_Played_GameMutation, Remove_Played_GameMutationVariables>;
 export const Signin_UserDocument = gql`
     mutation SIGNIN_USER($email: String!, $password: String!) {
   signinUser(email: $email, password: $password) {

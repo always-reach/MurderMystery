@@ -5,7 +5,7 @@ import Card from "../components/Card"
 import { useGet_All_Game_MastQuery } from "../graphql/codegen"
 
 const Top: NextPageWithLayout = () => {
-    const { loading, error, data, refetch } = useGet_All_Game_MastQuery()
+    const { loading, data, refetch } = useGet_All_Game_MastQuery()
 
     React.useEffect(() => { refetch() }, [])
     if (loading) return <div>loading</div>
@@ -13,6 +13,7 @@ const Top: NextPageWithLayout = () => {
         <div className="flex flex-wrap">
             {data?.allGameMasts?.map((element) =>
                 <Card
+                    id={element.id}
                     title={element.title}
                     auther={element.auther}
                     playTime={element.playTimeMinute}
