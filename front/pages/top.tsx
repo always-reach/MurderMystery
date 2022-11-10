@@ -9,10 +9,12 @@ const Top: NextPageWithLayout = () => {
 
     React.useEffect(() => { refetch() }, [])
     if (loading) return <div>loading</div>
+    console.log(data)
     return (
         <div className="flex flex-wrap">
             {data?.allGameMasts?.map((element) =>
                 <Card
+                    key={element.id}
                     id={element.id}
                     title={element.title}
                     auther={element.auther}
@@ -20,7 +22,8 @@ const Top: NextPageWithLayout = () => {
                     image={element.image}
                     minPlayer={element.minPlayerCount}
                     maxPlayer={element.maxPlayerCount}
-                    note={element.note} />
+                    note={element.note}
+                    playedUsers={element.playedUsers} />
             )}
         </div>)
 }

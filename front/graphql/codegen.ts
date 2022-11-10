@@ -132,7 +132,7 @@ export type Played_GameMutationVariables = Exact<{
 }>;
 
 
-export type Played_GameMutation = { __typename?: 'Mutation', playedGame?: { __typename?: 'PlayedGameMutation', gameMast?: { __typename?: 'GameMastType', title: string, auther?: string | null, gmLess: boolean, playTimeMinute?: number | null, maxPlayerCount: number, minPlayerCount: number, note?: string | null, image?: string | null, playedUsers: Array<{ __typename?: 'UserType', id: string, username: string, email: string }> } | null } | null };
+export type Played_GameMutation = { __typename?: 'Mutation', playedGame?: { __typename?: 'PlayedGameMutation', gameMast?: { __typename?: 'GameMastType', id: string, title: string, auther?: string | null, gmLess: boolean, playTimeMinute?: number | null, maxPlayerCount: number, minPlayerCount: number, note?: string | null, image?: string | null, playedUsers: Array<{ __typename?: 'UserType', id: string }> } | null } | null };
 
 export type Remove_Played_GameMutationVariables = Exact<{
   userId: Scalars['Int'];
@@ -140,7 +140,7 @@ export type Remove_Played_GameMutationVariables = Exact<{
 }>;
 
 
-export type Remove_Played_GameMutation = { __typename?: 'Mutation', removePlayedGame?: { __typename?: 'RemovePlayedGameMutation', gameMast?: { __typename?: 'GameMastType', title: string, auther?: string | null, gmLess: boolean, playTimeMinute?: number | null, maxPlayerCount: number, minPlayerCount: number, note?: string | null, image?: string | null, playedUsers: Array<{ __typename?: 'UserType', id: string, username: string, email: string }> } | null } | null };
+export type Remove_Played_GameMutation = { __typename?: 'Mutation', removePlayedGame?: { __typename?: 'RemovePlayedGameMutation', gameMast?: { __typename?: 'GameMastType', id: string, title: string, auther?: string | null, gmLess: boolean, playTimeMinute?: number | null, maxPlayerCount: number, minPlayerCount: number, note?: string | null, image?: string | null, playedUsers: Array<{ __typename?: 'UserType', id: string }> } | null } | null };
 
 export type Signin_UserMutationVariables = Exact<{
   email: Scalars['String'];
@@ -169,7 +169,7 @@ export type Get_Game_Mast_By_User_IdQueryVariables = Exact<{
 }>;
 
 
-export type Get_Game_Mast_By_User_IdQuery = { __typename?: 'Query', gameByUserId?: Array<{ __typename?: 'GameMastType', id: string, title: string, auther?: string | null, gmLess: boolean, playTimeMinute?: number | null, maxPlayerCount: number, minPlayerCount: number, note?: string | null, image?: string | null }> | null };
+export type Get_Game_Mast_By_User_IdQuery = { __typename?: 'Query', gameByUserId?: Array<{ __typename?: 'GameMastType', id: string, title: string, auther?: string | null, gmLess: boolean, playTimeMinute?: number | null, maxPlayerCount: number, minPlayerCount: number, note?: string | null, image?: string | null, playedUsers: Array<{ __typename?: 'UserType', id: string }> }> | null };
 
 export type Get_All_UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -195,6 +195,7 @@ export const Played_GameDocument = gql`
     mutation PLAYED_GAME($userId: Int!, $gameId: Int!) {
   playedGame(userId: $userId, gameId: $gameId) {
     gameMast {
+      id
       title
       auther
       gmLess
@@ -205,8 +206,6 @@ export const Played_GameDocument = gql`
       image
       playedUsers {
         id
-        username
-        email
       }
     }
   }
@@ -243,6 +242,7 @@ export const Remove_Played_GameDocument = gql`
     mutation REMOVE_PLAYED_GAME($userId: Int!, $gameId: Int!) {
   removePlayedGame(userId: $userId, gameId: $gameId) {
     gameMast {
+      id
       title
       auther
       gmLess
@@ -253,8 +253,6 @@ export const Remove_Played_GameDocument = gql`
       image
       playedUsers {
         id
-        username
-        email
       }
     }
   }
@@ -421,6 +419,9 @@ export const Get_Game_Mast_By_User_IdDocument = gql`
     minPlayerCount
     note
     image
+    playedUsers {
+      id
+    }
   }
 }
     `;

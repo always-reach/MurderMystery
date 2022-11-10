@@ -31,6 +31,9 @@ export const GET_GAME_MAST_BY_USER_ID = gql`
             minPlayerCount
             note
             image
+            playedUsers{
+                id
+            }
         }
     }
 `

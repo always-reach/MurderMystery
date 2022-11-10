@@ -4,6 +4,7 @@ export const PLAYED_GAME=gql`
     mutation PLAYED_GAME($userId:Int!,$gameId:Int!){
         playedGame(userId:$userId,gameId:$gameId){
             gameMast{
+                id
                 title
                 auther
                 gmLess
@@ -14,8 +15,6 @@ export const PLAYED_GAME=gql`
                 image
                 playedUsers{
                     id
-                    username
-                    email
                 }
             }
         }
@@ -26,6 +25,7 @@ export const REMOVE_PLAYED_GAME=gql`
     mutation REMOVE_PLAYED_GAME($userId:Int!,$gameId:Int!){
         removePlayedGame(userId:$userId,gameId:$gameId){
             gameMast{
+                id
                 title
                 auther
                 gmLess
@@ -36,8 +36,6 @@ export const REMOVE_PLAYED_GAME=gql`
                 image
                 playedUsers{
                     id
-                    username
-                    email
                 }
             }
         }
