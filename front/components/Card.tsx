@@ -33,8 +33,6 @@ const Card = React.memo((props: CardProps) => {
                     }
                  })
         }
-
-
     }
 
     return (

@@ -9,7 +9,6 @@ const Top: NextPageWithLayout = () => {
 
     React.useEffect(() => { refetch() }, [])
     if (loading) return <div>loading</div>
-    console.log(data)
     return (
         <div className="flex flex-wrap">
             {data?.allGameMasts?.map((element) =>
