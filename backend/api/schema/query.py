@@ -1,16 +1,18 @@
 import graphene
 from graphql import GraphQLError
 from graphene_django import DjangoObjectType
-from graphene_django.rest_framework.mutation import SerializerMutation
-from django.contrib.auth.hashers import make_password
-from django.utils import timezone
-from .models import User
-from .serializer import UserSerializer
+from api.models import User, GameMast
 
 
 class UserType(DjangoObjectType):
     class Meta:
         model = User
+        fields = "__all__"
+
+
+class GameMastType(DjangoObjectType):
+    class Meta:
+        model = GameMast
         fields = "__all__"
 
 
@@ -24,6 +26,9 @@ class Query(graphene.ObjectType):
                                    description="メールアドレス検索API")
     user_by_username = graphene.Field(graphene.NonNull(UserType), username=graphene.String(required=True),
                                       description="ユーザー名検索API")
+    all_game_masts = graphene.List(graphene.NonNull(GameMastType), description="マダミス作品取得API")
+    game_by_user_id = graphene.List(graphene.NonNull(GameMastType), user_id=graphene.Int(required=True),
+                                     description="履修済み作品検索API")
 
     @staticmethod
     def resolve_all_users(_, __):
@@ -66,48 +71,21 @@ class Query(graphene.ObjectType):
         except User.DoesNotExist:
             return GraphQLError("ユーザーが存在しません")
 
+    @staticmethod
+    def resolve_all_game_masts(_, __):
+        """
+        GameMast全件検索
+        Parameters
+        ----------
+        _ 使わない変数 root
+        __ 使わない変数 info
 
-class SignInUserMutation(graphene.Mutation):
-    user = graphene.Field(UserType)
+        Returns GameMast全件
+        -------
 
-    class Arguments:
-        password = graphene.String(required=True)
-        email = graphene.String(required=True)
+        """
+        return GameMast.objects.all()
 
     @staticmethod
-    def mutate(_, __, password, email):
-        try:
-            user = User.objects.get(email=email)
-        except User.DoesNotExist:
-            return GraphQLError("ユーザーが存在しません")
-
-        if not user.check_password(password):
-            return GraphQLError("ユーザーが存在しません")
-
-        user.last_login = timezone.now()
-        user.save()
-        return SignInUserMutation(user=user)
-
-
-class SignUpUserMutation(graphene.Mutation):
-    user = graphene.Field(UserType)
-
-    class Arguments:
-        username = graphene.String(required=True)
-        password = graphene.String(required=True)
-        email = graphene.String(required=True)
-
-    @staticmethod
-    def mutate(_, __, username, password, email):
-        serializer = UserSerializer(data={"username": username, "password": password, "email": email})
-        if serializer.is_valid():
-            serializer.save()
-            user = User.objects.get(email=email, username=username)
-        else:
-            return GraphQLError(serializer.errors)
-        return SignUpUserMutation(user=user)
-
-
-class Mutation(graphene.ObjectType):
-    signin_user = SignInUserMutation.Field()
-    signup_user = SignUpUserMutation.Field()
+    def resolve_game_by_user_id(_, __, user_id):
+        return User.objects.get(id=user_id).played_title.all()
