@@ -1,6 +1,5 @@
-import { gql, InMemoryCache } from '@apollo/client'
 import * as React from 'react'
-import { GameMastType, Get_All_Game_MastDocument, Get_All_Game_MastQuery, PlayedGameMutation, Played_GameMutation, usePlayed_GameMutation } from '../graphql/codegen'
+import { usePlayed_GameMutation } from '../graphql/codegen'
 import { isSignInVar } from '../pages/_app'
 import PrimaryButton from './button/primaryButton'
 

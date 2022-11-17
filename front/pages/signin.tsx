@@ -28,7 +28,6 @@ const validateSchema = yup.object().shape({
 })
 
 const SignIn: NextPageWithLayout = () => {
-
     const [signIn] = useSignin_UserMutation()
     const { register, handleSubmit, formState: { errors } } = useForm<SignInInput>({ mode: "onSubmit", resolver: yupResolver(validateSchema) })
     const router = useRouter()
@@ -38,7 +37,7 @@ const SignIn: NextPageWithLayout = () => {
         try {
             const response = await signIn({ variables: { email: loginInput.email, password: loginInput.password } })
             if (response.data) {
-                isSignInVar(response.data)
+                isSignInVar({...response.data})
                 router.push("/top")
             } else {
                 setErrorMessage("メールアドレス、またはパスワードが間違っています")
@@ -51,6 +50,7 @@ const SignIn: NextPageWithLayout = () => {
         }
 
     }
+
     return (
         <div>
             <div className="h-screen w-screen flex flex-col items-center">

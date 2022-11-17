@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { Signin_UserMutation } from '../graphql/codegen';
 import { isSignInVar } from '../pages/_app';
 
+
 type AccessControlType = "replace" | "push"
 type AccessContorolFallback = { type: AccessControlType, destination: string }
 export type GetAccessControl = (user: Signin_UserMutation) => null | AccessContorolFallback | Promise<null | AccessContorolFallback>
