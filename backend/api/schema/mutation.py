@@ -100,6 +100,7 @@ class RemovePlayedGameMutation(graphene.Mutation):
         return RemovePlayedGameMutation(game_mast=game_mast_object)
 
 
+
 class Mutation(graphene.ObjectType):
     signin_user = SignInUserMutation.Field()
     signup_user = SignUpUserMutation.Field()

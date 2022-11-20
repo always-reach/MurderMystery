@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
     "graphql_auth",
+    "django_filters",
 ]
 
 MIDDLEWARE = [
@@ -126,6 +127,10 @@ AUTHENTICATION_BACKENDS = [
 GRAPHQL_JWT = {
     "JWT_VERIFY_EXPIRATION": True,
     "JWT_LONG_RUNNING_REFRESH_TOKEN": True,
+    "JWT_ALLOW_ANY_CLASSES": [
+        "graphql_auth.mutations.Register",
+        "graphql_auth.mutations.VerifyAccount",
+    ],
 }
 
 # Internationalization
