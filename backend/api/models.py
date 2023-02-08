@@ -7,7 +7,7 @@ from django.db import models
 
 
 
-class User(AbstractUser, PermissionsMixin):
+class User(AbstractUser):
     pass
 
 
@@ -20,8 +20,7 @@ class GameMast(models.Model):
     min_player_count = models.IntegerField(verbose_name="最小参加人数", null=False, blank=False)
     note = models.TextField(verbose_name="備考", null=True, blank=True)
     image = models.ImageField(verbose_name="イメージ", upload_to="images/", null=True, blank=True)
-    played_users = models.ManyToManyField(to=User, verbose_name="履修済みユーザー", related_name="played_title", blank=True,
-                                          null=True)
+    played_users = models.ManyToManyField(to=User, verbose_name="履修済みユーザー", related_name="played_title", blank=True)
 
     def __str__(self):
         return self.title
