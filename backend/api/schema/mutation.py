@@ -6,6 +6,7 @@ from django.utils import timezone
 from api.models import User, GameMast
 from api.serializer import UserSerializer
 
+
 class AuthMutation(graphene.ObjectType):
     register = mutations.Register.Field()
     verify_account = mutations.VerifyAccount.Field()
@@ -25,6 +26,8 @@ class AuthMutation(graphene.ObjectType):
     verify_token = mutations.VerifyToken.Field()
     refresh_token = mutations.RefreshToken.Field()
     revoke_token = mutations.RevokeToken.Field()
+
+
 class UserType(DjangoObjectType):
     class Meta:
         model = User
@@ -41,13 +44,13 @@ class SignInUserMutation(graphene.Mutation):
     user = graphene.Field(UserType)
 
     class Arguments:
+        username = graphene.String(required=True)
         password = graphene.String(required=True)
-        email = graphene.String(required=True)
 
     @staticmethod
-    def mutate(_, __, password, email):
+    def mutate(_, __, username, password):
         try:
-            user = User.objects.get(email=email)
+            user = User.objects.get(username=username)
         except User.DoesNotExist:
             return GraphQLError("ユーザーが存在しません")
 
@@ -119,8 +122,7 @@ class RemovePlayedGameMutation(graphene.Mutation):
         return RemovePlayedGameMutation(game_mast=game_mast_object)
 
 
-
-class Mutation(AuthMutation,graphene.ObjectType):
+class Mutation(AuthMutation, graphene.ObjectType):
     signin_user = SignInUserMutation.Field()
     signup_user = SignUpUserMutation.Field()
     played_game = PlayedGameMutation.Field()

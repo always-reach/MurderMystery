@@ -113,6 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 GRAPHENE = {
     "SCHEMA": "backend.schema.schema",
+    "SCHEMA_OUTPUT":"schema.json",
     'MIDDLEWARE': [
         'graphql_jwt.middleware.JSONWebTokenMiddleware',
     ]
