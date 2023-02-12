@@ -5,17 +5,16 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
 import { ApolloError } from "@apollo/client"
 
-import { isSignInVar, NextPageWithLayout } from "./_app"
-import PrimaryButton from "../components/button/primaryButton"
-import Divider from "../components/Divider"
-import HyperLink from "../components/HyperLink"
-import CheckBoxForm from "../components/inputForm/CheckBocForm"
-import EmailForm from "../components/inputForm/EmailForm"
-import PasswordForm from "../components/inputForm/PasswordForm"
-import ErrorCard from "../components/error/ErrorCard"
+import PrimaryButton from "@/components/button/primaryButton"
+import Divider from "@/components/Divider"
+import HyperLink from "@/components/HyperLink"
+import CheckBoxForm from "@/components/inputForm/CheckBocForm"
+import EmailForm from "@/components/inputForm/EmailForm"
+import PasswordForm from "@/components/inputForm/PasswordForm"
+import ErrorCard from "@/components/error/ErrorCard"
 
-import Layout from "../layout/Layout"
-import { useSignin_UserMutation } from "../graphql/codegen"
+import { useSignin_UserMutation } from "@/graphql/codegen"
+import isSignInVar from "@/state/signin"
 
 
 type SignInInput = {
@@ -27,7 +26,7 @@ const validateSchema = yup.object().shape({
     password: yup.string().required("必須入力です")
 })
 
-const SignIn: NextPageWithLayout = () => {
+const SignIn = () => {
 
     const [signIn] = useSignin_UserMutation()
     const { register, handleSubmit, formState: { errors } } = useForm<SignInInput>({ mode: "onSubmit", resolver: yupResolver(validateSchema) })
@@ -74,8 +73,5 @@ const SignIn: NextPageWithLayout = () => {
         </div>)
 }
 
-SignIn.getLayout = (page) => <Layout>{page}</Layout>
-SignIn.getAccessControl = (user) => {
-    return user.signinUser ? { type: "replace", destination: "/top" } : null
-}
+
 export default SignIn

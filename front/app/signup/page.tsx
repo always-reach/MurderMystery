@@ -4,18 +4,16 @@ import { useRouter } from 'next/router'
 import { SubmitHandler, useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
 
-import { useGet_User_By_EmailLazyQuery, useGet_User_By_UsernameLazyQuery, useSignup_UserMutation } from '../graphql/codegen'
+import { useGet_User_By_EmailLazyQuery, useGet_User_By_UsernameLazyQuery, useSignup_UserMutation } from '@/graphql/codegen'
 
-import PrimaryButton from "../components/button/primaryButton"
-import Divider from "../components/Divider"
-import EmailForm from "../components/inputForm/EmailForm"
-import PasswordForm from "../components/inputForm/PasswordForm"
-import TextForm from "../components/inputForm/TextForm"
-import Layout from "../layout/Layout"
-import { NextPageWithLayout } from "./_app"
+import PrimaryButton from "@/components/button/primaryButton"
+import Divider from "@/components/Divider"
+import EmailForm from "@/components/inputForm/EmailForm"
+import PasswordForm from "@/components/inputForm/PasswordForm"
+import TextForm from "@/components/inputForm/TextForm"
 
-import EmailDuplicateValidation from '../validation/EmailValidation'
-import UsernameDuplicateValidation from '../validation/UsernameValidation'
+import EmailDuplicateValidation from '@/validation/EmailValidation'
+import UsernameDuplicateValidation from '@/validation/UsernameValidation'
 
 
 
@@ -26,7 +24,7 @@ type SignUpInput = {
     rePassword: string
 }
 
-const SignUp: NextPageWithLayout = () => {
+const SignUp = () => {
     const [getUserByEmail] = useGet_User_By_EmailLazyQuery()
     const [getUserByUsername] = useGet_User_By_UsernameLazyQuery()
     const [signUpUser] = useSignup_UserMutation()
@@ -71,11 +69,6 @@ const SignUp: NextPageWithLayout = () => {
             </div>
         </div>
     )
-}
-
-SignUp.getLayout = (page) => <Layout>{page}</Layout>
-SignUp.getAccessControl = (user) => {
-    return user.signinUser? { type: "replace", destination: "/top" } : null
 }
 
 export default SignUp

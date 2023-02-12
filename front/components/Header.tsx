@@ -1,6 +1,6 @@
 import { useReactiveVar } from "@apollo/client"
 import * as React from "react"
-import { isSignInVar } from "../pages/_app"
+import isSignInVar from '../state/signin'
 
 const Header = () => {
     const isSignIn = useReactiveVar(isSignInVar)
