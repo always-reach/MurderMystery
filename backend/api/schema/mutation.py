@@ -1,4 +1,5 @@
 import graphene
+import graphql_jwt
 from graphql_auth import mutations
 from graphene_django import DjangoObjectType
 from graphql import GraphQLError
@@ -123,6 +124,10 @@ class RemovePlayedGameMutation(graphene.Mutation):
 
 
 class Mutation(AuthMutation, graphene.ObjectType):
+    token_auth = graphql_jwt.ObtainJSONWebToken.Field()
+    verify_token = graphql_jwt.Verify.Field()
+    refresh_token = graphql_jwt.Refresh.Field()
+    revoke_token = graphql_jwt.Revoke.Field()
     signin_user = SignInUserMutation.Field()
     signup_user = SignUpUserMutation.Field()
     played_game = PlayedGameMutation.Field()

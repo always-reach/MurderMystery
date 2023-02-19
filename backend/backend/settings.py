@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
-
+import datetime
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -113,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 GRAPHENE = {
     "SCHEMA": "backend.schema.schema",
-    "SCHEMA_OUTPUT":"schema.json",
+    "SCHEMA_OUTPUT": "schema.json",
     'MIDDLEWARE': [
         'graphql_jwt.middleware.JSONWebTokenMiddleware',
     ]
@@ -121,12 +121,15 @@ GRAPHENE = {
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
+    'graphql_jwt.backends.JSONWebTokenBackend',
     "graphql_auth.backends.GraphQLAuthBackend",
 ]
 
 GRAPHQL_JWT = {
     "JWT_VERIFY_EXPIRATION": True,
     "JWT_LONG_RUNNING_REFRESH_TOKEN": True,
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(minutes=5),
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
     "JWT_ALLOW_ANY_CLASSES": [
         "graphql_auth.mutations.Register",
         "graphql_auth.mutations.VerifyAccount",
@@ -147,7 +150,7 @@ GRAPHQL_AUTH = {
         "password": "String",
         "email": "String",
     },
-    "UPDATE_MUTATION_FIELDS":["username","password","email"]
+    "UPDATE_MUTATION_FIELDS": ["username", "password", "email"]
 }
 
 # Internationalization
