@@ -3,9 +3,8 @@ import * as yup from 'yup'
 import { useRouter } from "next/router"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
-import { ApolloError } from "@apollo/client"
 
-import { isSignInVar, NextPageWithLayout } from "./_app"
+import { NextPageWithLayout } from "./_app"
 import PrimaryButton from "../components/button/primaryButton"
 import Divider from "../components/Divider"
 import HyperLink from "../components/HyperLink"
@@ -14,8 +13,8 @@ import PasswordForm from "../components/inputForm/PasswordForm"
 import ErrorCard from "../components/error/ErrorCard"
 
 import Layout from "../layout/Layout"
-import { useSignin_UserMutation } from "../graphql/codegen"
 import TextForm from "../components/inputForm/TextForm"
+import useAuth from "@hooks/useAuth"
 
 
 type SignInInput = {
@@ -28,27 +27,18 @@ const validateSchema = yup.object().shape({
 })
 
 const SignIn: NextPageWithLayout = () => {
-    const [signIn] = useSignin_UserMutation()
     const { register, handleSubmit, formState: { errors } } = useForm<SignInInput>({ mode: "onSubmit", resolver: yupResolver(validateSchema) })
     const router = useRouter()
+    const auth = useAuth()
     const [errorMessage, setErrorMessage] = React.useState("")
 
     const onSubmit: SubmitHandler<SignInInput> = async (loginInput) => {
-        try {
-            const response = await signIn({ variables: { username: loginInput.username, password: loginInput.password } })
-            if (response.data) {
-                isSignInVar({ ...response.data })
-                router.push("/top")
-            } else {
-                setErrorMessage("メールアドレス、またはパスワードが間違っています")
-            }
-
-        } catch (e) {
-            if (e instanceof ApolloError) {
-                setErrorMessage("メールアドレス、またはパスワードが間違っています")
-            }
+        const isSignIn = await auth.signIn(loginInput.username, loginInput.password)
+        if (isSignIn) {
+            router.push("/top")
+        } else {
+            setErrorMessage("メールアドレス、またはパスワードが間違っています")
         }
-
     }
 
     return (

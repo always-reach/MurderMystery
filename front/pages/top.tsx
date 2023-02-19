@@ -29,6 +29,6 @@ const Top: NextPageWithLayout = () => {
 
 Top.getLayout = (page) => <Layout>{page}</Layout>
 Top.getAccessControl = (user) => {
-    return user.signinUser ? null : { type: "replace", destination: "/signin" }
+    return null
 }
 export default Top
