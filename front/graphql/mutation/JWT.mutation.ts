@@ -1,12 +1,18 @@
 import { gql } from "@apollo/client";
 
 export const TOKEN_AUTH = gql`
-mutation TokenAuth($username: String!, $password: String!) {
+mutation TokenAuth($username:String!,$password:String!){
     tokenAuth(username: $username, password: $password) {
-      token
-      payload
-      refreshToken
-      refreshExpiresIn
+      success,
+      errors,
+      unarchiving,
+      token,
+      refreshToken,
+      unarchiving,
+      user {
+        id,
+        username,
+      }
     }
   }
 `
@@ -14,7 +20,9 @@ mutation TokenAuth($username: String!, $password: String!) {
 export const VERIFY_TOKEN = gql`
 mutation VerifyToken($token: String!) {
     verifyToken(token: $token) {
-      payload
+        success,
+        errors,
+        payload
     }
   }
 `
@@ -22,10 +30,12 @@ mutation VerifyToken($token: String!) {
 export const REFRESH_TOKEN = gql`
 mutation RefreshToken($refreshToken: String!) {
     refreshToken(refreshToken: $refreshToken) {
-        token
-        payload
+        success,
+        errors,
+        payload,
+        refreshExpiresIn,
+        token,
         refreshToken
-        refreshExpiresIn
     }
 }
 `
@@ -33,7 +43,8 @@ mutation RefreshToken($refreshToken: String!) {
 export const REVOKE_TOKEN = gql`
 mutation RevokeToken($refreshToken: String!) {
     revokeToken(refreshToken: $refreshToken) {
-        revoked
+        success,
+        errors
     }
 }
 `

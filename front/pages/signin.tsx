@@ -58,7 +58,7 @@ const SignIn: NextPageWithLayout = () => {
                 <div className="bg-gray-100 border-2 border-gray-900 rounded-lg w-5/12 mt-10 mb-auto py-12">
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="mx-auto w-7/12">
-                            <TextForm {...register("username", { required: true })} error={"username" in errors} errorMessage={errors.username?.message} />
+                            <TextForm placeholder="ユーザー名" {...register("username", { required: true })} error={"username" in errors} errorMessage={errors.username?.message} />
                             <PasswordForm {...register("password", { required: true })} error={"password" in errors} errorMessage={errors.password?.message} />
                             <CheckBoxForm id="checkbox" label="ログイン状態を保持する" />
                             <PrimaryButton type="submit" label="ログインする" />
