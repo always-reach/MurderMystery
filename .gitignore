@@ -3,7 +3,7 @@ front/node_modules
 front/yarn.lock
 front/package-lock.json
 
-backend/**/.DS_Store
+backend/**.DS_Store
 backend/**/__pycache__
 backend/db.sqlite3
 backend/**/migrations

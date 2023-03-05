@@ -14,6 +14,33 @@ export type Scalars = {
   Int: number;
   Float: number;
   DateTime: any;
+  ExpectedErrorType: any;
+  GenericScalar: any;
+};
+
+/**
+ * Archive account and revoke refresh tokens.
+ *
+ * User must be verified and confirm password.
+ */
+export type ArchiveAccount = {
+  __typename?: 'ArchiveAccount';
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+  success?: Maybe<Scalars['Boolean']>;
+};
+
+/**
+ * Delete account permanently or make `user.is_active=False`.
+ *
+ * The behavior is defined on settings.
+ * Anyway user refresh tokens are revoked.
+ *
+ * User must be verified and confirm password.
+ */
+export type DeleteAccount = {
+  __typename?: 'DeleteAccount';
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+  success?: Maybe<Scalars['Boolean']>;
 };
 
 export type GameMastType = {
@@ -32,10 +59,176 @@ export type GameMastType = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  /**
+   * Archive account and revoke refresh tokens.
+   *
+   * User must be verified and confirm password.
+   */
+  archiveAccount?: Maybe<ArchiveAccount>;
+  /**
+   * Delete account permanently or make `user.is_active=False`.
+   *
+   * The behavior is defined on settings.
+   * Anyway user refresh tokens are revoked.
+   *
+   * User must be verified and confirm password.
+   */
+  deleteAccount?: Maybe<DeleteAccount>;
+  /**
+   * Change account password when user knows the old password.
+   *
+   * A new token and refresh token are sent. User must be verified.
+   */
+  passwordChange?: Maybe<PasswordChange>;
+  /**
+   * Change user password without old password.
+   *
+   * Receive the token that was sent by email.
+   *
+   * If token and new passwords are valid, update
+   * user password and in case of using refresh
+   * tokens, revoke all of them.
+   */
+  passwordReset?: Maybe<PasswordReset>;
   playedGame?: Maybe<PlayedGameMutation>;
+  /** Same as `grapgql_jwt` implementation, with standard output. */
+  refreshToken?: Maybe<RefreshToken>;
+  /**
+   * Register user with fields defined in the settings.
+   *
+   * If the email field of the user model is part of the
+   * registration fields (default), check if there is
+   * no user with that email or as a secondary email.
+   *
+   * If it exists, it does not register the user,
+   * even if the email field is not defined as unique
+   * (default of the default django user model).
+   *
+   * When creating the user, it also creates a `UserStatus`
+   * related to that user, making it possible to track
+   * if the user is archived, verified and has a secondary
+   * email.
+   *
+   * Send account verification email.
+   *
+   * If allowed to not verified users login, return token.
+   */
+  register?: Maybe<Register>;
   removePlayedGame?: Maybe<RemovePlayedGameMutation>;
+  /**
+   * Remove user secondary email.
+   *
+   * Require password confirmation.
+   */
+  removeSecondaryEmail?: Maybe<RemoveSecondaryEmail>;
+  /**
+   * Sends activation email.
+   *
+   * It is called resend because theoretically
+   * the first activation email was sent when
+   * the user registered.
+   *
+   * If there is no user with the requested email,
+   * a successful response is returned.
+   */
+  resendActivationEmail?: Maybe<ResendActivationEmail>;
+  /** Same as `grapgql_jwt` implementation, with standard output. */
+  revokeToken?: Maybe<RevokeToken>;
+  /**
+   * Send password reset email.
+   *
+   * For non verified users, send an activation
+   * email instead.
+   *
+   * Accepts both primary and secondary email.
+   *
+   * If there is no user with the requested email,
+   * a successful response is returned.
+   */
+  sendPasswordResetEmail?: Maybe<SendPasswordResetEmail>;
+  /**
+   * Send activation to secondary email.
+   *
+   * User must be verified and confirm password.
+   */
+  sendSecondaryEmailActivation?: Maybe<SendSecondaryEmailActivation>;
   signinUser?: Maybe<SignInUserMutation>;
   signupUser?: Maybe<SignUpUserMutation>;
+  /**
+   * Swap between primary and secondary emails.
+   *
+   * Require password confirmation.
+   */
+  swapEmails?: Maybe<SwapEmails>;
+  /**
+   * Obtain JSON web token for given user.
+   *
+   * Allow to perform login with different fields,
+   * and secondary email if set. The fields are
+   * defined on settings.
+   *
+   * Not verified users can login by default. This
+   * can be changes on settings.
+   *
+   * If user is archived, make it unarchive and
+   * return `unarchiving=True` on output.
+   */
+  tokenAuth?: Maybe<ObtainJsonWebToken>;
+  /**
+   * Update user model fields, defined on settings.
+   *
+   * User must be verified.
+   */
+  updateAccount?: Maybe<UpdateAccount>;
+  /**
+   * Verify user account.
+   *
+   * Receive the token that was sent by email.
+   * If the token is valid, make the user verified
+   * by making the `user.status.verified` field true.
+   */
+  verifyAccount?: Maybe<VerifyAccount>;
+  /**
+   * Verify user secondary email.
+   *
+   * Receive the token that was sent by email.
+   * User is already verified when using this mutation.
+   *
+   * If the token is valid, add the secondary email
+   * to `user.status.secondary_email` field.
+   *
+   * Note that until the secondary email is verified,
+   * it has not been saved anywhere beyond the token,
+   * so it can still be used to create a new account.
+   * After being verified, it will no longer be available.
+   */
+  verifySecondaryEmail?: Maybe<VerifySecondaryEmail>;
+  /** Same as `grapgql_jwt` implementation, with standard output. */
+  verifyToken?: Maybe<VerifyToken>;
+};
+
+
+export type MutationArchiveAccountArgs = {
+  password: Scalars['String'];
+};
+
+
+export type MutationDeleteAccountArgs = {
+  password: Scalars['String'];
+};
+
+
+export type MutationPasswordChangeArgs = {
+  newPassword1: Scalars['String'];
+  newPassword2: Scalars['String'];
+  oldPassword: Scalars['String'];
+};
+
+
+export type MutationPasswordResetArgs = {
+  newPassword1: Scalars['String'];
+  newPassword2: Scalars['String'];
+  token: Scalars['String'];
 };
 
 
@@ -45,15 +238,55 @@ export type MutationPlayedGameArgs = {
 };
 
 
+export type MutationRefreshTokenArgs = {
+  refreshToken?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationRegisterArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+  password1: Scalars['String'];
+  password2: Scalars['String'];
+  username: Scalars['String'];
+};
+
+
 export type MutationRemovePlayedGameArgs = {
   gameId: Scalars['Int'];
   userId: Scalars['Int'];
 };
 
 
-export type MutationSigninUserArgs = {
+export type MutationRemoveSecondaryEmailArgs = {
+  password: Scalars['String'];
+};
+
+
+export type MutationResendActivationEmailArgs = {
+  email: Scalars['String'];
+};
+
+
+export type MutationRevokeTokenArgs = {
+  refreshToken?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationSendPasswordResetEmailArgs = {
+  email: Scalars['String'];
+};
+
+
+export type MutationSendSecondaryEmailActivationArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
+};
+
+
+export type MutationSigninUserArgs = {
+  password: Scalars['String'];
+  username: Scalars['String'];
 };
 
 
@@ -61,6 +294,112 @@ export type MutationSignupUserArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
   username: Scalars['String'];
+};
+
+
+export type MutationSwapEmailsArgs = {
+  password: Scalars['String'];
+};
+
+
+export type MutationTokenAuthArgs = {
+  email?: InputMaybe<Scalars['String']>;
+  password: Scalars['String'];
+  username?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationUpdateAccountArgs = {
+  email?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationVerifyAccountArgs = {
+  token: Scalars['String'];
+};
+
+
+export type MutationVerifySecondaryEmailArgs = {
+  token: Scalars['String'];
+};
+
+
+export type MutationVerifyTokenArgs = {
+  token?: InputMaybe<Scalars['String']>;
+};
+
+/** An object with an ID */
+export type Node = {
+  /** The ID of the object */
+  id: Scalars['ID'];
+};
+
+/**
+ * Obtain JSON web token for given user.
+ *
+ * Allow to perform login with different fields,
+ * and secondary email if set. The fields are
+ * defined on settings.
+ *
+ * Not verified users can login by default. This
+ * can be changes on settings.
+ *
+ * If user is archived, make it unarchive and
+ * return `unarchiving=True` on output.
+ */
+export type ObtainJsonWebToken = {
+  __typename?: 'ObtainJSONWebToken';
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+  payload: Scalars['GenericScalar'];
+  refreshExpiresIn: Scalars['Int'];
+  refreshToken: Scalars['String'];
+  success?: Maybe<Scalars['Boolean']>;
+  token: Scalars['String'];
+  unarchiving?: Maybe<Scalars['Boolean']>;
+  user?: Maybe<UserNode>;
+};
+
+/** The Relay compliant `PageInfo` type, containing data necessary to paginate this connection. */
+export type PageInfo = {
+  __typename?: 'PageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor?: Maybe<Scalars['String']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor?: Maybe<Scalars['String']>;
+};
+
+/**
+ * Change account password when user knows the old password.
+ *
+ * A new token and refresh token are sent. User must be verified.
+ */
+export type PasswordChange = {
+  __typename?: 'PasswordChange';
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+  refreshToken?: Maybe<Scalars['String']>;
+  success?: Maybe<Scalars['Boolean']>;
+  token?: Maybe<Scalars['String']>;
+};
+
+/**
+ * Change user password without old password.
+ *
+ * Receive the token that was sent by email.
+ *
+ * If token and new passwords are valid, update
+ * user password and in case of using refresh
+ * tokens, revoke all of them.
+ */
+export type PasswordReset = {
+  __typename?: 'PasswordReset';
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+  success?: Maybe<Scalars['Boolean']>;
 };
 
 export type PlayedGameMutation = {
@@ -76,15 +415,23 @@ export type Query = {
   allUsers?: Maybe<Array<UserType>>;
   /** 履修済み作品検索API */
   gameByUserId?: Maybe<Array<GameMastType>>;
+  me?: Maybe<UserNode>;
+  user?: Maybe<UserNode>;
   /** メールアドレス検索API */
   userByEmail: UserType;
   /** ユーザー名検索API */
   userByUsername: UserType;
+  users?: Maybe<UserNodeConnection>;
 };
 
 
 export type QueryGameByUserIdArgs = {
   userId: Scalars['Int'];
+};
+
+
+export type QueryUserArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -97,9 +444,128 @@ export type QueryUserByUsernameArgs = {
   username: Scalars['String'];
 };
 
+
+export type QueryUsersArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  isActive?: InputMaybe<Scalars['Boolean']>;
+  last?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  status_Archived?: InputMaybe<Scalars['Boolean']>;
+  status_SecondaryEmail?: InputMaybe<Scalars['String']>;
+  status_Verified?: InputMaybe<Scalars['Boolean']>;
+  username?: InputMaybe<Scalars['String']>;
+  username_Icontains?: InputMaybe<Scalars['String']>;
+  username_Istartswith?: InputMaybe<Scalars['String']>;
+};
+
+/** Same as `grapgql_jwt` implementation, with standard output. */
+export type RefreshToken = {
+  __typename?: 'RefreshToken';
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+  payload: Scalars['GenericScalar'];
+  refreshExpiresIn: Scalars['Int'];
+  refreshToken: Scalars['String'];
+  success?: Maybe<Scalars['Boolean']>;
+  token: Scalars['String'];
+};
+
+/**
+ * Register user with fields defined in the settings.
+ *
+ * If the email field of the user model is part of the
+ * registration fields (default), check if there is
+ * no user with that email or as a secondary email.
+ *
+ * If it exists, it does not register the user,
+ * even if the email field is not defined as unique
+ * (default of the default django user model).
+ *
+ * When creating the user, it also creates a `UserStatus`
+ * related to that user, making it possible to track
+ * if the user is archived, verified and has a secondary
+ * email.
+ *
+ * Send account verification email.
+ *
+ * If allowed to not verified users login, return token.
+ */
+export type Register = {
+  __typename?: 'Register';
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+  refreshToken?: Maybe<Scalars['String']>;
+  success?: Maybe<Scalars['Boolean']>;
+  token?: Maybe<Scalars['String']>;
+};
+
 export type RemovePlayedGameMutation = {
   __typename?: 'RemovePlayedGameMutation';
   gameMast?: Maybe<GameMastType>;
+};
+
+/**
+ * Remove user secondary email.
+ *
+ * Require password confirmation.
+ */
+export type RemoveSecondaryEmail = {
+  __typename?: 'RemoveSecondaryEmail';
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+  success?: Maybe<Scalars['Boolean']>;
+};
+
+/**
+ * Sends activation email.
+ *
+ * It is called resend because theoretically
+ * the first activation email was sent when
+ * the user registered.
+ *
+ * If there is no user with the requested email,
+ * a successful response is returned.
+ */
+export type ResendActivationEmail = {
+  __typename?: 'ResendActivationEmail';
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+  success?: Maybe<Scalars['Boolean']>;
+};
+
+/** Same as `grapgql_jwt` implementation, with standard output. */
+export type RevokeToken = {
+  __typename?: 'RevokeToken';
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+  revoked: Scalars['Int'];
+  success?: Maybe<Scalars['Boolean']>;
+};
+
+/**
+ * Send password reset email.
+ *
+ * For non verified users, send an activation
+ * email instead.
+ *
+ * Accepts both primary and secondary email.
+ *
+ * If there is no user with the requested email,
+ * a successful response is returned.
+ */
+export type SendPasswordResetEmail = {
+  __typename?: 'SendPasswordResetEmail';
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+  success?: Maybe<Scalars['Boolean']>;
+};
+
+/**
+ * Send activation to secondary email.
+ *
+ * User must be verified and confirm password.
+ */
+export type SendSecondaryEmailActivation = {
+  __typename?: 'SendSecondaryEmailActivation';
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+  success?: Maybe<Scalars['Boolean']>;
 };
 
 export type SignInUserMutation = {
@@ -112,9 +578,64 @@ export type SignUpUserMutation = {
   user?: Maybe<UserType>;
 };
 
+/**
+ * Swap between primary and secondary emails.
+ *
+ * Require password confirmation.
+ */
+export type SwapEmails = {
+  __typename?: 'SwapEmails';
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+  success?: Maybe<Scalars['Boolean']>;
+};
+
+/**
+ * Update user model fields, defined on settings.
+ *
+ * User must be verified.
+ */
+export type UpdateAccount = {
+  __typename?: 'UpdateAccount';
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+  success?: Maybe<Scalars['Boolean']>;
+};
+
+export type UserNode = Node & {
+  __typename?: 'UserNode';
+  archived?: Maybe<Scalars['Boolean']>;
+  email?: Maybe<Scalars['String']>;
+  /** The ID of the object */
+  id: Scalars['ID'];
+  isActive: Scalars['Boolean'];
+  isStaff: Scalars['Boolean'];
+  lastLogin?: Maybe<Scalars['DateTime']>;
+  pk?: Maybe<Scalars['Int']>;
+  playedTitle: Array<GameMastType>;
+  secondaryEmail?: Maybe<Scalars['String']>;
+  username: Scalars['String'];
+  verified?: Maybe<Scalars['Boolean']>;
+};
+
+export type UserNodeConnection = {
+  __typename?: 'UserNodeConnection';
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<UserNodeEdge>>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+};
+
+/** A Relay edge containing a `UserNode` and its cursor. */
+export type UserNodeEdge = {
+  __typename?: 'UserNodeEdge';
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'];
+  /** The item at the end of the edge */
+  node?: Maybe<UserNode>;
+};
+
 export type UserType = {
   __typename?: 'UserType';
-  email: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   isActive: Scalars['Boolean'];
   isStaff: Scalars['Boolean'];
@@ -124,6 +645,47 @@ export type UserType = {
   password: Scalars['String'];
   playedTitle: Array<GameMastType>;
   username: Scalars['String'];
+};
+
+/**
+ * Verify user account.
+ *
+ * Receive the token that was sent by email.
+ * If the token is valid, make the user verified
+ * by making the `user.status.verified` field true.
+ */
+export type VerifyAccount = {
+  __typename?: 'VerifyAccount';
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+  success?: Maybe<Scalars['Boolean']>;
+};
+
+/**
+ * Verify user secondary email.
+ *
+ * Receive the token that was sent by email.
+ * User is already verified when using this mutation.
+ *
+ * If the token is valid, add the secondary email
+ * to `user.status.secondary_email` field.
+ *
+ * Note that until the secondary email is verified,
+ * it has not been saved anywhere beyond the token,
+ * so it can still be used to create a new account.
+ * After being verified, it will no longer be available.
+ */
+export type VerifySecondaryEmail = {
+  __typename?: 'VerifySecondaryEmail';
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+  success?: Maybe<Scalars['Boolean']>;
+};
+
+/** Same as `grapgql_jwt` implementation, with standard output. */
+export type VerifyToken = {
+  __typename?: 'VerifyToken';
+  errors?: Maybe<Scalars['ExpectedErrorType']>;
+  payload: Scalars['GenericScalar'];
+  success?: Maybe<Scalars['Boolean']>;
 };
 
 export type Played_GameMutationVariables = Exact<{
@@ -142,13 +704,42 @@ export type Remove_Played_GameMutationVariables = Exact<{
 
 export type Remove_Played_GameMutation = { __typename?: 'Mutation', removePlayedGame?: { __typename?: 'RemovePlayedGameMutation', gameMast?: { __typename?: 'GameMastType', id: string, title: string, auther?: string | null, gmLess: boolean, playTimeMinute?: number | null, maxPlayerCount: number, minPlayerCount: number, note?: string | null, image?: string | null, playedUsers: Array<{ __typename?: 'UserType', id: string }> } | null } | null };
 
-export type Signin_UserMutationVariables = Exact<{
-  email: Scalars['String'];
+export type TokenAuthMutationVariables = Exact<{
+  username: Scalars['String'];
   password: Scalars['String'];
 }>;
 
 
-export type Signin_UserMutation = { __typename?: 'Mutation', signinUser?: { __typename?: 'SignInUserMutation', user?: { __typename?: 'UserType', id: string, username: string, email: string } | null } | null };
+export type TokenAuthMutation = { __typename?: 'Mutation', tokenAuth?: { __typename?: 'ObtainJSONWebToken', success?: boolean | null, errors?: any | null, unarchiving?: boolean | null, token: string, refreshToken: string, user?: { __typename?: 'UserNode', id: string, username: string } | null } | null };
+
+export type VerifyTokenMutationVariables = Exact<{
+  token: Scalars['String'];
+}>;
+
+
+export type VerifyTokenMutation = { __typename?: 'Mutation', verifyToken?: { __typename?: 'VerifyToken', success?: boolean | null, errors?: any | null, payload: any } | null };
+
+export type RefreshTokenMutationVariables = Exact<{
+  refreshToken: Scalars['String'];
+}>;
+
+
+export type RefreshTokenMutation = { __typename?: 'Mutation', refreshToken?: { __typename?: 'RefreshToken', success?: boolean | null, errors?: any | null, payload: any, refreshExpiresIn: number, token: string, refreshToken: string } | null };
+
+export type RevokeTokenMutationVariables = Exact<{
+  refreshToken: Scalars['String'];
+}>;
+
+
+export type RevokeTokenMutation = { __typename?: 'Mutation', revokeToken?: { __typename?: 'RevokeToken', success?: boolean | null, errors?: any | null } | null };
+
+export type Signin_UserMutationVariables = Exact<{
+  username: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+
+export type Signin_UserMutation = { __typename?: 'Mutation', signinUser?: { __typename?: 'SignInUserMutation', user?: { __typename?: 'UserType', id: string, username: string, email?: string | null } | null } | null };
 
 export type Signup_UserMutationVariables = Exact<{
   username: Scalars['String'];
@@ -157,7 +748,7 @@ export type Signup_UserMutationVariables = Exact<{
 }>;
 
 
-export type Signup_UserMutation = { __typename?: 'Mutation', signupUser?: { __typename?: 'SignUpUserMutation', user?: { __typename?: 'UserType', id: string, username: string, email: string } | null } | null };
+export type Signup_UserMutation = { __typename?: 'Mutation', signupUser?: { __typename?: 'SignUpUserMutation', user?: { __typename?: 'UserType', id: string, username: string, email?: string | null } | null } | null };
 
 export type Get_All_Game_MastQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -181,14 +772,14 @@ export type Get_User_By_EmailQueryVariables = Exact<{
 }>;
 
 
-export type Get_User_By_EmailQuery = { __typename?: 'Query', userByEmail: { __typename?: 'UserType', id: string, username: string, email: string } };
+export type Get_User_By_EmailQuery = { __typename?: 'Query', userByEmail: { __typename?: 'UserType', id: string, username: string, email?: string | null } };
 
 export type Get_User_By_UsernameQueryVariables = Exact<{
   username: Scalars['String'];
 }>;
 
 
-export type Get_User_By_UsernameQuery = { __typename?: 'Query', userByUsername: { __typename?: 'UserType', id: string, username: string, email: string } };
+export type Get_User_By_UsernameQuery = { __typename?: 'Query', userByUsername: { __typename?: 'UserType', id: string, username: string, email?: string | null } };
 
 
 export const Played_GameDocument = gql`
@@ -285,9 +876,159 @@ export function useRemove_Played_GameMutation(baseOptions?: Apollo.MutationHookO
 export type Remove_Played_GameMutationHookResult = ReturnType<typeof useRemove_Played_GameMutation>;
 export type Remove_Played_GameMutationResult = Apollo.MutationResult<Remove_Played_GameMutation>;
 export type Remove_Played_GameMutationOptions = Apollo.BaseMutationOptions<Remove_Played_GameMutation, Remove_Played_GameMutationVariables>;
+export const TokenAuthDocument = gql`
+    mutation TokenAuth($username: String!, $password: String!) {
+  tokenAuth(username: $username, password: $password) {
+    success
+    errors
+    unarchiving
+    token
+    refreshToken
+    unarchiving
+    user {
+      id
+      username
+    }
+  }
+}
+    `;
+export type TokenAuthMutationFn = Apollo.MutationFunction<TokenAuthMutation, TokenAuthMutationVariables>;
+
+/**
+ * __useTokenAuthMutation__
+ *
+ * To run a mutation, you first call `useTokenAuthMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTokenAuthMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [tokenAuthMutation, { data, loading, error }] = useTokenAuthMutation({
+ *   variables: {
+ *      username: // value for 'username'
+ *      password: // value for 'password'
+ *   },
+ * });
+ */
+export function useTokenAuthMutation(baseOptions?: Apollo.MutationHookOptions<TokenAuthMutation, TokenAuthMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<TokenAuthMutation, TokenAuthMutationVariables>(TokenAuthDocument, options);
+      }
+export type TokenAuthMutationHookResult = ReturnType<typeof useTokenAuthMutation>;
+export type TokenAuthMutationResult = Apollo.MutationResult<TokenAuthMutation>;
+export type TokenAuthMutationOptions = Apollo.BaseMutationOptions<TokenAuthMutation, TokenAuthMutationVariables>;
+export const VerifyTokenDocument = gql`
+    mutation VerifyToken($token: String!) {
+  verifyToken(token: $token) {
+    success
+    errors
+    payload
+  }
+}
+    `;
+export type VerifyTokenMutationFn = Apollo.MutationFunction<VerifyTokenMutation, VerifyTokenMutationVariables>;
+
+/**
+ * __useVerifyTokenMutation__
+ *
+ * To run a mutation, you first call `useVerifyTokenMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useVerifyTokenMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [verifyTokenMutation, { data, loading, error }] = useVerifyTokenMutation({
+ *   variables: {
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useVerifyTokenMutation(baseOptions?: Apollo.MutationHookOptions<VerifyTokenMutation, VerifyTokenMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<VerifyTokenMutation, VerifyTokenMutationVariables>(VerifyTokenDocument, options);
+      }
+export type VerifyTokenMutationHookResult = ReturnType<typeof useVerifyTokenMutation>;
+export type VerifyTokenMutationResult = Apollo.MutationResult<VerifyTokenMutation>;
+export type VerifyTokenMutationOptions = Apollo.BaseMutationOptions<VerifyTokenMutation, VerifyTokenMutationVariables>;
+export const RefreshTokenDocument = gql`
+    mutation RefreshToken($refreshToken: String!) {
+  refreshToken(refreshToken: $refreshToken) {
+    success
+    errors
+    payload
+    refreshExpiresIn
+    token
+    refreshToken
+  }
+}
+    `;
+export type RefreshTokenMutationFn = Apollo.MutationFunction<RefreshTokenMutation, RefreshTokenMutationVariables>;
+
+/**
+ * __useRefreshTokenMutation__
+ *
+ * To run a mutation, you first call `useRefreshTokenMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRefreshTokenMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [refreshTokenMutation, { data, loading, error }] = useRefreshTokenMutation({
+ *   variables: {
+ *      refreshToken: // value for 'refreshToken'
+ *   },
+ * });
+ */
+export function useRefreshTokenMutation(baseOptions?: Apollo.MutationHookOptions<RefreshTokenMutation, RefreshTokenMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RefreshTokenMutation, RefreshTokenMutationVariables>(RefreshTokenDocument, options);
+      }
+export type RefreshTokenMutationHookResult = ReturnType<typeof useRefreshTokenMutation>;
+export type RefreshTokenMutationResult = Apollo.MutationResult<RefreshTokenMutation>;
+export type RefreshTokenMutationOptions = Apollo.BaseMutationOptions<RefreshTokenMutation, RefreshTokenMutationVariables>;
+export const RevokeTokenDocument = gql`
+    mutation RevokeToken($refreshToken: String!) {
+  revokeToken(refreshToken: $refreshToken) {
+    success
+    errors
+  }
+}
+    `;
+export type RevokeTokenMutationFn = Apollo.MutationFunction<RevokeTokenMutation, RevokeTokenMutationVariables>;
+
+/**
+ * __useRevokeTokenMutation__
+ *
+ * To run a mutation, you first call `useRevokeTokenMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRevokeTokenMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [revokeTokenMutation, { data, loading, error }] = useRevokeTokenMutation({
+ *   variables: {
+ *      refreshToken: // value for 'refreshToken'
+ *   },
+ * });
+ */
+export function useRevokeTokenMutation(baseOptions?: Apollo.MutationHookOptions<RevokeTokenMutation, RevokeTokenMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RevokeTokenMutation, RevokeTokenMutationVariables>(RevokeTokenDocument, options);
+      }
+export type RevokeTokenMutationHookResult = ReturnType<typeof useRevokeTokenMutation>;
+export type RevokeTokenMutationResult = Apollo.MutationResult<RevokeTokenMutation>;
+export type RevokeTokenMutationOptions = Apollo.BaseMutationOptions<RevokeTokenMutation, RevokeTokenMutationVariables>;
 export const Signin_UserDocument = gql`
-    mutation SIGNIN_USER($email: String!, $password: String!) {
-  signinUser(email: $email, password: $password) {
+    mutation SIGNIN_USER($username: String!, $password: String!) {
+  signinUser(username: $username, password: $password) {
     user {
       id
       username
@@ -311,7 +1052,7 @@ export type Signin_UserMutationFn = Apollo.MutationFunction<Signin_UserMutation,
  * @example
  * const [signinUserMutation, { data, loading, error }] = useSignin_UserMutation({
  *   variables: {
- *      email: // value for 'email'
+ *      username: // value for 'username'
  *      password: // value for 'password'
  *   },
  * });

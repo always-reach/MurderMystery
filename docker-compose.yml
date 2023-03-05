@@ -2,7 +2,7 @@ version: '3'
 
 services:
   db:
-    image: postgres
+    image: postgres:15
     environment:
       - "POSTGRES_USER=postgres"
       - "POSTGRES_PASSWORD=postgres"
@@ -27,7 +27,7 @@ services:
     build:
       context: .
       dockerfile: DockerfileNextJS
-    command: sh -c "npm run dev"
+    command: sh -c "npm run debug"
     environment:
       - CHOKIDAR_USEPOLLING=true
     volumes:

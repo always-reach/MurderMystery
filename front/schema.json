@@ -113,6 +113,188 @@
             {
               "args": [],
               "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "me",
+              "type": {
+                "kind": "OBJECT",
+                "name": "UserNode",
+                "ofType": null
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": "The ID of the object",
+                  "name": "id",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "ID",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "user",
+              "type": {
+                "kind": "OBJECT",
+                "name": "UserNode",
+                "ofType": null
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "offset",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "before",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "after",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "first",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "last",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "email",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "username",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "username_Icontains",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "username_Istartswith",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "isActive",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "status_Archived",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "status_Verified",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "status_SecondaryEmail",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "users",
+              "type": {
+                "kind": "OBJECT",
+                "name": "UserNodeConnection",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
               "description": "\u30e6\u30fc\u30b6\u30fc\u53d6\u5f97API",
               "isDeprecated": false,
               "name": "allUsers",
@@ -261,7 +443,7 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": null,
+              "description": "The ID of the object",
               "isDeprecated": false,
               "name": "id",
               "type": {
@@ -289,22 +471,6 @@
             {
               "args": [],
               "deprecationReason": null,
-              "description": "Designates that this user has all permissions without explicitly assigning them.",
-              "isDeprecated": false,
-              "name": "isSuperuser",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
               "name": "username",
@@ -323,31 +489,11 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
-              "name": "password",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
               "name": "email",
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               }
             },
             {
@@ -405,13 +551,100 @@
                   }
                 }
               }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "pk",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "archived",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "verified",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "secondaryEmail",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
+          "kind": "OBJECT",
+          "name": "UserNode",
+          "possibleTypes": null
+        },
+        {
+          "description": "An object with an ID",
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The ID of the object",
+              "isDeprecated": false,
+              "name": "id",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              }
             }
           ],
           "inputFields": null,
           "interfaces": [],
-          "kind": "OBJECT",
-          "name": "UserType",
-          "possibleTypes": null
+          "kind": "INTERFACE",
+          "name": "Node",
+          "possibleTypes": [
+            {
+              "kind": "OBJECT",
+              "name": "UserNode",
+              "ofType": null
+            }
+          ]
         },
         {
           "description": "The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"4\"`) or integer (such as `4`) input value will be accepted as an ID.",
@@ -434,16 +667,6 @@
           "possibleTypes": null
         },
         {
-          "description": "The `Boolean` scalar type represents `true` or `false`.",
-          "enumValues": null,
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "kind": "SCALAR",
-          "name": "Boolean",
-          "possibleTypes": null
-        },
-        {
           "description": "The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.",
           "enumValues": null,
           "fields": null,
@@ -451,6 +674,16 @@
           "interfaces": null,
           "kind": "SCALAR",
           "name": "String",
+          "possibleTypes": null
+        },
+        {
+          "description": "The `Boolean` scalar type represents `true` or `false`.",
+          "enumValues": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "SCALAR",
+          "name": "Boolean",
           "possibleTypes": null
         },
         {
@@ -631,6 +864,685 @@
           "enumValues": null,
           "fields": [
             {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "id",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "lastLogin",
+              "type": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "Designates that this user has all permissions without explicitly assigning them.",
+              "isDeprecated": false,
+              "name": "isSuperuser",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "username",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "password",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "email",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "isActive",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "isStaff",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "playedTitle",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "OBJECT",
+                      "name": "GameMastType",
+                      "ofType": null
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "UserType",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "Pagination data for this connection.",
+              "isDeprecated": false,
+              "name": "pageInfo",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "PageInfo",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "Contains the nodes in this connection.",
+              "isDeprecated": false,
+              "name": "edges",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "UserNodeEdge",
+                    "ofType": null
+                  }
+                }
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "UserNodeConnection",
+          "possibleTypes": null
+        },
+        {
+          "description": "The Relay compliant `PageInfo` type, containing data necessary to paginate this connection.",
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "When paginating forwards, are there more items?",
+              "isDeprecated": false,
+              "name": "hasNextPage",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "When paginating backwards, are there more items?",
+              "isDeprecated": false,
+              "name": "hasPreviousPage",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "When paginating backwards, the cursor to continue.",
+              "isDeprecated": false,
+              "name": "startCursor",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "When paginating forwards, the cursor to continue.",
+              "isDeprecated": false,
+              "name": "endCursor",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "PageInfo",
+          "possibleTypes": null
+        },
+        {
+          "description": "A Relay edge containing a `UserNode` and its cursor.",
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The item at the end of the edge",
+              "isDeprecated": false,
+              "name": "node",
+              "type": {
+                "kind": "OBJECT",
+                "name": "UserNode",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "A cursor for use in pagination",
+              "isDeprecated": false,
+              "name": "cursor",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "UserNodeEdge",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "username",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "password",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "email",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "password1",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "password2",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": "Register user with fields defined in the settings.\n\nIf the email field of the user model is part of the\nregistration fields (default), check if there is\nno user with that email or as a secondary email.\n\nIf it exists, it does not register the user,\neven if the email field is not defined as unique\n(default of the default django user model).\n\nWhen creating the user, it also creates a `UserStatus`\nrelated to that user, making it possible to track\nif the user is archived, verified and has a secondary\nemail.\n\nSend account verification email.\n\nIf allowed to not verified users login, return token.",
+              "isDeprecated": false,
+              "name": "register",
+              "type": {
+                "kind": "OBJECT",
+                "name": "Register",
+                "ofType": null
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "token",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": "Verify user account.\n\nReceive the token that was sent by email.\nIf the token is valid, make the user verified\nby making the `user.status.verified` field true.",
+              "isDeprecated": false,
+              "name": "verifyAccount",
+              "type": {
+                "kind": "OBJECT",
+                "name": "VerifyAccount",
+                "ofType": null
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "email",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": "Sends activation email.\n\nIt is called resend because theoretically\nthe first activation email was sent when\nthe user registered.\n\nIf there is no user with the requested email,\na successful response is returned.",
+              "isDeprecated": false,
+              "name": "resendActivationEmail",
+              "type": {
+                "kind": "OBJECT",
+                "name": "ResendActivationEmail",
+                "ofType": null
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "email",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": "Send password reset email.\n\nFor non verified users, send an activation\nemail instead.\n\nAccepts both primary and secondary email.\n\nIf there is no user with the requested email,\na successful response is returned.",
+              "isDeprecated": false,
+              "name": "sendPasswordResetEmail",
+              "type": {
+                "kind": "OBJECT",
+                "name": "SendPasswordResetEmail",
+                "ofType": null
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "token",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "newPassword1",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "newPassword2",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": "Change user password without old password.\n\nReceive the token that was sent by email.\n\nIf token and new passwords are valid, update\nuser password and in case of using refresh\ntokens, revoke all of them.",
+              "isDeprecated": false,
+              "name": "passwordReset",
+              "type": {
+                "kind": "OBJECT",
+                "name": "PasswordReset",
+                "ofType": null
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "oldPassword",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "newPassword1",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "newPassword2",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": "Change account password when user knows the old password.\n\nA new token and refresh token are sent. User must be verified.",
+              "isDeprecated": false,
+              "name": "passwordChange",
+              "type": {
+                "kind": "OBJECT",
+                "name": "PasswordChange",
+                "ofType": null
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "username",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "password",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "email",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": "Update user model fields, defined on settings.\n\nUser must be verified.",
+              "isDeprecated": false,
+              "name": "updateAccount",
+              "type": {
+                "kind": "OBJECT",
+                "name": "UpdateAccount",
+                "ofType": null
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "password",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": "Archive account and revoke refresh tokens.\n\nUser must be verified and confirm password.",
+              "isDeprecated": false,
+              "name": "archiveAccount",
+              "type": {
+                "kind": "OBJECT",
+                "name": "ArchiveAccount",
+                "ofType": null
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "password",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": "Delete account permanently or make `user.is_active=False`.\n\nThe behavior is defined on settings.\nAnyway user refresh tokens are revoked.\n\nUser must be verified and confirm password.",
+              "isDeprecated": false,
+              "name": "deleteAccount",
+              "type": {
+                "kind": "OBJECT",
+                "name": "DeleteAccount",
+                "ofType": null
+              }
+            },
+            {
               "args": [
                 {
                   "defaultValue": null,
@@ -650,6 +1562,244 @@
                   "defaultValue": null,
                   "description": null,
                   "name": "password",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": "Send activation to secondary email.\n\nUser must be verified and confirm password.",
+              "isDeprecated": false,
+              "name": "sendSecondaryEmailActivation",
+              "type": {
+                "kind": "OBJECT",
+                "name": "SendSecondaryEmailActivation",
+                "ofType": null
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "token",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": "Verify user secondary email.\n\nReceive the token that was sent by email.\nUser is already verified when using this mutation.\n\nIf the token is valid, add the secondary email\nto `user.status.secondary_email` field.\n\nNote that until the secondary email is verified,\nit has not been saved anywhere beyond the token,\nso it can still be used to create a new account.\nAfter being verified, it will no longer be available.",
+              "isDeprecated": false,
+              "name": "verifySecondaryEmail",
+              "type": {
+                "kind": "OBJECT",
+                "name": "VerifySecondaryEmail",
+                "ofType": null
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "password",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": "Swap between primary and secondary emails.\n\nRequire password confirmation.",
+              "isDeprecated": false,
+              "name": "swapEmails",
+              "type": {
+                "kind": "OBJECT",
+                "name": "SwapEmails",
+                "ofType": null
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "password",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": "Remove user secondary email.\n\nRequire password confirmation.",
+              "isDeprecated": false,
+              "name": "removeSecondaryEmail",
+              "type": {
+                "kind": "OBJECT",
+                "name": "RemoveSecondaryEmail",
+                "ofType": null
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "password",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "email",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "username",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": "Obtain JSON web token for given user.\n\nAllow to perform login with different fields,\nand secondary email if set. The fields are\ndefined on settings.\n\nNot verified users can login by default. This\ncan be changes on settings.\n\nIf user is archived, make it unarchive and\nreturn `unarchiving=True` on output.",
+              "isDeprecated": false,
+              "name": "tokenAuth",
+              "type": {
+                "kind": "OBJECT",
+                "name": "ObtainJSONWebToken",
+                "ofType": null
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "token",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": "Same as `grapgql_jwt` implementation, with standard output.",
+              "isDeprecated": false,
+              "name": "verifyToken",
+              "type": {
+                "kind": "OBJECT",
+                "name": "VerifyToken",
+                "ofType": null
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "refreshToken",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": "Same as `grapgql_jwt` implementation, with standard output.",
+              "isDeprecated": false,
+              "name": "refreshToken",
+              "type": {
+                "kind": "OBJECT",
+                "name": "RefreshToken",
+                "ofType": null
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "refreshToken",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": "Same as `grapgql_jwt` implementation, with standard output.",
+              "isDeprecated": false,
+              "name": "revokeToken",
+              "type": {
+                "kind": "OBJECT",
+                "name": "RevokeToken",
+                "ofType": null
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "password",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "username",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -813,6 +1963,853 @@
           "interfaces": [],
           "kind": "OBJECT",
           "name": "Mutation",
+          "possibleTypes": null
+        },
+        {
+          "description": "Register user with fields defined in the settings.\n\nIf the email field of the user model is part of the\nregistration fields (default), check if there is\nno user with that email or as a secondary email.\n\nIf it exists, it does not register the user,\neven if the email field is not defined as unique\n(default of the default django user model).\n\nWhen creating the user, it also creates a `UserStatus`\nrelated to that user, making it possible to track\nif the user is archived, verified and has a secondary\nemail.\n\nSend account verification email.\n\nIf allowed to not verified users login, return token.",
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "success",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ExpectedErrorType",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "refreshToken",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "token",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "Register",
+          "possibleTypes": null
+        },
+        {
+          "description": "\n    Errors messages and codes mapped to\n    fields or non fields errors.\n    Example:\n    {\n        field_name: [\n            {\n                \"message\": \"error message\",\n                \"code\": \"error_code\"\n            }\n        ],\n        other_field: [\n            {\n                \"message\": \"error message\",\n                \"code\": \"error_code\"\n            }\n        ],\n        nonFieldErrors: [\n            {\n                \"message\": \"error message\",\n                \"code\": \"error_code\"\n            }\n        ]\n    }\n    ",
+          "enumValues": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "SCALAR",
+          "name": "ExpectedErrorType",
+          "possibleTypes": null
+        },
+        {
+          "description": "Verify user account.\n\nReceive the token that was sent by email.\nIf the token is valid, make the user verified\nby making the `user.status.verified` field true.",
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "success",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ExpectedErrorType",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "VerifyAccount",
+          "possibleTypes": null
+        },
+        {
+          "description": "Sends activation email.\n\nIt is called resend because theoretically\nthe first activation email was sent when\nthe user registered.\n\nIf there is no user with the requested email,\na successful response is returned.",
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "success",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ExpectedErrorType",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "ResendActivationEmail",
+          "possibleTypes": null
+        },
+        {
+          "description": "Send password reset email.\n\nFor non verified users, send an activation\nemail instead.\n\nAccepts both primary and secondary email.\n\nIf there is no user with the requested email,\na successful response is returned.",
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "success",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ExpectedErrorType",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "SendPasswordResetEmail",
+          "possibleTypes": null
+        },
+        {
+          "description": "Change user password without old password.\n\nReceive the token that was sent by email.\n\nIf token and new passwords are valid, update\nuser password and in case of using refresh\ntokens, revoke all of them.",
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "success",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ExpectedErrorType",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "PasswordReset",
+          "possibleTypes": null
+        },
+        {
+          "description": "Change account password when user knows the old password.\n\nA new token and refresh token are sent. User must be verified.",
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "success",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ExpectedErrorType",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "refreshToken",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "token",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "PasswordChange",
+          "possibleTypes": null
+        },
+        {
+          "description": "Update user model fields, defined on settings.\n\nUser must be verified.",
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "success",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ExpectedErrorType",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "UpdateAccount",
+          "possibleTypes": null
+        },
+        {
+          "description": "Archive account and revoke refresh tokens.\n\nUser must be verified and confirm password.",
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "success",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ExpectedErrorType",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "ArchiveAccount",
+          "possibleTypes": null
+        },
+        {
+          "description": "Delete account permanently or make `user.is_active=False`.\n\nThe behavior is defined on settings.\nAnyway user refresh tokens are revoked.\n\nUser must be verified and confirm password.",
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "success",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ExpectedErrorType",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "DeleteAccount",
+          "possibleTypes": null
+        },
+        {
+          "description": "Send activation to secondary email.\n\nUser must be verified and confirm password.",
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "success",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ExpectedErrorType",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "SendSecondaryEmailActivation",
+          "possibleTypes": null
+        },
+        {
+          "description": "Verify user secondary email.\n\nReceive the token that was sent by email.\nUser is already verified when using this mutation.\n\nIf the token is valid, add the secondary email\nto `user.status.secondary_email` field.\n\nNote that until the secondary email is verified,\nit has not been saved anywhere beyond the token,\nso it can still be used to create a new account.\nAfter being verified, it will no longer be available.",
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "success",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ExpectedErrorType",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "VerifySecondaryEmail",
+          "possibleTypes": null
+        },
+        {
+          "description": "Swap between primary and secondary emails.\n\nRequire password confirmation.",
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "success",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ExpectedErrorType",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "SwapEmails",
+          "possibleTypes": null
+        },
+        {
+          "description": "Remove user secondary email.\n\nRequire password confirmation.",
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "success",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ExpectedErrorType",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "RemoveSecondaryEmail",
+          "possibleTypes": null
+        },
+        {
+          "description": "Obtain JSON web token for given user.\n\nAllow to perform login with different fields,\nand secondary email if set. The fields are\ndefined on settings.\n\nNot verified users can login by default. This\ncan be changes on settings.\n\nIf user is archived, make it unarchive and\nreturn `unarchiving=True` on output.",
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "payload",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "GenericScalar",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "refreshExpiresIn",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "success",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ExpectedErrorType",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "user",
+              "type": {
+                "kind": "OBJECT",
+                "name": "UserNode",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "unarchiving",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "token",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "refreshToken",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "ObtainJSONWebToken",
+          "possibleTypes": null
+        },
+        {
+          "description": "The `GenericScalar` scalar type represents a generic\nGraphQL scalar value that could be:\nString, Boolean, Int, Float, List or Object.",
+          "enumValues": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "SCALAR",
+          "name": "GenericScalar",
+          "possibleTypes": null
+        },
+        {
+          "description": "Same as `grapgql_jwt` implementation, with standard output.",
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "payload",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "GenericScalar",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "success",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ExpectedErrorType",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "VerifyToken",
+          "possibleTypes": null
+        },
+        {
+          "description": "Same as `grapgql_jwt` implementation, with standard output.",
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "payload",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "GenericScalar",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "refreshExpiresIn",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "success",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ExpectedErrorType",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "token",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "refreshToken",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "RefreshToken",
+          "possibleTypes": null
+        },
+        {
+          "description": "Same as `grapgql_jwt` implementation, with standard output.",
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "revoked",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "success",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "errors",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ExpectedErrorType",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "RevokeToken",
           "possibleTypes": null
         },
         {

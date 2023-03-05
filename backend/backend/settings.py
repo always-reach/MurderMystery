@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
-
+import datetime
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -30,6 +30,8 @@ ALLOWED_HOSTS = []
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
 ]
+
+CORS_ALLOW_CREDENTIALS = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,7 +43,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api.apps.ApiConfig',
     'graphene_django',
-    'corsheaders'
+    'corsheaders',
+    'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
+    "graphql_auth",
+    "django_filters",
 ]
 
 MIDDLEWARE = [
@@ -53,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -108,7 +114,48 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 GRAPHENE = {
-    "SCHEMA": "backend.schema.schema"
+    "SCHEMA": "backend.schema.schema",
+    "SCHEMA_OUTPUT": "schema.json",
+    'MIDDLEWARE': [
+        'graphql_jwt.middleware.JSONWebTokenMiddleware',
+    ]
+}
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'graphql_jwt.backends.JSONWebTokenBackend',
+    "graphql_auth.backends.GraphQLAuthBackend",
+]
+
+GRAPHQL_JWT = {
+    "JWT_VERIFY": True,
+    "JWT_VERIFY_EXPIRATION": True,
+    "JWT_ALLOW_REFRESH": True,
+    "JWT_LONG_RUNNING_REFRESH_TOKEN": True,
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(minutes=5),
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    'JWT_REUSE_REFRESH_TOKENS': True,
+    "JWT_ALLOW_ANY_CLASSES": [
+        "graphql_auth.mutations.Register",
+        "graphql_auth.mutations.VerifyAccount",
+        "graphql_auth.mutations.ResendActivationEmail",
+        "graphql_auth.mutations.SendPasswordResetEmail",
+        "graphql_auth.mutations.PasswordReset",
+        "graphql_auth.mutations.ObtainJSONWebToken",
+        "graphql_auth.mutations.VerifyToken",
+        "graphql_auth.mutations.RefreshToken",
+        "graphql_auth.mutations.RevokeToken",
+        "graphql_auth.mutations.VerifySecondaryEmail",
+    ],
+}
+
+GRAPHQL_AUTH = {
+    "REGISTER_MUTATION_FIELDS": {
+        "username": "String",
+        "password": "String",
+        "email": "String",
+    },
+    "UPDATE_MUTATION_FIELDS": ["username", "password", "email"]
 }
 
 # Internationalization
@@ -134,3 +181,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

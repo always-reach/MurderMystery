@@ -3,8 +3,10 @@ import { NextPageWithLayout } from "./_app"
 import Layout from "../layout/Layout"
 import Card from "../components/Card"
 import { useGet_All_Game_MastQuery } from "../graphql/codegen"
+import useAuth from "@hooks/useAuth"
 
 const Top: NextPageWithLayout = () => {
+    const auth=useAuth()
     const { loading, data, refetch } = useGet_All_Game_MastQuery()
 
     React.useEffect(() => { refetch() }, [])
@@ -29,6 +31,6 @@ const Top: NextPageWithLayout = () => {
 
 Top.getLayout = (page) => <Layout>{page}</Layout>
 Top.getAccessControl = (user) => {
-    return user.signinUser ? null : { type: "replace", destination: "/signin" }
+    return null
 }
 export default Top
