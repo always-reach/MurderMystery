@@ -1,20 +1,19 @@
 import '../styles/globals.css'
 import * as React from 'react'
 import { NextPage } from 'next'
-import { ApolloClient, InMemoryCache, ApolloProvider, makeVar} from '@apollo/client'
-
+import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink} from '@apollo/client'
 
 import type { AppProps } from 'next/app'
 import { accessControl, GetAccessControl, useAccessControl } from '../access_control/AccessControl'
-import { Signin_UserMutation } from '../graphql/codegen'
 
-
-
-export const isSignInVar = makeVar<Signin_UserMutation>({})
+const link=createHttpLink({
+  uri:"http://localhost:8000/graphql",
+  credentials: "include",
+})
 const cache = new InMemoryCache()
-const client = new ApolloClient({
-  uri: "http://localhost:8000/graphql",
+export const client = new ApolloClient({
   cache,
+  link
 })
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {

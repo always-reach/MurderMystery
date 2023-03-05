@@ -30,6 +30,8 @@ ALLOWED_HOSTS = []
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
 ]
+
+CORS_ALLOW_CREDENTIALS = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -126,10 +128,13 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 GRAPHQL_JWT = {
+    "JWT_VERIFY": True,
     "JWT_VERIFY_EXPIRATION": True,
+    "JWT_ALLOW_REFRESH": True,
     "JWT_LONG_RUNNING_REFRESH_TOKEN": True,
     'JWT_EXPIRATION_DELTA': datetime.timedelta(minutes=5),
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    'JWT_REUSE_REFRESH_TOKENS': True,
     "JWT_ALLOW_ANY_CLASSES": [
         "graphql_auth.mutations.Register",
         "graphql_auth.mutations.VerifyAccount",

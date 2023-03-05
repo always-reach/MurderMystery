@@ -3,8 +3,10 @@ import { NextPageWithLayout } from "./_app"
 import Layout from "../layout/Layout"
 import Card from "../components/Card"
 import { useGet_All_Game_MastQuery } from "../graphql/codegen"
+import useAuth from "@hooks/useAuth"
 
 const Top: NextPageWithLayout = () => {
+    const auth=useAuth()
     const { loading, data, refetch } = useGet_All_Game_MastQuery()
 
     React.useEffect(() => { refetch() }, [])

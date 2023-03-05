@@ -65,7 +65,7 @@ const SignIn: NextPageWithLayout = () => {
 }
 
 SignIn.getLayout = (page) => <Layout>{page}</Layout>
-SignIn.getAccessControl = (user) => {
-    return user.signinUser ? { type: "replace", destination: "/top" } : null
+SignIn.getAccessControl = (isSignIn) => {
+    return isSignIn ? { type: "replace", destination: "/top" } : null
 }
 export default SignIn
