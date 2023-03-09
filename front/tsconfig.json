@@ -19,7 +19,8 @@
     "paths": {
       "@components/*":["./components/*"],
       "@hooks/*":["./hooks/*"],
-      "@graphql/*":["./graphql/*"]
+      "@graphql/*":["./graphql/*"],
+      "@state/*":["./state/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

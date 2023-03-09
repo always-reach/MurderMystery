@@ -1,12 +1,19 @@
 import * as React from 'react'
-import { makeVar, useReactiveVar } from '@apollo/client'
+import { useReactiveVar } from '@apollo/client'
 import { Signin_UserMutation, useRevokeTokenMutation, useSignin_UserMutation, useTokenAuthMutation, useVerifyTokenMutation } from '@graphql/codegen'
 import { client } from '../pages/_app'
+import { signInVar, userStateVar } from '@state/atom'
+
+export type AuthProps = {
+    state: Signin_UserMutation | null;
+    isSignIn: boolean;
+    signIn: (username: string, password: string) => Promise<boolean>;
+    signOut: () => Promise<void>;
+    verify: () => Promise<void>;
+}
 
 const useAuth = () => {
-    const userStateVar = makeVar<Signin_UserMutation | null>({})
     const state = useReactiveVar(userStateVar)
-    const signInVar = makeVar<boolean>(false)
     const isSignIn = useReactiveVar(signInVar)
     const [userSignIn] = useSignin_UserMutation({ client })
     const [tokenAuth] = useTokenAuthMutation({ client })
@@ -24,8 +31,10 @@ const useAuth = () => {
             const response = await tokenAuth({ variables: { username, password } })
             if (response.data?.tokenAuth?.token) {
                 localStorage.setItem("token", response.data?.tokenAuth?.token)
+                localStorage.setItem("refreshToken", response.data?.tokenAuth?.refreshToken)
             }
             userStateVar(signInResponse.data)
+            signInVar(true)
             return true
         } catch (e) {
             console.log(e)
@@ -35,25 +44,32 @@ const useAuth = () => {
     }
 
     const signOut = async () => {
-        await revokeToken()
+        const refreshToken = localStorage.getItem("refreshToken")
+        if (refreshToken) {
+            await revokeToken({ variables: { refreshToken } })
+            localStorage.removeItem("refreshToken")
+        }
         localStorage.removeItem("token")
         signInVar(false)
     }
 
     const verify = async () => {
         console.log("verify")
-        const token=localStorage.getItem("token")
-        if (!token){
+        const token = localStorage.getItem("token")
+        if (!token) {
+            console.log("no token, you can't signin")
             signInVar(false)
-            return 
+            return
         }
         try {
             const response = await tokenVerify({ variables: { token } })
             if (response.data?.verifyToken?.success) {
                 console.log(response.data.verifyToken.payload)
                 signInVar(true)
+                console.log("signin success!!")
             }
         } catch (e) {
+            console.log("verify error")
             console.log(e)
         }
     }

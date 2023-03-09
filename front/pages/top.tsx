@@ -1,14 +1,13 @@
 import * as React from "react"
 import { NextPageWithLayout } from "./_app"
-import Layout from "../layout/Layout"
 import Card from "../components/Card"
 import { useGet_All_Game_MastQuery } from "../graphql/codegen"
 import useAuth from "@hooks/useAuth"
 
-const Top: NextPageWithLayout = () => {
-    const auth=useAuth()
-    const { loading, data, refetch } = useGet_All_Game_MastQuery()
 
+const Top: NextPageWithLayout = () => {
+    const { loading, data, refetch } = useGet_All_Game_MastQuery()
+    const auth = useAuth()
     React.useEffect(() => { refetch() }, [])
     if (loading) return <div>loading</div>
     return (
@@ -29,7 +28,6 @@ const Top: NextPageWithLayout = () => {
         </div>)
 }
 
-Top.getLayout = (page) => <Layout>{page}</Layout>
 Top.getAccessControl = (user) => {
     return null
 }

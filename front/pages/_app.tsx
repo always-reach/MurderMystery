@@ -1,13 +1,15 @@
 import '../styles/globals.css'
 import * as React from 'react'
 import { NextPage } from 'next'
-import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink} from '@apollo/client'
+import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client'
 
 import type { AppProps } from 'next/app'
 import { accessControl, GetAccessControl, useAccessControl } from '../access_control/AccessControl'
+import AuthProvider from '@state/state'
+import Header from '@components/Header'
 
-const link=createHttpLink({
-  uri:"http://localhost:8000/graphql",
+const link = createHttpLink({
+  uri: "http://localhost:8000/graphql",
   credentials: "include",
 })
 const cache = new InMemoryCache()
@@ -17,7 +19,6 @@ export const client = new ApolloClient({
 })
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
-  getLayout?: (page: React.ReactElement) => React.ReactNode
   getAccessControl?: GetAccessControl
 }
 
@@ -28,15 +29,14 @@ type AppPropsWithLayout = AppProps & {
 
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  const getlayout = Component.getLayout ?? ((page) => page)
   const { getAccessControl = accessControl } = Component
   useAccessControl(getAccessControl)
   return (
-    getlayout(
-      <ApolloProvider client={client}>
+    <ApolloProvider client={client}>
+        <Header />
         <Component {...pageProps} />
-      </ApolloProvider>
-    )
+    </ApolloProvider>
+
   )
 }
 
