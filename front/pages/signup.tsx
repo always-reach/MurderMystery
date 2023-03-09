@@ -11,7 +11,6 @@ import Divider from "../components/Divider"
 import EmailForm from "../components/inputForm/EmailForm"
 import PasswordForm from "../components/inputForm/PasswordForm"
 import TextForm from "../components/inputForm/TextForm"
-import Layout from "../layout/Layout"
 import { NextPageWithLayout } from "./_app"
 
 import EmailDuplicateValidation from '../validation/EmailValidation'
@@ -73,9 +72,8 @@ const SignUp: NextPageWithLayout = () => {
     )
 }
 
-SignUp.getLayout = (page) => <Layout>{page}</Layout>
 SignUp.getAccessControl = (user) => {
-    return user.signinUser? { type: "replace", destination: "/top" } : null
+    return user? { type: "replace", destination: "/top" } : null
 }
 
 export default SignUp

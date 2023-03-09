@@ -12,7 +12,6 @@ import CheckBoxForm from "../components/inputForm/CheckBocForm"
 import PasswordForm from "../components/inputForm/PasswordForm"
 import ErrorCard from "../components/error/ErrorCard"
 
-import Layout from "../layout/Layout"
 import TextForm from "../components/inputForm/TextForm"
 import useAuth from "@hooks/useAuth"
 
@@ -40,7 +39,7 @@ const SignIn: NextPageWithLayout = () => {
             setErrorMessage("メールアドレス、またはパスワードが間違っています")
         }
     }
-
+    console.log({signin:auth})
     return (
         <div>
             <div className="h-screen w-screen flex flex-col items-center">
@@ -64,7 +63,6 @@ const SignIn: NextPageWithLayout = () => {
         </div>)
 }
 
-SignIn.getLayout = (page) => <Layout>{page}</Layout>
 SignIn.getAccessControl = (isSignIn) => {
     return isSignIn ? { type: "replace", destination: "/top" } : null
 }

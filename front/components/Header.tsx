@@ -1,15 +1,17 @@
-import useAuth from "@hooks/useAuth"
-import { useRouter } from "next/router"
+
 import * as React from "react"
+import { useRouter } from "next/router"
+import useAuth from "@hooks/useAuth"
 
 const Header = () => {
+
     const auth = useAuth()
     const router = useRouter()
     const signout = () => {
         auth.signOut()
         router.push("/signin")
     }
-    console.log({header:auth.isSignIn})
+    console.log({header:auth})
     return (
         <nav className="flex items-center justify-between flex-wrap bg-teal-500 p-6">
             <div className="flex items-center flex-shrink-0 text-white mr-6">
