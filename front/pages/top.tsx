@@ -1,13 +1,24 @@
 import * as React from "react"
 import { NextPageWithLayout } from "./_app"
 import { useGet_All_Game_MastQuery } from "../graphql/codegen"
-import CardContainer from "@components/container/CardContainer"
+import CardContainer from "@components/cards/normalCard/CardContainer"
+import useAuth from "@hooks/useAuth"
 
+type PlayedUsers={
+    __typename?: "UserType" | undefined;
+    id: string;
+}
 
 const Top: NextPageWithLayout = () => {
     const { loading, data, refetch } = useGet_All_Game_MastQuery()
+    const auth=useAuth()
     React.useEffect(() => { refetch() }, [])
     if (loading) return <div>loading</div>
+
+    const isPlayed=(users:PlayedUsers[]):boolean=>{
+        return users.some(element=>element.id===auth.state?.id)
+    }
+
     return (
         <div className="flex flex-wrap">
             {data?.allGameMasts?.map((element) =>
@@ -21,7 +32,7 @@ const Top: NextPageWithLayout = () => {
                     minPlayer={element.minPlayerCount}
                     maxPlayer={element.maxPlayerCount}
                     note={element.note ?? ""}
-                    playedUsers={element.playedUsers} />
+                    isPlayed={isPlayed(element.playedUsers)} />
             )}
         </div>)
 }

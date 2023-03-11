@@ -31,7 +31,7 @@ const CardContainer = React.memo((props: CardPresenterProps) => {
     return (
         <CardPresenter
             {...props}
-            userId={auth.state?.signinUser?.user?.id}
+            userId={auth.state?.id}
             updateGame={updateGame} />)
 })
 
