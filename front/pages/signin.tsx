@@ -5,15 +5,15 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import { NextPageWithLayout } from "./_app"
-import PrimaryButton from "../components/button/primaryButton"
-import Divider from "../components/Divider"
-import HyperLink from "../components/HyperLink"
-import CheckBoxForm from "../components/inputForm/CheckBocForm"
-import PasswordForm from "../components/inputForm/PasswordForm"
-import ErrorCard from "../components/error/ErrorCard"
+import Button from "../components/button/Button"
 
-import TextForm from "../components/inputForm/TextForm"
 import useAuth from "@hooks/useAuth"
+import ErrorCard from "@components/container/error/ErrorCard"
+import TextForm from "@components/container/inputForm/TextForm"
+import PasswordForm from "@components/container/inputForm/PasswordForm"
+import HyperLink from "@components/container/HyperLink"
+import CheckBoxForm from "@components/container/inputForm/CheckBocForm"
+import DividerContainer from "@components/container/DividerContainer"
 
 
 type SignInInput = {
@@ -39,7 +39,7 @@ const SignIn: NextPageWithLayout = () => {
             setErrorMessage("メールアドレス、またはパスワードが間違っています")
         }
     }
-    console.log({signin:auth})
+    console.log({ signin: auth })
     return (
         <div>
             <div className="h-screen w-screen flex flex-col items-center">
@@ -50,9 +50,9 @@ const SignIn: NextPageWithLayout = () => {
                             <TextForm placeholder="ユーザー名" {...register("username", { required: true })} error={"username" in errors} errorMessage={errors.username?.message} />
                             <PasswordForm {...register("password", { required: true })} error={"password" in errors} errorMessage={errors.password?.message} />
                             <CheckBoxForm id="checkbox" label="ログイン状態を保持する" />
-                            <PrimaryButton type="submit" label="ログインする" />
+                            <Button type="submit" label="ログインする" />
                         </div>
-                        <Divider />
+                        <DividerContainer />
                         <div className="flex justify-evenly">
                             <HyperLink href="/signup">新規登録の方はこちら</HyperLink>
                             <HyperLink href="/forgot">パスワードを忘れた</HyperLink>

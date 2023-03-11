@@ -6,15 +6,15 @@ import { yupResolver } from '@hookform/resolvers/yup'
 
 import { useGet_User_By_EmailLazyQuery, useGet_User_By_UsernameLazyQuery, useSignup_UserMutation } from '../graphql/codegen'
 
-import PrimaryButton from "../components/button/primaryButton"
-import Divider from "../components/Divider"
-import EmailForm from "../components/inputForm/EmailForm"
-import PasswordForm from "../components/inputForm/PasswordForm"
-import TextForm from "../components/inputForm/TextForm"
+import Button from "../components/button/Button"
 import { NextPageWithLayout } from "./_app"
 
 import EmailDuplicateValidation from '../validation/EmailValidation'
 import UsernameDuplicateValidation from '../validation/UsernameValidation'
+import DividerContainer from '@components/container/DividerContainer'
+import TextForm from '@components/container/inputForm/TextForm'
+import EmailForm from '@components/container/inputForm/EmailForm'
+import PasswordForm from '@components/container/inputForm/PasswordForm'
 
 
 
@@ -58,14 +58,14 @@ const SignUp: NextPageWithLayout = () => {
     return (
         <div>
             <p className="mt-8 ml-32 text-4xl">ユーザー登録</p>
-            <Divider />
+            <DividerContainer />
             <div className="my-12 mx-auto w-6/12">
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <TextForm placeholder="ユーザー名" {...register("username", { required: true })} error={"username" in errors} errorMessage={errors.username?.message} />
                     <EmailForm {...register("email", { required: true })} error={"email" in errors} errorMessage={errors.email?.message} />
                     <PasswordForm {...register("password", { required: true })} error={"password" in errors} errorMessage={errors.password?.message} />
                     <PasswordForm {...register("rePassword", { required: true })} error={"rePassword" in errors} errorMessage={errors.rePassword?.message} />
-                    <PrimaryButton label="登録する" />
+                    <Button label="登録する" />
                 </form>
             </div>
         </div>

@@ -5,8 +5,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@ap
 
 import type { AppProps } from 'next/app'
 import { accessControl, GetAccessControl, useAccessControl } from '../access_control/AccessControl'
-import AuthProvider from '@state/state'
-import Header from '@components/Header'
+import Header from '@components/container/HeaderContainer'
 
 const link = createHttpLink({
   uri: "http://localhost:8000/graphql",
