@@ -21,6 +21,8 @@
       "@hooks/*":["./hooks/*"],
       "@graphql/*":["./graphql/*"],
       "@state/*":["./state/*"],
+      "@storybook/*":["./storybook/*"],
+      "@styles/*":["./styles/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

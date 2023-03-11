@@ -1,8 +1,7 @@
 type InputProps = JSX.IntrinsicElements["button"]
-type PrimaryButtonProps = InputProps & { label: string }
+export type BaseButtonProps = InputProps & { label: string }
 
-
-const PrimaryButton: React.FC<PrimaryButtonProps> = (props) => {
+const BaseButton: React.FC<BaseButtonProps> = (props) => {
     const { label, ...otherProps } = props
     return (
         <button className="border-2 border-gray-100 bg-cyan-500 rounded-lg text-gray-100 px-16 py-2 mx-auto block mb-4"
@@ -11,4 +10,4 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = (props) => {
         </button>)
 }
 
-export default PrimaryButton
+export default BaseButton

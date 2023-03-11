@@ -1,23 +1,22 @@
+import { AuthProps } from "@hooks/useAuth"
+import { NextRouter } from "next/router"
 
-import * as React from "react"
-import { useRouter } from "next/router"
-import useAuth from "@hooks/useAuth"
-
-const Header = () => {
-
-    const auth = useAuth()
-    const router = useRouter()
+type HeaderProps={
+    isSignin:boolean
+    signout:()=>void
+    router:(url:string)=>void
+}
+export const HeaderPresenter:React.FC<HeaderProps>=(props)=>{
     const signout = () => {
-        auth.signOut()
-        router.push("/signin")
+        props.signout()
+        props.router("/signin")
     }
-    console.log({header:auth})
     return (
         <nav className="flex items-center justify-between flex-wrap bg-teal-500 p-6">
             <div className="flex items-center flex-shrink-0 text-white mr-6">
                 <span className="font-semibold text-xl tracking-tight">Murder Mystery</span>
             </div>
-            {auth.isSignIn &&
+            {props.isSignin &&
                 <div className="grow flex items-center w-auto">
                     <div className="text-sm grow">
                         <a href="/top" className="inline-block mt-0 text-teal-200 hover:text-white mr-4">
@@ -37,5 +36,3 @@ const Header = () => {
         </nav>
     )
 }
-
-export default Header
