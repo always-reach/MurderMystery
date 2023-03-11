@@ -4,8 +4,15 @@ import { Signin_UserMutation, useRevokeTokenMutation, useSignin_UserMutation, us
 import { client } from '../pages/_app'
 import { signInVar, userStateVar } from '@state/atom'
 
+type State = {
+    __typename?: "UserType" | undefined;
+    id: string;
+    username: string;
+    email?: string | null | undefined;
+} | null | undefined
+
 export type AuthProps = {
-    state: Signin_UserMutation | null;
+    state: State;
     isSignIn: boolean;
     signIn: (username: string, password: string) => Promise<boolean>;
     signOut: () => Promise<void>;
@@ -24,6 +31,10 @@ const useAuth = () => {
     React.useEffect(() => {
         verify()
     }, [])
+
+    const getState = (): State => {
+        return state?.signinUser?.user
+    }
 
     const signIn = async (username: string, password: string): Promise<boolean> => {
         try {
@@ -75,7 +86,7 @@ const useAuth = () => {
     }
 
 
-    return { state, isSignIn, signIn, signOut, verify }
+    return { state: getState(), isSignIn, signIn, signOut, verify }
 }
 
 export default useAuth

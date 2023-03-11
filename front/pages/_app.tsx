@@ -5,7 +5,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@ap
 
 import type { AppProps } from 'next/app'
 import { accessControl, GetAccessControl, useAccessControl } from '../access_control/AccessControl'
-import Header from '@components/container/HeaderContainer'
+import HeaderPresenter from '@components/header/HeaderContainer'
 
 const link = createHttpLink({
   uri: "http://localhost:8000/graphql",
@@ -32,7 +32,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   useAccessControl(getAccessControl)
   return (
     <ApolloProvider client={client}>
-        <Header />
+        <HeaderPresenter />
         <Component {...pageProps} />
     </ApolloProvider>
 

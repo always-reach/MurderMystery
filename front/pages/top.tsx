@@ -1,17 +1,34 @@
 import * as React from "react"
 import { NextPageWithLayout } from "./_app"
 import { useGet_All_Game_MastQuery } from "../graphql/codegen"
-import CardContainer from "@components/container/CardContainer"
+import GameCardContainer from "@components/cards/gameCard/GameCardContainer"
+import useAuth from "@hooks/useAuth"
+import MessageCard from "@components/cards/messageCard/MessageCard"
 
+type PlayedUsers = {
+    __typename?: "UserType" | undefined;
+    id: string;
+}
 
 const Top: NextPageWithLayout = () => {
     const { loading, data, refetch } = useGet_All_Game_MastQuery()
+    const auth = useAuth()
     React.useEffect(() => { refetch() }, [])
     if (loading) return <div>loading</div>
+
+    const isPlayed = (users: PlayedUsers[]): boolean => {
+        return users.some(element => element.id === auth.state?.id)
+    }
+
     return (
         <div className="flex flex-wrap">
+            {data?.allGameMasts?.length === 0 &&
+                <MessageCard
+                    className="mx-auto my-12"
+                    message="まだどのゲームでも遊んでいません" />
+            }
             {data?.allGameMasts?.map((element) =>
-                <CardContainer
+                <GameCardContainer
                     key={element.id}
                     gameId={element.id}
                     title={element.title}
@@ -21,7 +38,7 @@ const Top: NextPageWithLayout = () => {
                     minPlayer={element.minPlayerCount}
                     maxPlayer={element.maxPlayerCount}
                     note={element.note ?? ""}
-                    playedUsers={element.playedUsers} />
+                    isPlayed={isPlayed(element.playedUsers)} />
             )}
         </div>)
 }

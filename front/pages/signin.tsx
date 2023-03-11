@@ -5,15 +5,15 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import { NextPageWithLayout } from "./_app"
-import Button from "../components/button/Button"
 
 import useAuth from "@hooks/useAuth"
-import ErrorCard from "@components/container/error/ErrorCard"
-import TextForm from "@components/container/inputForm/TextForm"
-import PasswordForm from "@components/container/inputForm/PasswordForm"
-import HyperLink from "@components/container/HyperLink"
-import CheckBoxForm from "@components/container/inputForm/CheckBocForm"
-import DividerContainer from "@components/container/DividerContainer"
+import ErrorCard from "@components/cards/errorCard/ErrorCard"
+import HyperLink from "@components/hypyerLink/HyperLink"
+import Divider from "@components/divider/Divider"
+import Button from "@components/button/Button"
+import Text from "@components/inputForm/text/Text"
+import CheckBox from "@components/inputForm/checkbox/CheckBox"
+import Password from "@components/inputForm/password/Password"
 
 
 type SignInInput = {
@@ -47,12 +47,12 @@ const SignIn: NextPageWithLayout = () => {
                 <div className="bg-gray-100 border-2 border-gray-900 rounded-lg w-5/12 mt-10 mb-auto py-12">
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="mx-auto w-7/12">
-                            <TextForm placeholder="ユーザー名" {...register("username", { required: true })} error={"username" in errors} errorMessage={errors.username?.message} />
-                            <PasswordForm {...register("password", { required: true })} error={"password" in errors} errorMessage={errors.password?.message} />
-                            <CheckBoxForm id="checkbox" label="ログイン状態を保持する" />
+                            <Text placeholder="ユーザー名" {...register("username", { required: true })} error={"username" in errors} errorMessage={errors.username?.message} />
+                            <Password {...register("password", { required: true })} error={"password" in errors} errorMessage={errors.password?.message} />
+                            <CheckBox id="checkbox" label="ログイン状態を保持する" />
                             <Button type="submit" label="ログインする" />
                         </div>
-                        <DividerContainer />
+                        <Divider />
                         <div className="flex justify-evenly">
                             <HyperLink href="/signup">新規登録の方はこちら</HyperLink>
                             <HyperLink href="/forgot">パスワードを忘れた</HyperLink>
