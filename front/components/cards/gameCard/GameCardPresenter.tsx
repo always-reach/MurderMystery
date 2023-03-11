@@ -1,7 +1,6 @@
-import Button from '@components/button/Button'
-
 import * as React from 'react'
 import Image, { StaticImageData } from 'next/image';
+import BaseCard from '@components/cards/templates/BaseCard';
 
 
 export type CardProps = {
@@ -17,16 +16,10 @@ export type CardProps = {
     userId: string | undefined
     updateGame: (userId: number, gameId: number) => Promise<void>
 }
-const CardPresenter: React.FC<CardProps> = (props) => {
-
-    const onClick = async () => {
-        if (props.userId) {
-            props.updateGame(Number(props.userId), Number(props.gameId))
-        }
-    }
+const GameCardPresenter: React.FC<CardProps> = (props) => {
 
     return (
-        <div className="rounded-lg border border-gray-200 shadow-md w-5/12 mx-auto my-8 flex">
+        <BaseCard className=" border-gray-200 mx-auto my-8">
             {props.image && <Image width={248} height={248} src={props.image} />}
             <div className="flex-col">
                 <div className='text-5xl m-4'>{props.title}</div>
@@ -34,12 +27,9 @@ const CardPresenter: React.FC<CardProps> = (props) => {
                 {props.playTime && <div className='ml-8 text-xl'>プレイ時間:{props.playTime}分</div>}
                 <div className='ml-8 text-xl'>プレイ人数:{props.minPlayer}~{props.maxPlayer}人</div>
                 {props.note && <div className='ml-8 text-xl'>備考:{props.note}</div>}
-                {props.isPlayed
-                    ? <Button label='もう遊んだ' />
-                    : <Button label='遊んだことがある!' onClick={onClick} />}
             </div>
-        </div>
+        </BaseCard>
     )
 }
 
-export default CardPresenter
+export default GameCardPresenter

@@ -1,14 +1,14 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import CardPresenter from '@components/cards/normalCard/CardPresenter';
 import sampleImage from '../../../stories/assets/sampleImage.jpg'
+import GameCardPresenter from '@components/cards/gameCard/GameCardPresenter';
 
 export default {
-    title: 'Card',
-    component: CardPresenter,
-} as ComponentMeta<typeof CardPresenter>;
+    title: 'GameCard',
+    component: GameCardPresenter,
+} as ComponentMeta<typeof GameCardPresenter>;
 
-const Template: ComponentStory<typeof CardPresenter> = (args) => <CardPresenter {...args} />;
+const Template: ComponentStory<typeof GameCardPresenter> = (args) => <GameCardPresenter {...args} />;
 
 const mock = async (testUseId: number, testGameId: number) => {
     console.log({ testUseId })

@@ -1,4 +1,4 @@
-import CardPresenter from '@components/cards/normalCard/CardPresenter'
+import GameCardPresenter from '@components/cards/gameCard/GameCardPresenter'
 import { usePlayed_GameMutation } from '@graphql/codegen'
 import useAuth from '@hooks/useAuth'
 import * as React from 'react'
@@ -16,7 +16,7 @@ type CardPresenterProps = {
     isPlayed: boolean
 }
 
-const CardContainer = React.memo((props: CardPresenterProps) => {
+const GameCardContainer = React.memo((props: CardPresenterProps) => {
     const auth = useAuth()
     const [updatePlayedGame] = usePlayed_GameMutation()
 
@@ -29,10 +29,10 @@ const CardContainer = React.memo((props: CardPresenterProps) => {
         })
     }
     return (
-        <CardPresenter
+        <GameCardPresenter
             {...props}
             userId={auth.state?.id}
             updateGame={updateGame} />)
 })
 
-export default CardContainer
+export default GameCardContainer
