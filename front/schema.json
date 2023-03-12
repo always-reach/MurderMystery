@@ -388,7 +388,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "OBJECT",
-                    "name": "GameMastType",
+                    "name": "GameType",
                     "ofType": null
                   }
                 }
@@ -423,7 +423,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "OBJECT",
-                    "name": "GameMastType",
+                    "name": "GameType",
                     "ofType": null
                   }
                 }
@@ -545,7 +545,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "OBJECT",
-                      "name": "GameMastType",
+                      "name": "GameType",
                       "ofType": null
                     }
                   }
@@ -739,22 +739,6 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
-              "name": "gmLess",
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Boolean",
-                  "ofType": null
-                }
-              }
-            },
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
               "name": "playTimeMinute",
               "type": {
                 "kind": "SCALAR",
@@ -769,13 +753,9 @@
               "isDeprecated": false,
               "name": "maxPlayerCount",
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
               }
             },
             {
@@ -785,13 +765,9 @@
               "isDeprecated": false,
               "name": "minPlayerCount",
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
               }
             },
             {
@@ -823,22 +799,30 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
-              "name": "playedUsers",
+              "name": "playedAt",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "OBJECT",
-                      "name": "UserType",
-                      "ofType": null
-                    }
-                  }
+                  "kind": "SCALAR",
+                  "name": "Date",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "user",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "UserType",
+                  "ofType": null
                 }
               }
             }
@@ -846,7 +830,7 @@
           "inputFields": null,
           "interfaces": [],
           "kind": "OBJECT",
-          "name": "GameMastType",
+          "name": "GameType",
           "possibleTypes": null
         },
         {
@@ -857,6 +841,16 @@
           "interfaces": null,
           "kind": "SCALAR",
           "name": "Int",
+          "possibleTypes": null
+        },
+        {
+          "description": "The `Date` scalar type represents a Date\nvalue as specified by\n[iso8601](https://en.wikipedia.org/wiki/ISO_8601).",
+          "enumValues": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "SCALAR",
+          "name": "Date",
           "possibleTypes": null
         },
         {
@@ -1000,7 +994,7 @@
                     "name": null,
                     "ofType": {
                       "kind": "OBJECT",
-                      "name": "GameMastType",
+                      "name": "GameType",
                       "ofType": null
                     }
                   }
@@ -1914,6 +1908,113 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "PlayedGameMutation",
+                "ofType": null
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "auther",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "image",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Upload",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "maxPlayerCount",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "minPlayerCount",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "note",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "playTimeMinute",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "playedAt",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Date",
+                    "ofType": null
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "title",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  }
+                },
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "user",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "createGame",
+              "type": {
+                "kind": "OBJECT",
+                "name": "CreateGameMutation",
                 "ofType": null
               }
             },
@@ -2867,10 +2968,10 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
-              "name": "gameMast",
+              "name": "game",
               "type": {
                 "kind": "OBJECT",
-                "name": "GameMastType",
+                "name": "GameType",
                 "ofType": null
               }
             }
@@ -2890,10 +2991,43 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
-              "name": "gameMast",
+              "name": "game",
               "type": {
                 "kind": "OBJECT",
-                "name": "GameMastType",
+                "name": "GameType",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "CreateGameMutation",
+          "possibleTypes": null
+        },
+        {
+          "description": "Create scalar that ignores normal serialization/deserialization, since\nthat will be handled by the multipart request spec",
+          "enumValues": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "SCALAR",
+          "name": "Upload",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": null,
+              "isDeprecated": false,
+              "name": "game",
+              "type": {
+                "kind": "OBJECT",
+                "name": "GameType",
                 "ofType": null
               }
             }
