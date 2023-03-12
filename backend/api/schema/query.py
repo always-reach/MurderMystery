@@ -1,7 +1,7 @@
 import graphene
 from graphql import GraphQLError
 from graphene_django import DjangoObjectType
-from api.models import User, GameMast
+from api.models import User, Game
 
 
 class UserType(DjangoObjectType):
@@ -10,9 +10,9 @@ class UserType(DjangoObjectType):
         fields = "__all__"
 
 
-class GameMastType(DjangoObjectType):
+class GameType(DjangoObjectType):
     class Meta:
-        model = GameMast
+        model = Game
         fields = "__all__"
 
 
@@ -26,9 +26,9 @@ class Query(graphene.ObjectType):
                                    description="メールアドレス検索API")
     user_by_username = graphene.Field(graphene.NonNull(UserType), username=graphene.String(required=True),
                                       description="ユーザー名検索API")
-    all_game_masts = graphene.List(graphene.NonNull(GameMastType), description="マダミス作品取得API")
-    game_by_user_id = graphene.List(graphene.NonNull(GameMastType), user_id=graphene.Int(required=True),
-                                     description="履修済み作品検索API")
+    all_game_masts = graphene.List(graphene.NonNull(GameType), description="マダミス作品取得API")
+    game_by_user_id = graphene.List(graphene.NonNull(GameType), user_id=graphene.Int(required=True),
+                                    description="履修済み作品検索API")
 
     @staticmethod
     def resolve_all_users(_, __):
@@ -74,17 +74,17 @@ class Query(graphene.ObjectType):
     @staticmethod
     def resolve_all_game_masts(_, __):
         """
-        GameMast全件検索
+        Game全件検索
         Parameters
         ----------
         _ 使わない変数 root
         __ 使わない変数 info
 
-        Returns GameMast全件
+        Returns Game全件
         -------
 
         """
-        return GameMast.objects.all()
+        return Game.objects.all()
 
     @staticmethod
     def resolve_game_by_user_id(_, __, user_id):

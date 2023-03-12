@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.utils.datetime_safe import datetime
 
-from .models import User
+from .models import User, Game
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -18,3 +18,9 @@ class UserSerializer(serializers.ModelSerializer):
         instance.last_login = datetime.now()
         instance.save()
         return instance
+
+
+class GameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Game
+        fields = "__all__"

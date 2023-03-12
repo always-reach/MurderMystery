@@ -1,11 +1,11 @@
 import graphene
-import graphql_jwt
 from graphql_auth import mutations
 from graphene_django import DjangoObjectType
 from graphql import GraphQLError
 from django.utils import timezone
-from ..models import User, GameMast
+from ..models import User, Game
 from ..serializer import UserSerializer
+from api.schema.mutations.game import CreateGameMutation
 
 
 class AuthMutation(graphene.ObjectType):
@@ -35,9 +35,9 @@ class UserType(DjangoObjectType):
         fields = "__all__"
 
 
-class GameMastType(DjangoObjectType):
+class GameType(DjangoObjectType):
     class Meta:
-        model = GameMast
+        model = Game
         fields = "__all__"
 
 
@@ -83,7 +83,7 @@ class SignUpUserMutation(graphene.Mutation):
 
 
 class PlayedGameMutation(graphene.Mutation):
-    game_mast = graphene.Field(GameMastType)
+    gam = graphene.Field(GameType)
 
     class Arguments:
         game_id = graphene.Int(required=True)
@@ -92,18 +92,18 @@ class PlayedGameMutation(graphene.Mutation):
     @staticmethod
     def mutate(_, __, game_id, user_id):
         try:
-            game_mast_object = GameMast.objects.get(id=game_id)
+            game_object = Game.objects.get(id=game_id)
             user_object = User.objects.get(id=user_id)
-        except GameMast.DoesNotExist:
-            return GraphQLError("GameMast does not exist")
+        except Game.DoesNotExist:
+            return GraphQLError("Game does not exist")
         except User.DoesNotExist:
             return GraphQLError("User does not exist")
-        game_mast_object.played_users.add(user_object)
-        return PlayedGameMutation(game_mast=game_mast_object)
+        game_object.played_users.add(user_object)
+        return PlayedGameMutation(game=game_object)
 
 
 class RemovePlayedGameMutation(graphene.Mutation):
-    game_mast = graphene.Field(GameMastType)
+    game_mast = graphene.Field(GameType)
 
     class Arguments:
         game_id = graphene.Int(required=True)
@@ -112,19 +112,20 @@ class RemovePlayedGameMutation(graphene.Mutation):
     @staticmethod
     def mutate(_, __, game_id, user_id):
         try:
-            game_mast_object = GameMast.objects.get(id=game_id)
+            game_object = Game.objects.get(id=game_id)
             user_object = User.objects.get(id=user_id)
-        except GameMast.DoesNotExist:
-            return GraphQLError("GameMast does not exist")
+        except Game.DoesNotExist:
+            return GraphQLError("Game does not exist")
         except User.DoesNotExist:
             return GraphQLError("User does not exist")
 
-        game_mast_object.played_users.remove(user_object)
-        return RemovePlayedGameMutation(game_mast=game_mast_object)
+        game_object.played_users.remove(user_object)
+        return RemovePlayedGameMutation(game_mast=game_object)
 
 
 class Mutation(AuthMutation, graphene.ObjectType):
     signin_user = SignInUserMutation.Field()
     signup_user = SignUpUserMutation.Field()
     played_game = PlayedGameMutation.Field()
+    create_game = CreateGameMutation.Field()
     remove_played_game = RemovePlayedGameMutation.Field()

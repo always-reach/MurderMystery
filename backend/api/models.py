@@ -57,16 +57,17 @@ class User(AbstractBaseUser, PermissionsMixin):
         return True
 
 
-class GameMast(models.Model):
-    title = models.CharField(verbose_name="ゲームタイトル", max_length=255, null=False, blank=False)
+class Game(models.Model):
+    title = models.CharField(verbose_name="作品名", max_length=255, null=False, blank=False)
     auther = models.CharField(verbose_name="作者", max_length=255, null=True, blank=True)
-    gm_less = models.BooleanField(verbose_name="GMレス", default=True)
     play_time_minute = models.IntegerField(verbose_name="プレイ時間", null=True, blank=True)
-    max_player_count = models.IntegerField(verbose_name="最大参加人数", null=False, blank=False)
-    min_player_count = models.IntegerField(verbose_name="最小参加人数", null=False, blank=False)
+    max_player_count = models.IntegerField(verbose_name="最大参加人数", null=True, blank=False)
+    min_player_count = models.IntegerField(verbose_name="最小参加人数", null=True, blank=False)
     note = models.TextField(verbose_name="備考", null=True, blank=True)
     image = models.ImageField(verbose_name="イメージ", upload_to="images/", null=True, blank=True)
-    played_users = models.ManyToManyField(to=User, verbose_name="履修済みユーザー", related_name="played_title", blank=True)
+    played_at = models.DateField(verbose_name="プレイ日付")
+    user = models.ForeignKey(User, verbose_name="ユーザー", related_name="played_title", blank=True,
+                             on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
