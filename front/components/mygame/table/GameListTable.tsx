@@ -19,7 +19,6 @@ type TableProps = {
 
 const GameListTable: React.FC<TableProps> = (props) => {
 
-
     return (
         <div className="flex flex-col overflow-visible">
             <div className="sm:-mx-6 lg:-mx-8">

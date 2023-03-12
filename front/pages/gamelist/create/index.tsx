@@ -8,13 +8,20 @@ import TextForm from "@components/common/inputForm/text/TextForm"
 import NumberForm from "@components/common/inputForm/number/NumberForm"
 import DateForm from "@components/common/inputForm/date/DateForm"
 import FileForm from "@components/common/inputForm/file/FileForm"
+import Button from "@components/common/button/Button"
 
 const validateSchema = yup.object().shape({
     title: yup.string().required("必須入力です"),
     auther: yup.string(),
-    playTimeMinute: yup.number(),
-    maxPlayerCount: yup.number(),
-    minPlayerCount: yup.number(),
+    playTimeMinute: yup.number().nullable().transform((value, originalValue) =>
+        String(originalValue).trim() === '' ? null : value
+    ),
+    maxPlayerCount: yup.number().nullable().transform((value, originalValue) =>
+        String(originalValue).trim() === '' ? null : value
+    ),
+    minPlayerCount: yup.number().nullable().transform((value, originalValue) =>
+        String(originalValue).trim() === '' ? null : value
+    ),
     note: yup.string(),
     image: yup.string(),
     playedAt: yup.date()
@@ -43,7 +50,6 @@ const GameCreate: NextPageWithLayout = () => {
                 <TextForm
                     label="作品名"
                     placeholder="狂気山脈"
-                    required
                     {...register("title")}
                     error={"title" in errors}
                     errorMessage={errors.title?.message ?? ""} />
@@ -81,6 +87,7 @@ const GameCreate: NextPageWithLayout = () => {
                     {...register("image")}
                     error={"image" in errors}
                     errorMessage={errors.image?.message ?? ""} />
+                <Button >登録する</Button>
             </form>
 
         </div>)
