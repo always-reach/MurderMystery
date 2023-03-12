@@ -13,11 +13,13 @@ const Template: ComponentStory<typeof TextForm> = (args) => <TextForm {...args} 
 export const Default = Template.bind({});
 Default.args = {
     id: "text",
+    label:"テキスト"
 };
 
 export const Error = Template.bind({});
 Error.args = {
     id: "text",
+    label:"テキスト",
     error:true,
     errorMessage:"正しい値を入力してください"
 };

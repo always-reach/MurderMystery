@@ -13,11 +13,13 @@ const Template: ComponentStory<typeof Email> = (args) => <Email {...args} />;
 export const Default = Template.bind({});
 Default.args = {
     id: "checkbox",
+    label:"Email"
 };
 
 export const Error = Template.bind({});
 Error.args = {
     id: "checkbox",
+    label:"Email",
     error:true,
     errorMessage:"不正なメールアドレスです"
 };

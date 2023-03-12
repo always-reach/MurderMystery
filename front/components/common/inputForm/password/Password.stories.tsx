@@ -13,11 +13,13 @@ const Template: ComponentStory<typeof Password> = (args) => <Password {...args} 
 export const Default = Template.bind({});
 Default.args = {
     id: "password",
+    label:"パスワード"
 };
 
 export const Error = Template.bind({});
 Error.args = {
     id: "password",
+    label:"パスワード",
     error:true,
     errorMessage:"パスワードが一致しません"
 };
