@@ -7,13 +7,13 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { NextPageWithLayout } from "./_app"
 
 import useAuth from "@hooks/useAuth"
-import ErrorCard from "@components/cards/errorCard/ErrorCard"
-import HyperLink from "@components/hypyerLink/HyperLink"
-import Divider from "@components/divider/Divider"
+import ErrorCard from "@components/common/cards/errorCard/ErrorCard"
+import Password from "@components/common/inputForm/password/Password"
+import Text from "@components/common/inputForm/text/Text"
 import Button from "@components/common/button/Button"
-import Text from "@components/inputForm/text/Text"
-import CheckBox from "@components/inputForm/checkbox/CheckBox"
-import Password from "@components/inputForm/password/Password"
+import CheckBox from "@components/common/inputForm/checkbox/CheckBox"
+import HyperLink from "@components/common/hypyerLink/HyperLink"
+import Divider from "@components/common/divider/Divider"
 
 
 type SignInInput = {
@@ -34,7 +34,7 @@ const SignIn: NextPageWithLayout = () => {
     const onSubmit: SubmitHandler<SignInInput> = async (loginInput) => {
         const isSignIn = await auth.signIn(loginInput.username, loginInput.password)
         if (isSignIn) {
-            router.push("/top")
+            router.push("/gamelist")
         } else {
             setErrorMessage("メールアドレス、またはパスワードが間違っています")
         }
@@ -50,7 +50,7 @@ const SignIn: NextPageWithLayout = () => {
                             <Text placeholder="ユーザー名" {...register("username", { required: true })} error={"username" in errors} errorMessage={errors.username?.message} />
                             <Password {...register("password", { required: true })} error={"password" in errors} errorMessage={errors.password?.message} />
                             <CheckBox id="checkbox" label="ログイン状態を保持する" />
-                            <Button type="submit" label="ログインする" />
+                            <Button className="mx-auto" type="submit" >ログインする</Button>
                         </div>
                         <Divider />
                         <div className="flex justify-evenly">

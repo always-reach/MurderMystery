@@ -6,15 +6,16 @@ import { yupResolver } from '@hookform/resolvers/yup'
 
 import { useGet_User_By_EmailLazyQuery, useGet_User_By_UsernameLazyQuery, useSignup_UserMutation } from '../graphql/codegen'
 
-import Button from "../components/common/button/Button"
+
 import { NextPageWithLayout } from "./_app"
 
 import EmailDuplicateValidation from '../validation/EmailValidation'
 import UsernameDuplicateValidation from '../validation/UsernameValidation'
-import Text from '@components/inputForm/text/Text'
-import Email from '@components/inputForm/email/Email'
-import Password from '@components/inputForm/password/Password'
-import Divider from '@components/divider/Divider'
+import Divider from '@components/common/divider/Divider'
+import Email from '@components/common/inputForm/email/Email'
+import Password from '@components/common/inputForm/password/Password'
+import Button from '@components/common/button/Button'
+import Text from '@components/common/inputForm/text/Text'
 
 
 
@@ -65,7 +66,7 @@ const SignUp: NextPageWithLayout = () => {
                     <Email {...register("email", { required: true })} error={"email" in errors} errorMessage={errors.email?.message} />
                     <Password {...register("password", { required: true })} error={"password" in errors} errorMessage={errors.password?.message} />
                     <Password {...register("rePassword", { required: true })} error={"rePassword" in errors} errorMessage={errors.rePassword?.message} />
-                    <Button label="登録する" />
+                    <Button>登録する</Button>
                 </form>
             </div>
         </div>
@@ -73,7 +74,7 @@ const SignUp: NextPageWithLayout = () => {
 }
 
 SignUp.getAccessControl = (user) => {
-    return user? { type: "replace", destination: "/top" } : null
+    return user ? { type: "replace", destination: "/top" } : null
 }
 
 export default SignUp
