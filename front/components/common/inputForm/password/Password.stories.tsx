@@ -4,7 +4,7 @@ import Password from '@components/common/inputForm/password/Password';
 
 
 export default {
-    title: 'Password',
+    title: 'Form/Password',
     component: Password,
 } as ComponentMeta<typeof Password>;
 

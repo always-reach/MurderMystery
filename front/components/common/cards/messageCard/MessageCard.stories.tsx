@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import MessageCard from '@components/common/cards/messageCard/MessageCard';
 
 export default {
-    title: 'MessageCard',
+    title: 'Card/MessageCard',
     component: MessageCard,
 } as ComponentMeta<typeof MessageCard>;
 

@@ -9,7 +9,7 @@ import { NextPageWithLayout } from "./_app"
 import useAuth from "@hooks/useAuth"
 import ErrorCard from "@components/common/cards/errorCard/ErrorCard"
 import Password from "@components/common/inputForm/password/Password"
-import Text from "@components/common/inputForm/text/Text"
+import TextForm from "@components/common/inputForm/text/TextForm"
 import Button from "@components/common/button/Button"
 import CheckBox from "@components/common/inputForm/checkbox/CheckBox"
 import HyperLink from "@components/common/hypyerLink/HyperLink"
@@ -47,7 +47,7 @@ const SignIn: NextPageWithLayout = () => {
                 <div className="bg-gray-100 border-2 border-gray-900 rounded-lg w-5/12 mt-10 mb-auto py-12">
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="mx-auto w-7/12">
-                            <Text placeholder="ユーザー名" {...register("username", { required: true })} error={"username" in errors} errorMessage={errors.username?.message} />
+                            <TextForm placeholder="ユーザー名" {...register("username", { required: true })} error={"username" in errors} errorMessage={errors.username?.message} />
                             <Password {...register("password", { required: true })} error={"password" in errors} errorMessage={errors.password?.message} />
                             <CheckBox id="checkbox" label="ログイン状態を保持する" />
                             <Button className="mx-auto" type="submit" >ログインする</Button>

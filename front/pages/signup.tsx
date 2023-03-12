@@ -15,7 +15,7 @@ import Divider from '@components/common/divider/Divider'
 import Email from '@components/common/inputForm/email/Email'
 import Password from '@components/common/inputForm/password/Password'
 import Button from '@components/common/button/Button'
-import Text from '@components/common/inputForm/text/Text'
+import TextForm from '@components/common/inputForm/text/TextForm'
 
 
 
@@ -62,7 +62,7 @@ const SignUp: NextPageWithLayout = () => {
             <Divider />
             <div className="my-12 mx-auto w-6/12">
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <Text placeholder="ユーザー名" {...register("username", { required: true })} error={"username" in errors} errorMessage={errors.username?.message} />
+                    <TextForm placeholder="ユーザー名" {...register("username", { required: true })} error={"username" in errors} errorMessage={errors.username?.message} />
                     <Email {...register("email", { required: true })} error={"email" in errors} errorMessage={errors.email?.message} />
                     <Password {...register("password", { required: true })} error={"password" in errors} errorMessage={errors.password?.message} />
                     <Password {...register("rePassword", { required: true })} error={"rePassword" in errors} errorMessage={errors.rePassword?.message} />

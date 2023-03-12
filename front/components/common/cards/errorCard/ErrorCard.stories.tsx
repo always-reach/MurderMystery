@@ -4,7 +4,7 @@ import ErrorCard from '@components/common/cards/errorCard/ErrorCard';
 
 
 export default {
-    title: 'ErrorCard',
+    title: 'Card/ErrorCard',
     component: ErrorCard,
 } as ComponentMeta<typeof ErrorCard>;
 

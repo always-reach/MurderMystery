@@ -2,13 +2,14 @@ import { forwardRef, memo } from "react"
 import BaseInput, { BaseInputProps } from "@components/common/inputForm/templates/BaseInput"
 
 
-const DateForm = memo(forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
+const TextForm = memo(forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
 
     return (
         <BaseInput
             {...props}
-            type="date"
+            autoComplete="off"
+            type="text"
             ref={ref} />)
 }))
 
-export default DateForm
+export default TextForm

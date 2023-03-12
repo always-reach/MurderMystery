@@ -4,7 +4,7 @@ import Email from '@components/common/inputForm/email/Email';
 
 
 export default {
-    title: 'Email',
+    title: 'Form/Email',
     component: Email,
 } as ComponentMeta<typeof Email>;
 
