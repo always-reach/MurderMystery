@@ -7,9 +7,9 @@ import MessageCard from '@components/common/cards/messageCard/MessageCard';
 import Dropdown from '@components/common/dropdown/Dropdown';
 
 
-type Game = {
+export type Game = {
     title: string
-    image?: string
+    image: string | null | undefined
     date: Date | null
 }
 
@@ -44,7 +44,7 @@ const GameListTable: React.FC<TableProps> = (props) => {
                             ))}
                         </tbody>
                     </table>
-                    {!props.gameList &&
+                    {!props.gameList || props.gameList.length === 0 &&
                         <MessageCard
                             className="mx-auto my-12 w-3/5"
                             message="まだ遊んだ作品がありません" />
@@ -60,7 +60,7 @@ export default GameListTable
 
 type TableRowProps = {
     index: number
-    image?: string
+    image: string | null | undefined
     title: string
     date: Date | null
 }
