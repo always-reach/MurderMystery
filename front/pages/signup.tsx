@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 
 import { useGet_User_By_EmailLazyQuery, useGet_User_By_UsernameLazyQuery, useSignup_UserMutation } from '../graphql/codegen'
 
-import Button from "../components/button/Button"
+import Button from "../components/common/button/Button"
 import { NextPageWithLayout } from "./_app"
 
 import EmailDuplicateValidation from '../validation/EmailValidation'
