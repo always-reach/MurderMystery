@@ -34,7 +34,7 @@ const SignIn: NextPageWithLayout = () => {
     const onSubmit: SubmitHandler<SignInInput> = async (loginInput) => {
         const isSignIn = await auth.signIn(loginInput.username, loginInput.password)
         if (isSignIn) {
-            router.push("/top")
+            router.push("/gamelist")
         } else {
             setErrorMessage("メールアドレス、またはパスワードが間違っています")
         }

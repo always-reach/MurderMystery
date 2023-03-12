@@ -3,6 +3,8 @@ import { NextPageWithLayout } from "../_app"
 import useAuth from "@hooks/useAuth"
 import { useGet_All_Game_MastQuery } from "@graphql/codegen";
 import GameListTable, { Game } from "@components/mygame/table/GameListTable";
+import Button from "@components/common/button/Button";
+import router from "next/router";
 
 const GameList: NextPageWithLayout = () => {
     const { loading, data, refetch } = useGet_All_Game_MastQuery()
@@ -18,7 +20,14 @@ const GameList: NextPageWithLayout = () => {
 
     return (
         <div >
-            <GameListTable gameList={createRow()} />
+            <div className="flex">
+                <div className="ml-auto pt-10 pr-20">
+                    <Button onClick={()=>{router.push("/gamelist/create")}}>追加する</Button>
+                </div>
+            </div>
+            <div className="mx-auto w-4/5">
+                <GameListTable gameList={createRow()} />
+            </div>
         </div>)
 }
 
