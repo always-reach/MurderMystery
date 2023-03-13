@@ -9,6 +9,7 @@ import NumberForm from "@components/common/inputForm/number/NumberForm"
 import DateForm from "@components/common/inputForm/date/DateForm"
 import FileForm from "@components/common/inputForm/file/FileForm"
 import Button from "@components/common/button/Button"
+import { useCreate_GameMutation } from "@graphql/codegen"
 
 const validateSchema = yup.object().shape({
     title: yup.string().required("必須入力です"),
@@ -34,15 +35,22 @@ type GameForm = {
     maxPlayerCount: number
     minPlayerCount: number
     note: string,
-    image: File,
+    image: FileList,
     playedAt: string
 }
 
 const GameCreate: NextPageWithLayout = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<GameForm>({ mode: "onSubmit", resolver: yupResolver(validateSchema) })
+    const [createGame] = useCreate_GameMutation()
 
     const submit: SubmitHandler<GameForm> = async (gameForm) => {
-        console.log(gameForm)
+        try {
+            console.log(gameForm)
+            const response = await createGame({ variables: gameForm })
+            console.log({ response })
+        } catch (e) {
+            console.log({ e })
+        }
     }
     return (
         <div className="w-3/5 mx-auto py-4">
@@ -84,6 +92,7 @@ const GameCreate: NextPageWithLayout = () => {
                     errorMessage={errors.playedAt?.message ?? ""} />
                 <FileForm
                     label="作品イメージ"
+                    accept="image/*"
                     {...register("image")}
                     error={"image" in errors}
                     errorMessage={errors.image?.message ?? ""} />
