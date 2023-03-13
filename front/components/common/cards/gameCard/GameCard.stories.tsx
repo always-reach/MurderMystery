@@ -4,7 +4,7 @@ import sampleImage from '@assets/images/sampleImage.jpg'
 import GameCardPresenter from '@components/common/cards/gameCard/GameCardPresenter';
 
 export default {
-    title: 'GameCard',
+    title: 'Card/GameCard',
     component: GameCardPresenter,
 } as ComponentMeta<typeof GameCardPresenter>;
 

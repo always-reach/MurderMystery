@@ -6,13 +6,13 @@ export const GET_ALL_GAME_MAST = gql`
             id
             title
             auther
-            gmLess
             playTimeMinute
             maxPlayerCount
             minPlayerCount
             note
             image
-            playedUsers{
+            playedAt
+            user{
                 id
             }
         }
@@ -25,13 +25,13 @@ export const GET_GAME_MAST_BY_USER_ID = gql`
             id
             title
             auther
-            gmLess
             playTimeMinute
             maxPlayerCount
             minPlayerCount
             note
             image
-            playedUsers{
+            playedAt
+            user{
                 id
             }
         }

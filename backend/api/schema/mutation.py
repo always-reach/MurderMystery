@@ -83,7 +83,7 @@ class SignUpUserMutation(graphene.Mutation):
 
 
 class PlayedGameMutation(graphene.Mutation):
-    gam = graphene.Field(GameType)
+    game = graphene.Field(GameType)
 
     class Arguments:
         game_id = graphene.Int(required=True)
@@ -103,7 +103,7 @@ class PlayedGameMutation(graphene.Mutation):
 
 
 class RemovePlayedGameMutation(graphene.Mutation):
-    game_mast = graphene.Field(GameType)
+    game = graphene.Field(GameType)
 
     class Arguments:
         game_id = graphene.Int(required=True)
@@ -120,7 +120,7 @@ class RemovePlayedGameMutation(graphene.Mutation):
             return GraphQLError("User does not exist")
 
         game_object.played_users.remove(user_object)
-        return RemovePlayedGameMutation(game_mast=game_object)
+        return RemovePlayedGameMutation(game=game_object)
 
 
 class Mutation(AuthMutation, graphene.ObjectType):

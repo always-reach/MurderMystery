@@ -13,9 +13,11 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  Date: any;
   DateTime: any;
   ExpectedErrorType: any;
   GenericScalar: any;
+  Upload: any;
 };
 
 /**
@@ -27,6 +29,11 @@ export type ArchiveAccount = {
   __typename?: 'ArchiveAccount';
   errors?: Maybe<Scalars['ExpectedErrorType']>;
   success?: Maybe<Scalars['Boolean']>;
+};
+
+export type CreateGameMutation = {
+  __typename?: 'CreateGameMutation';
+  game?: Maybe<GameType>;
 };
 
 /**
@@ -43,18 +50,18 @@ export type DeleteAccount = {
   success?: Maybe<Scalars['Boolean']>;
 };
 
-export type GameMastType = {
-  __typename?: 'GameMastType';
+export type GameType = {
+  __typename?: 'GameType';
   auther?: Maybe<Scalars['String']>;
-  gmLess: Scalars['Boolean'];
   id: Scalars['ID'];
   image?: Maybe<Scalars['String']>;
-  maxPlayerCount: Scalars['Int'];
-  minPlayerCount: Scalars['Int'];
+  maxPlayerCount?: Maybe<Scalars['Int']>;
+  minPlayerCount?: Maybe<Scalars['Int']>;
   note?: Maybe<Scalars['String']>;
   playTimeMinute?: Maybe<Scalars['Int']>;
-  playedUsers: Array<UserType>;
+  playedAt: Scalars['Date'];
   title: Scalars['String'];
+  user: UserType;
 };
 
 export type Mutation = {
@@ -65,6 +72,7 @@ export type Mutation = {
    * User must be verified and confirm password.
    */
   archiveAccount?: Maybe<ArchiveAccount>;
+  createGame?: Maybe<CreateGameMutation>;
   /**
    * Delete account permanently or make `user.is_active=False`.
    *
@@ -210,6 +218,19 @@ export type Mutation = {
 
 export type MutationArchiveAccountArgs = {
   password: Scalars['String'];
+};
+
+
+export type MutationCreateGameArgs = {
+  auther?: InputMaybe<Scalars['String']>;
+  image?: InputMaybe<Scalars['Upload']>;
+  maxPlayerCount?: InputMaybe<Scalars['Int']>;
+  minPlayerCount?: InputMaybe<Scalars['Int']>;
+  note?: InputMaybe<Scalars['String']>;
+  playTimeMinute?: InputMaybe<Scalars['Int']>;
+  playedAt?: InputMaybe<Scalars['Date']>;
+  title: Scalars['String'];
+  user?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -404,17 +425,17 @@ export type PasswordReset = {
 
 export type PlayedGameMutation = {
   __typename?: 'PlayedGameMutation';
-  gameMast?: Maybe<GameMastType>;
+  game?: Maybe<GameType>;
 };
 
 export type Query = {
   __typename?: 'Query';
   /** マダミス作品取得API */
-  allGameMasts?: Maybe<Array<GameMastType>>;
+  allGameMasts?: Maybe<Array<GameType>>;
   /** ユーザー取得API */
   allUsers?: Maybe<Array<UserType>>;
   /** 履修済み作品検索API */
-  gameByUserId?: Maybe<Array<GameMastType>>;
+  gameByUserId?: Maybe<Array<GameType>>;
   me?: Maybe<UserNode>;
   user?: Maybe<UserNode>;
   /** メールアドレス検索API */
@@ -502,7 +523,7 @@ export type Register = {
 
 export type RemovePlayedGameMutation = {
   __typename?: 'RemovePlayedGameMutation';
-  gameMast?: Maybe<GameMastType>;
+  game?: Maybe<GameType>;
 };
 
 /**
@@ -610,7 +631,7 @@ export type UserNode = Node & {
   isStaff: Scalars['Boolean'];
   lastLogin?: Maybe<Scalars['DateTime']>;
   pk?: Maybe<Scalars['Int']>;
-  playedTitle: Array<GameMastType>;
+  playedTitle: Array<GameType>;
   secondaryEmail?: Maybe<Scalars['String']>;
   username: Scalars['String'];
   verified?: Maybe<Scalars['Boolean']>;
@@ -643,7 +664,7 @@ export type UserType = {
   isSuperuser: Scalars['Boolean'];
   lastLogin?: Maybe<Scalars['DateTime']>;
   password: Scalars['String'];
-  playedTitle: Array<GameMastType>;
+  playedTitle: Array<GameType>;
   username: Scalars['String'];
 };
 
@@ -688,13 +709,28 @@ export type VerifyToken = {
   success?: Maybe<Scalars['Boolean']>;
 };
 
+export type Create_GameMutationVariables = Exact<{
+  title: Scalars['String'];
+  auther?: InputMaybe<Scalars['String']>;
+  playTimeMinute?: InputMaybe<Scalars['Int']>;
+  maxPlayerCount?: InputMaybe<Scalars['Int']>;
+  minPlayerCount?: InputMaybe<Scalars['Int']>;
+  note?: InputMaybe<Scalars['String']>;
+  image?: InputMaybe<Scalars['Upload']>;
+  playedAt?: InputMaybe<Scalars['Date']>;
+  user?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type Create_GameMutation = { __typename?: 'Mutation', createGame?: { __typename?: 'CreateGameMutation', game?: { __typename?: 'GameType', id: string, title: string, auther?: string | null, playTimeMinute?: number | null, maxPlayerCount?: number | null, minPlayerCount?: number | null, note?: string | null, image?: string | null, playedAt: any, user: { __typename?: 'UserType', id: string } } | null } | null };
+
 export type Played_GameMutationVariables = Exact<{
   userId: Scalars['Int'];
   gameId: Scalars['Int'];
 }>;
 
 
-export type Played_GameMutation = { __typename?: 'Mutation', playedGame?: { __typename?: 'PlayedGameMutation', gameMast?: { __typename?: 'GameMastType', id: string, title: string, auther?: string | null, gmLess: boolean, playTimeMinute?: number | null, maxPlayerCount: number, minPlayerCount: number, note?: string | null, image?: string | null, playedUsers: Array<{ __typename?: 'UserType', id: string }> } | null } | null };
+export type Played_GameMutation = { __typename?: 'Mutation', playedGame?: { __typename?: 'PlayedGameMutation', game?: { __typename?: 'GameType', id: string, title: string, auther?: string | null, playTimeMinute?: number | null, maxPlayerCount?: number | null, minPlayerCount?: number | null, note?: string | null, image?: string | null, playedAt: any, user: { __typename?: 'UserType', id: string } } | null } | null };
 
 export type Remove_Played_GameMutationVariables = Exact<{
   userId: Scalars['Int'];
@@ -702,7 +738,7 @@ export type Remove_Played_GameMutationVariables = Exact<{
 }>;
 
 
-export type Remove_Played_GameMutation = { __typename?: 'Mutation', removePlayedGame?: { __typename?: 'RemovePlayedGameMutation', gameMast?: { __typename?: 'GameMastType', id: string, title: string, auther?: string | null, gmLess: boolean, playTimeMinute?: number | null, maxPlayerCount: number, minPlayerCount: number, note?: string | null, image?: string | null, playedUsers: Array<{ __typename?: 'UserType', id: string }> } | null } | null };
+export type Remove_Played_GameMutation = { __typename?: 'Mutation', removePlayedGame?: { __typename?: 'RemovePlayedGameMutation', game?: { __typename?: 'GameType', id: string, title: string, auther?: string | null, playTimeMinute?: number | null, maxPlayerCount?: number | null, minPlayerCount?: number | null, note?: string | null, image?: string | null, playedAt: any, user: { __typename?: 'UserType', id: string } } | null } | null };
 
 export type TokenAuthMutationVariables = Exact<{
   username: Scalars['String'];
@@ -753,14 +789,14 @@ export type Signup_UserMutation = { __typename?: 'Mutation', signupUser?: { __ty
 export type Get_All_Game_MastQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type Get_All_Game_MastQuery = { __typename?: 'Query', allGameMasts?: Array<{ __typename?: 'GameMastType', id: string, title: string, auther?: string | null, gmLess: boolean, playTimeMinute?: number | null, maxPlayerCount: number, minPlayerCount: number, note?: string | null, image?: string | null, playedUsers: Array<{ __typename?: 'UserType', id: string }> }> | null };
+export type Get_All_Game_MastQuery = { __typename?: 'Query', allGameMasts?: Array<{ __typename?: 'GameType', id: string, title: string, auther?: string | null, playTimeMinute?: number | null, maxPlayerCount?: number | null, minPlayerCount?: number | null, note?: string | null, image?: string | null, playedAt: any, user: { __typename?: 'UserType', id: string } }> | null };
 
 export type Get_Game_Mast_By_User_IdQueryVariables = Exact<{
   userId: Scalars['Int'];
 }>;
 
 
-export type Get_Game_Mast_By_User_IdQuery = { __typename?: 'Query', gameByUserId?: Array<{ __typename?: 'GameMastType', id: string, title: string, auther?: string | null, gmLess: boolean, playTimeMinute?: number | null, maxPlayerCount: number, minPlayerCount: number, note?: string | null, image?: string | null, playedUsers: Array<{ __typename?: 'UserType', id: string }> }> | null };
+export type Get_Game_Mast_By_User_IdQuery = { __typename?: 'Query', gameByUserId?: Array<{ __typename?: 'GameType', id: string, title: string, auther?: string | null, playTimeMinute?: number | null, maxPlayerCount?: number | null, minPlayerCount?: number | null, note?: string | null, image?: string | null, playedAt: any, user: { __typename?: 'UserType', id: string } }> | null };
 
 export type Get_All_UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -782,20 +818,84 @@ export type Get_User_By_UsernameQueryVariables = Exact<{
 export type Get_User_By_UsernameQuery = { __typename?: 'Query', userByUsername: { __typename?: 'UserType', id: string, username: string, email?: string | null } };
 
 
-export const Played_GameDocument = gql`
-    mutation PLAYED_GAME($userId: Int!, $gameId: Int!) {
-  playedGame(userId: $userId, gameId: $gameId) {
-    gameMast {
+export const Create_GameDocument = gql`
+    mutation CREATE_GAME($title: String!, $auther: String, $playTimeMinute: Int, $maxPlayerCount: Int, $minPlayerCount: Int, $note: String, $image: Upload, $playedAt: Date, $user: Int) {
+  createGame(
+    title: $title
+    auther: $auther
+    playTimeMinute: $playTimeMinute
+    maxPlayerCount: $maxPlayerCount
+    minPlayerCount: $minPlayerCount
+    note: $note
+    image: $image
+    playedAt: $playedAt
+    user: $user
+  ) {
+    game {
       id
       title
       auther
-      gmLess
       playTimeMinute
       maxPlayerCount
       minPlayerCount
       note
       image
-      playedUsers {
+      playedAt
+      user {
+        id
+      }
+    }
+  }
+}
+    `;
+export type Create_GameMutationFn = Apollo.MutationFunction<Create_GameMutation, Create_GameMutationVariables>;
+
+/**
+ * __useCreate_GameMutation__
+ *
+ * To run a mutation, you first call `useCreate_GameMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreate_GameMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createGameMutation, { data, loading, error }] = useCreate_GameMutation({
+ *   variables: {
+ *      title: // value for 'title'
+ *      auther: // value for 'auther'
+ *      playTimeMinute: // value for 'playTimeMinute'
+ *      maxPlayerCount: // value for 'maxPlayerCount'
+ *      minPlayerCount: // value for 'minPlayerCount'
+ *      note: // value for 'note'
+ *      image: // value for 'image'
+ *      playedAt: // value for 'playedAt'
+ *      user: // value for 'user'
+ *   },
+ * });
+ */
+export function useCreate_GameMutation(baseOptions?: Apollo.MutationHookOptions<Create_GameMutation, Create_GameMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<Create_GameMutation, Create_GameMutationVariables>(Create_GameDocument, options);
+      }
+export type Create_GameMutationHookResult = ReturnType<typeof useCreate_GameMutation>;
+export type Create_GameMutationResult = Apollo.MutationResult<Create_GameMutation>;
+export type Create_GameMutationOptions = Apollo.BaseMutationOptions<Create_GameMutation, Create_GameMutationVariables>;
+export const Played_GameDocument = gql`
+    mutation PLAYED_GAME($userId: Int!, $gameId: Int!) {
+  playedGame(userId: $userId, gameId: $gameId) {
+    game {
+      id
+      title
+      auther
+      playTimeMinute
+      maxPlayerCount
+      minPlayerCount
+      note
+      image
+      playedAt
+      user {
         id
       }
     }
@@ -832,17 +932,17 @@ export type Played_GameMutationOptions = Apollo.BaseMutationOptions<Played_GameM
 export const Remove_Played_GameDocument = gql`
     mutation REMOVE_PLAYED_GAME($userId: Int!, $gameId: Int!) {
   removePlayedGame(userId: $userId, gameId: $gameId) {
-    gameMast {
+    game {
       id
       title
       auther
-      gmLess
       playTimeMinute
       maxPlayerCount
       minPlayerCount
       note
       image
-      playedUsers {
+      playedAt
+      user {
         id
       }
     }
@@ -1109,13 +1209,13 @@ export const Get_All_Game_MastDocument = gql`
     id
     title
     auther
-    gmLess
     playTimeMinute
     maxPlayerCount
     minPlayerCount
     note
     image
-    playedUsers {
+    playedAt
+    user {
       id
     }
   }
@@ -1154,13 +1254,13 @@ export const Get_Game_Mast_By_User_IdDocument = gql`
     id
     title
     auther
-    gmLess
     playTimeMinute
     maxPlayerCount
     minPlayerCount
     note
     image
-    playedUsers {
+    playedAt
+    user {
       id
     }
   }
