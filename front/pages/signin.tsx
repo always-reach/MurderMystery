@@ -63,6 +63,6 @@ const SignIn: NextPageWithLayout = () => {
 }
 
 SignIn.getAccessControl = (isSignIn) => {
-    return isSignIn ? { type: "replace", destination: "/top" } : null
+    return isSignIn ? { type: "replace", destination: "/gamelist" } : null
 }
 export default SignIn

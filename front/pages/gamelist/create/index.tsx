@@ -102,7 +102,7 @@ const GameCreate: NextPageWithLayout = () => {
         </div>)
 }
 
-GameCreate.getAccessControl = (user) => {
-    return null
+GameCreate.getAccessControl = (isSignIn) => {
+    return !isSignIn ? { type: "replace", destination: "/signin" } : null
 }
 export default GameCreate

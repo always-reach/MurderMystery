@@ -31,7 +31,7 @@ const GameList: NextPageWithLayout = () => {
         </div>)
 }
 
-GameList.getAccessControl = (user) => {
-    return null
+GameList.getAccessControl = (isSignIn) => {
+    return !isSignIn ? { type: "replace", destination: "/signin" } : null
 }
 export default GameList

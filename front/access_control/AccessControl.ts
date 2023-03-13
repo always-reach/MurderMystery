@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import useAuth from '@hooks/useAuth';
 
 
-type AccessControlType = "replace" | "push"
+type AccessControlType = "replace" | "push" 
 type AccessContorolFallback = { type: AccessControlType, destination: string }
 export type GetAccessControl = (isSignIn: boolean) => null | AccessContorolFallback | Promise<null | AccessContorolFallback>
 

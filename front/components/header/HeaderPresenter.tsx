@@ -3,12 +3,12 @@ import { NextRouter } from "next/router"
 
 type HeaderProps={
     isSignin:boolean
-    signout:()=>void
+    signout:()=>Promise<void>
     router:(url:string)=>void
 }
 export const HeaderPresenter:React.FC<HeaderProps>=(props)=>{
-    const signout = () => {
-        props.signout()
+    const signout = async() => {
+        await props.signout()
         props.router("/signin")
     }
     return (
