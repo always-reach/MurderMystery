@@ -1,7 +1,9 @@
 import graphene
 from graphene_django import DjangoObjectType
 from graphene_file_upload.scalars import Upload
-from api.models import Game
+from graphql import GraphQLResolveInfo, GraphQLError
+
+from api.models import Game, User
 from api.serializer import GameSerializer
 
 
@@ -22,11 +24,20 @@ class CreateGameMutation(graphene.Mutation):
         min_player_count = graphene.Int()
         note = graphene.String()
         image = Upload()
-        played_at = graphene.Date()
+        played_at = graphene.String()
         user = graphene.Int()
 
-    def mutate(self, info, **kwargs):
-        game_object = Game(**kwargs)
-        serializer=GameSerializer(data=game_object)
+    @classmethod
+    def mutate(cls, root, info: GraphQLResolveInfo, **kwargs):
+        print("ユーザー取得開始")
+        mutate_data = kwargs
+        try:
+            user = User.objects.get(id=mutate_data.get("user"))
+        except User.DoesNotExist:
+            print("does not exist user")
+            return GraphQLError("ユーザーが存在しません")
+        mutate_data["user"]=user
+        print("mutate")
+        serializer = GameSerializer(data=mutate_data)
         serializer.is_valid(raise_exception=True)
         return CreateGameMutation(game=serializer.data)

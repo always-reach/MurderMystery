@@ -10,8 +10,8 @@ mutation CREATE_GAME(
         $minPlayerCount:Int,
         $note:String,
         $image:Upload,
-        $playedAt:Date,
-        $user:Int
+        $playedAt:String,
+        $user:Int!
         ){
     createGame(
             title:$title,

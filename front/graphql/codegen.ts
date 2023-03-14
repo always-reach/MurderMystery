@@ -228,7 +228,7 @@ export type MutationCreateGameArgs = {
   minPlayerCount?: InputMaybe<Scalars['Int']>;
   note?: InputMaybe<Scalars['String']>;
   playTimeMinute?: InputMaybe<Scalars['Int']>;
-  playedAt?: InputMaybe<Scalars['Date']>;
+  playedAt?: InputMaybe<Scalars['String']>;
   title: Scalars['String'];
   user?: InputMaybe<Scalars['Int']>;
 };
@@ -717,8 +717,8 @@ export type Create_GameMutationVariables = Exact<{
   minPlayerCount?: InputMaybe<Scalars['Int']>;
   note?: InputMaybe<Scalars['String']>;
   image?: InputMaybe<Scalars['Upload']>;
-  playedAt?: InputMaybe<Scalars['Date']>;
-  user?: InputMaybe<Scalars['Int']>;
+  playedAt?: InputMaybe<Scalars['String']>;
+  user: Scalars['Int'];
 }>;
 
 
@@ -819,7 +819,7 @@ export type Get_User_By_UsernameQuery = { __typename?: 'Query', userByUsername: 
 
 
 export const Create_GameDocument = gql`
-    mutation CREATE_GAME($title: String!, $auther: String, $playTimeMinute: Int, $maxPlayerCount: Int, $minPlayerCount: Int, $note: String, $image: Upload, $playedAt: Date, $user: Int) {
+    mutation CREATE_GAME($title: String!, $auther: String, $playTimeMinute: Int, $maxPlayerCount: Int, $minPlayerCount: Int, $note: String, $image: Upload, $playedAt: String, $user: Int!) {
   createGame(
     title: $title
     auther: $auther

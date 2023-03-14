@@ -1979,7 +1979,7 @@
                   "name": "playedAt",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "Date",
+                    "name": "String",
                     "ofType": null
                   }
                 },
