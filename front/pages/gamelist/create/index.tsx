@@ -11,7 +11,11 @@ import FileForm from "@components/common/inputForm/file/FileForm"
 import Button from "@components/common/button/Button"
 import { Create_GameMutationVariables, useCreate_GameMutation } from "@graphql/codegen"
 import useAuth from "@hooks/useAuth"
-import { dateFormat } from "@utils/dateUtil"
+import { dateFormatForGraphQL } from "@utils/dateUtil"
+
+const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
+
+const FILE_SIZE = 1000000;
 
 const validateSchema = yup.object().shape({
     title: yup.string().required("必須入力です"),
@@ -26,7 +30,18 @@ const validateSchema = yup.object().shape({
         String(originalValue).trim() === '' ? null : value
     ),
     note: yup.string(),
-    image: yup.string(),
+    image: yup.mixed()
+        .required('ファイルを選択してください。')
+        .test(
+            'fileSize',
+            'ファイルサイズが大きすぎます。1MB以下のファイルを選択してください。',
+            value => value && value[0] && value[0].size <= FILE_SIZE
+        )
+        .test(
+            'fileFormat',
+            'サポートされていないファイル形式です。jpeg、jpg、gif、pngのいずれかを選択してください。',
+            value => value && value[0] && SUPPORTED_FORMATS.includes(value[0].type)
+        ),
     playedAt: yup.date()
 })
 
@@ -46,12 +61,20 @@ const GameCreate: NextPageWithLayout = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<GameForm>({ mode: "onSubmit", resolver: yupResolver(validateSchema) })
     const [createGame] = useCreate_GameMutation()
 
+
+
     const submit: SubmitHandler<GameForm> = async (gameForm) => {
+        console.log(gameForm)
         try {
+            const thumbnailImage = gameForm["image"][0] ?? null
+            const formattedDate = dateFormatForGraphQL(gameForm["playedAt"])
+            console.log({ thumbnailImage })
+            console.log({ formattedDate })
             const response = await createGame({
                 variables: {
                     ...gameForm,
-                    playedAt: dateFormat(gameForm["playedAt"]),
+                    playedAt: formattedDate,
+                    image: thumbnailImage,
                     user: Number(auth.state?.id)
                 }
             })

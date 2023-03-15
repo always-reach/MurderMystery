@@ -30,14 +30,8 @@ class CreateGameMutation(graphene.Mutation):
     @classmethod
     def mutate(cls, root, info: GraphQLResolveInfo, **kwargs):
         print("ユーザー取得開始")
-        mutate_data = kwargs
-        try:
-            user = User.objects.get(id=mutate_data.get("user"))
-        except User.DoesNotExist:
-            print("does not exist user")
-            return GraphQLError("ユーザーが存在しません")
-        mutate_data["user"]=user
+
         print("mutate")
-        serializer = GameSerializer(data=mutate_data)
+        serializer = GameSerializer(data=kwargs)
         serializer.is_valid(raise_exception=True)
         return CreateGameMutation(game=serializer.data)
