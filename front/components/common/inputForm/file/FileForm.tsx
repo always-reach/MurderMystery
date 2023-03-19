@@ -15,5 +15,5 @@ const FileForm = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
         
     )
 })
-
+FileForm.displayName="File"
 export default FileForm

@@ -13,10 +13,16 @@ export default {
 
 const Template: ComponentStory<typeof HeaderPresenter> = (args) => <HeaderPresenter {...args} />;
 
+const mockPromise=async()=>{
+  setTimeout(() => {
+    console.log("Delayed for 1 second.");
+  }, 1000)
+}
+
 export const LoggedIn = Template.bind({});
 LoggedIn.args = {
   isSignin: true,
-  signout: () => { },
+  signout: ()=>mockPromise(),
   router: () => { }
 };
 

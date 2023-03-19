@@ -14,5 +14,5 @@ const Password = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
             ref={ref} />
     )
 })
-
+Password.displayName="Password"
 export default Password
