@@ -19,7 +19,7 @@ export const HeaderPresenter:React.FC<HeaderProps>=(props)=>{
             {props.isSignin &&
                 <div className="grow flex items-center w-auto">
                     <div className="text-sm grow">
-                        <a href="/top" className="inline-block mt-0 text-teal-200 hover:text-white mr-4">
+                        <a href="/gamelist" className="inline-block mt-0 text-teal-200 hover:text-white mr-4">
                             トップ
                         </a>
                         <a href="/setting" className="inline-block mt-0 text-teal-200 hover:text-white mr-4">

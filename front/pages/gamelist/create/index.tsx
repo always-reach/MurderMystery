@@ -9,7 +9,14 @@ import NumberForm from "@components/common/inputForm/number/NumberForm"
 import DateForm from "@components/common/inputForm/date/DateForm"
 import FileForm from "@components/common/inputForm/file/FileForm"
 import Button from "@components/common/button/Button"
-import { useCreate_GameMutation } from "@graphql/codegen"
+import useAuth from "@hooks/useAuth"
+import { CreateGameMutationInput, useCreateGameMutation } from "@graphql/codegen"
+import { isValidDate } from "@utils/dateUtil"
+import { useRouter } from "next/router"
+
+const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
+
+const FILE_SIZE = 1000000;
 
 const validateSchema = yup.object().shape({
     title: yup.string().required("必須入力です"),
@@ -24,8 +31,16 @@ const validateSchema = yup.object().shape({
         String(originalValue).trim() === '' ? null : value
     ),
     note: yup.string(),
-    image: yup.string(),
-    playedAt: yup.date()
+    playedAt: yup.string().required("必須入力です")
+        .test(
+            "isValidDate", 
+            "不正な日付です",
+             (value: string | undefined) => {
+                if(value){
+                    return (isValidDate(value))
+                }
+                return true
+            })
 })
 
 type GameForm = {
@@ -35,19 +50,30 @@ type GameForm = {
     maxPlayerCount: number
     minPlayerCount: number
     note: string,
-    image: FileList,
     playedAt: string
 }
 
 const GameCreate: NextPageWithLayout = () => {
+    const auth = useAuth()
+    const router = useRouter()
     const { register, handleSubmit, formState: { errors } } = useForm<GameForm>({ mode: "onSubmit", resolver: yupResolver(validateSchema) })
-    const [createGame] = useCreate_GameMutation()
+    const [createGame] = useCreateGameMutation()
 
     const submit: SubmitHandler<GameForm> = async (gameForm) => {
         try {
-            console.log(gameForm)
-            const response = await createGame({ variables: gameForm })
-            console.log({ response })
+            const input: CreateGameMutationInput = {
+                title: gameForm.title,
+                auther: gameForm.auther,
+                playTimeMinute: gameForm.playTimeMinute,
+                maxPlayerCount: gameForm.maxPlayerCount,
+                minPlayerCount: gameForm.minPlayerCount,
+                note: gameForm.note,
+                playedAt: gameForm.playedAt,
+                user: auth.state?.id
+            }
+            await createGame({variables: { input }})
+            router.push("/gamelist")
+
         } catch (e) {
             console.log({ e })
         }
@@ -90,12 +116,6 @@ const GameCreate: NextPageWithLayout = () => {
                     {...register("playedAt")}
                     error={"playedAt" in errors}
                     errorMessage={errors.playedAt?.message ?? ""} />
-                <FileForm
-                    label="作品イメージ"
-                    accept="image/*"
-                    {...register("image")}
-                    error={"image" in errors}
-                    errorMessage={errors.image?.message ?? ""} />
                 <Button >登録する</Button>
             </form>
 
@@ -106,3 +126,4 @@ GameCreate.getAccessControl = (isSignIn) => {
     return !isSignIn ? { type: "replace", destination: "/signin" } : null
 }
 export default GameCreate
+

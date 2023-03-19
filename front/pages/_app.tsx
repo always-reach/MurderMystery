@@ -1,13 +1,13 @@
 import '../styles/globals.css'
 import * as React from 'react'
 import { NextPage } from 'next'
-import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client'
-
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
+import { createUploadLink } from "apollo-upload-client";
 import type { AppProps } from 'next/app'
 import { accessControl, GetAccessControl, useAccessControl } from '../access_control/AccessControl'
 import HeaderPresenter from '@components/header/HeaderContainer'
 
-const link = createHttpLink({
+const link = createUploadLink({
   uri: "http://localhost:8000/graphql",
   credentials: "include",
 })
