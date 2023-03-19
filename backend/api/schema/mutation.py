@@ -5,7 +5,7 @@ from graphql import GraphQLError
 from django.utils import timezone
 from ..models import User, Game
 from ..serializer import UserSerializer
-from api.schema.mutations.game import CreateGameMutation
+from api.schema.mutations.game import CreateGameMutation,UpdateGameMutation
 
 
 class AuthMutation(graphene.ObjectType):
@@ -128,4 +128,5 @@ class Mutation(AuthMutation, graphene.ObjectType):
     signup_user = SignUpUserMutation.Field()
     played_game = PlayedGameMutation.Field()
     create_game = CreateGameMutation.Field()
+    update_game = UpdateGameMutation.Field()
     remove_played_game = RemovePlayedGameMutation.Field()

@@ -22,6 +22,28 @@ export const CREATE_GAME= gql`
   }
 `;
 
+export const UPDATE_GAME= gql`
+  mutation UpdateGame($input: UpdateGameMutationInput!) {
+    updateGame(input: $input) {
+      game {
+        id
+        title
+        auther
+        playTimeMinute
+        maxPlayerCount
+        minPlayerCount
+        note
+        image
+        playedAt
+        user {
+          id
+          username
+        }
+      }
+    }
+  }
+`;
+
 export const PLAYED_GAME = gql`
     mutation PLAYED_GAME($userId:Int!,$gameId:Int!){
         playedGame(userId:$userId,gameId:$gameId){
