@@ -1,13 +1,12 @@
-import { AuthProps } from "@hooks/useAuth"
-import { NextRouter } from "next/router"
+import Link from "next/link";
 
-type HeaderProps={
-    isSignin:boolean
-    signout:()=>Promise<void>
-    router:(url:string)=>void
+type HeaderProps = {
+    isSignin: boolean
+    signout: () => Promise<void>
+    router: (url: string) => void
 }
-export const HeaderPresenter:React.FC<HeaderProps>=(props)=>{
-    const signout = async() => {
+export const HeaderPresenter: React.FC<HeaderProps> = (props) => {
+    const signout = async () => {
         await props.signout()
         props.router("/signin")
     }
@@ -19,12 +18,16 @@ export const HeaderPresenter:React.FC<HeaderProps>=(props)=>{
             {props.isSignin &&
                 <div className="grow flex items-center w-auto">
                     <div className="text-sm grow">
-                        <a href="/gamelist" className="inline-block mt-0 text-teal-200 hover:text-white mr-4">
-                            トップ
-                        </a>
-                        <a href="/setting" className="inline-block mt-0 text-teal-200 hover:text-white mr-4">
-                            設定
-                        </a>
+                        <Link href="/gamelist" >
+                            <a className="inline-block mt-0 text-teal-200 hover:text-white mr-4">
+                                トップ
+                            </a>
+                        </Link>
+                        {/**<Link href="/setting">
+                            <a className="inline-block mt-0 text-teal-200 hover:text-white mr-4">
+                                設定
+                            </a>
+            </Link>*/}
                     </div>
 
                     <div>

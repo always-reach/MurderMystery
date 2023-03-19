@@ -14,5 +14,5 @@ const Email = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
             ref={ref} />
     )
 })
-
+Email.displayName="Email"
 export default Email
