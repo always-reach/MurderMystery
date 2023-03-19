@@ -9,7 +9,6 @@ import { createImageURL } from "@utils/strUtils";
 
 const GameList: NextPageWithLayout = () => {
     const { loading, data, refetch } = useGet_All_Game_MastQuery()
-    const auth = useAuth()
     React.useEffect(() => { refetch() }, [])
     if (loading) return <div>loading</div>
 
@@ -35,6 +34,7 @@ const GameList: NextPageWithLayout = () => {
 }
 
 GameList.getAccessControl = (isSignIn) => {
+    console.log({GameList:isSignIn})
     return !isSignIn ? { type: "replace", destination: "/signin" } : null
 }
 export default GameList

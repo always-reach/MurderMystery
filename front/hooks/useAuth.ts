@@ -80,6 +80,8 @@ const useAuth = () => {
                 console.log("signin success!!")
             }
         } catch (e) {
+            localStorage.removeItem("token")
+            localStorage.removeItem("refreshToken")
             console.log("verify error")
             console.log(e)
         }

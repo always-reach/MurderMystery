@@ -14,9 +14,9 @@ const Template: ComponentStory<typeof GameListTable> = (args) => <GameListTable 
 export const Default = Template.bind({});
 Default.args = {
     gameList: [
-        { title: "荒廃のマリス", image: sampleImage.src, date: new Date() },
-        { title: "星空のマリス", image: testImage.src, date: new Date() },
-        { title: "九頭竜館の殺人", image: testImage.src, date: new Date() }
+        { title: "荒廃のマリス", image: sampleImage.src, date: "2022-12-1" },
+        { title: "星空のマリス", image: testImage.src, date: "2022-12-2" },
+        { title: "九頭竜館の殺人", image: testImage.src, date: "2022-12-3" }
     ]
 };
 
