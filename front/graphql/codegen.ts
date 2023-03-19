@@ -445,6 +445,7 @@ export type Query = {
   /** ユーザー取得API */
   allUsers?: Maybe<Array<UserType>>;
   gameById?: Maybe<GameType>;
+  gameByUser?: Maybe<Array<Maybe<GameType>>>;
   /** 履修済み作品検索API */
   gameByUserId?: Maybe<Array<GameType>>;
   me?: Maybe<UserNode>;
@@ -459,6 +460,11 @@ export type Query = {
 
 export type QueryGameByIdArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryGameByUserArgs = {
+  user: Scalars['Int'];
 };
 
 
@@ -815,6 +821,13 @@ export type Get_All_Game_MastQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type Get_All_Game_MastQuery = { __typename?: 'Query', allGameMasts?: Array<{ __typename?: 'GameType', id: string, title: string, auther?: string | null, playTimeMinute?: number | null, maxPlayerCount?: number | null, minPlayerCount?: number | null, note?: string | null, image?: string | null, playedAt: any, user: { __typename?: 'UserType', id: string } }> | null };
+
+export type Get_Game_Mast_By_UserQueryVariables = Exact<{
+  User: Scalars['Int'];
+}>;
+
+
+export type Get_Game_Mast_By_UserQuery = { __typename?: 'Query', gameByUser?: Array<{ __typename?: 'GameType', id: string, title: string, auther?: string | null, playTimeMinute?: number | null, maxPlayerCount?: number | null, minPlayerCount?: number | null, note?: string | null, image?: string | null, playedAt: any, user: { __typename?: 'UserType', id: string } } | null> | null };
 
 export type Get_Game_Mast_By_IdQueryVariables = Exact<{
   Id: Scalars['Int'];
@@ -1215,6 +1228,52 @@ export function useGet_All_Game_MastLazyQuery(baseOptions?: Apollo.LazyQueryHook
 export type Get_All_Game_MastQueryHookResult = ReturnType<typeof useGet_All_Game_MastQuery>;
 export type Get_All_Game_MastLazyQueryHookResult = ReturnType<typeof useGet_All_Game_MastLazyQuery>;
 export type Get_All_Game_MastQueryResult = Apollo.QueryResult<Get_All_Game_MastQuery, Get_All_Game_MastQueryVariables>;
+export const Get_Game_Mast_By_UserDocument = gql`
+    query GET_GAME_MAST_BY_USER($User: Int!) {
+  gameByUser(user: $User) {
+    id
+    title
+    auther
+    playTimeMinute
+    maxPlayerCount
+    minPlayerCount
+    note
+    image
+    playedAt
+    user {
+      id
+    }
+  }
+}
+    `;
+
+/**
+ * __useGet_Game_Mast_By_UserQuery__
+ *
+ * To run a query within a React component, call `useGet_Game_Mast_By_UserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGet_Game_Mast_By_UserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGet_Game_Mast_By_UserQuery({
+ *   variables: {
+ *      User: // value for 'User'
+ *   },
+ * });
+ */
+export function useGet_Game_Mast_By_UserQuery(baseOptions: Apollo.QueryHookOptions<Get_Game_Mast_By_UserQuery, Get_Game_Mast_By_UserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<Get_Game_Mast_By_UserQuery, Get_Game_Mast_By_UserQueryVariables>(Get_Game_Mast_By_UserDocument, options);
+      }
+export function useGet_Game_Mast_By_UserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Get_Game_Mast_By_UserQuery, Get_Game_Mast_By_UserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<Get_Game_Mast_By_UserQuery, Get_Game_Mast_By_UserQueryVariables>(Get_Game_Mast_By_UserDocument, options);
+        }
+export type Get_Game_Mast_By_UserQueryHookResult = ReturnType<typeof useGet_Game_Mast_By_UserQuery>;
+export type Get_Game_Mast_By_UserLazyQueryHookResult = ReturnType<typeof useGet_Game_Mast_By_UserLazyQuery>;
+export type Get_Game_Mast_By_UserQueryResult = Apollo.QueryResult<Get_Game_Mast_By_UserQuery, Get_Game_Mast_By_UserQueryVariables>;
 export const Get_Game_Mast_By_IdDocument = gql`
     query GET_GAME_MAST_BY_ID($Id: Int!) {
   gameById(id: $Id) {

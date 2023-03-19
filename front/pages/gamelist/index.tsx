@@ -1,14 +1,15 @@
 import * as React from "react"
 import { NextPageWithLayout } from "../_app"
 import useAuth from "@hooks/useAuth"
-import { useGet_All_Game_MastQuery } from "@graphql/codegen";
+import { useGet_All_Game_MastQuery, useGet_Game_Mast_By_UserQuery } from "@graphql/codegen";
 import GameListTable, { Game } from "@components/mygame/table/GameListTable";
 import Button from "@components/common/button/Button";
 import router from "next/router";
 import { createImageURL } from "@utils/strUtils";
 
 const GameList: NextPageWithLayout = () => {
-    const { loading, data, refetch } = useGet_All_Game_MastQuery()
+    const auth=useAuth()
+    const { loading, data, refetch } = useGet_Game_Mast_By_UserQuery({variables:{User:Number(auth.state?.id)}})
     React.useEffect(() => { refetch() }, [])
     if (loading) return <div>loading</div>
 
@@ -16,8 +17,8 @@ const GameList: NextPageWithLayout = () => {
         console.log(data)
         
         if (!data) return null
-        if (!data.allGameMasts) return null
-        return data.allGameMasts.map(element => ({ title: element.title, image: createImageURL(element.image), date:element.playedAt }))
+        if (!data.gameByUser) return null
+        return data.gameByUser.map(element => ({ title: element!.title, image: createImageURL(element!.image), date:element!.playedAt }))
     }
 
     return (
