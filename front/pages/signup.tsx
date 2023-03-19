@@ -21,7 +21,6 @@ import TextForm from '@components/common/inputForm/text/TextForm'
 
 type SignUpInput = {
     username: string
-    email: string
     password: string
     rePassword: string
 }
@@ -45,7 +44,6 @@ const SignUp: NextPageWithLayout = () => {
         await signUpUser({
             variables: {
                 username: signUpInput.username,
-                email: signUpInput.email,
                 password: signUpInput.password
             }
         })
@@ -63,7 +61,6 @@ const SignUp: NextPageWithLayout = () => {
             <div className="my-12 mx-auto w-6/12">
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <TextForm placeholder="ユーザー名" {...register("username", { required: true })} error={"username" in errors} errorMessage={errors.username?.message??""} />
-                    <Email {...register("email", { required: true })} error={"email" in errors} errorMessage={errors.email?.message??""} />
                     <Password {...register("password", { required: true })} error={"password" in errors} errorMessage={errors.password?.message??""} />
                     <Password {...register("rePassword", { required: true })} error={"rePassword" in errors} errorMessage={errors.rePassword?.message??""} />
                     <Button>登録する</Button>

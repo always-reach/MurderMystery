@@ -1,10 +1,8 @@
 import graphene
 from graphene_django import DjangoObjectType
-from graphene_file_upload.scalars import Upload
-from graphql import GraphQLResolveInfo, GraphQLError
 from graphene_django.rest_framework.mutation import SerializerMutation
 
-from api.models import Game, User
+from api.models import Game
 from api.serializer import GameSerializer
 
 

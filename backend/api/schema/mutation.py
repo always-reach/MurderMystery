@@ -69,64 +69,23 @@ class SignUpUserMutation(graphene.Mutation):
     class Arguments:
         username = graphene.String(required=True)
         password = graphene.String(required=True)
-        email = graphene.String(required=True)
 
     @staticmethod
-    def mutate(_, __, username, password, email):
-        serializer = UserSerializer(data={"username": username, "password": password, "email": email})
+    def mutate(_, __, username, password):
+        serializer = UserSerializer(data={"username": username, "password": password })
         if serializer.is_valid():
             serializer.save()
-            user = User.objects.get(email=email, username=username)
+            user = User.objects.get(username=username)
         else:
             return GraphQLError(serializer.errors)
         return SignUpUserMutation(user=user)
 
 
-class PlayedGameMutation(graphene.Mutation):
-    game = graphene.Field(GameType)
 
-    class Arguments:
-        game_id = graphene.Int(required=True)
-        user_id = graphene.Int(required=True)
-
-    @staticmethod
-    def mutate(_, __, game_id, user_id):
-        try:
-            game_object = Game.objects.get(id=game_id)
-            user_object = User.objects.get(id=user_id)
-        except Game.DoesNotExist:
-            return GraphQLError("Game does not exist")
-        except User.DoesNotExist:
-            return GraphQLError("User does not exist")
-        game_object.played_users.add(user_object)
-        return PlayedGameMutation(game=game_object)
-
-
-class RemovePlayedGameMutation(graphene.Mutation):
-    game = graphene.Field(GameType)
-
-    class Arguments:
-        game_id = graphene.Int(required=True)
-        user_id = graphene.Int(required=True)
-
-    @staticmethod
-    def mutate(_, __, game_id, user_id):
-        try:
-            game_object = Game.objects.get(id=game_id)
-            user_object = User.objects.get(id=user_id)
-        except Game.DoesNotExist:
-            return GraphQLError("Game does not exist")
-        except User.DoesNotExist:
-            return GraphQLError("User does not exist")
-
-        game_object.played_users.remove(user_object)
-        return RemovePlayedGameMutation(game=game_object)
 
 
 class Mutation(AuthMutation, graphene.ObjectType):
     signin_user = SignInUserMutation.Field()
     signup_user = SignUpUserMutation.Field()
-    played_game = PlayedGameMutation.Field()
     create_game = CreateGameMutation.Field()
     update_game = UpdateGameMutation.Field()
-    remove_played_game = RemovePlayedGameMutation.Field()
