@@ -3,6 +3,7 @@ export const dateToString = (date: Date | null): string => {
     return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
 }
 
-export const dateFormatForGraphQL = (date: Date) => {
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+export const isValidDate = (dateString: string): boolean => {
+    const timestamp = Date.parse(dateString);
+    return !isNaN(timestamp);
 }

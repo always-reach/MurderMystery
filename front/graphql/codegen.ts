@@ -17,7 +17,6 @@ export type Scalars = {
   DateTime: any;
   ExpectedErrorType: any;
   GenericScalar: any;
-  Upload: any;
 };
 
 /**
@@ -31,9 +30,36 @@ export type ArchiveAccount = {
   success?: Maybe<Scalars['Boolean']>;
 };
 
-export type CreateGameMutation = {
-  __typename?: 'CreateGameMutation';
+export type CreateGameMutationInput = {
+  auther?: InputMaybe<Scalars['String']>;
+  clientMutationId?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Int']>;
+  image?: InputMaybe<Scalars['String']>;
+  maxPlayerCount?: InputMaybe<Scalars['Int']>;
+  minPlayerCount?: InputMaybe<Scalars['Int']>;
+  note?: InputMaybe<Scalars['String']>;
+  playTimeMinute?: InputMaybe<Scalars['Int']>;
+  playedAt: Scalars['Date'];
+  title: Scalars['String'];
+  user?: InputMaybe<Scalars['String']>;
+};
+
+export type CreateGameMutationPayload = {
+  __typename?: 'CreateGameMutationPayload';
+  auther?: Maybe<Scalars['String']>;
+  clientMutationId?: Maybe<Scalars['String']>;
+  /** May contain more than one error for same field. */
+  errors?: Maybe<Array<Maybe<ErrorType>>>;
   game?: Maybe<GameType>;
+  id?: Maybe<Scalars['Int']>;
+  image?: Maybe<Scalars['String']>;
+  maxPlayerCount?: Maybe<Scalars['Int']>;
+  minPlayerCount?: Maybe<Scalars['Int']>;
+  note?: Maybe<Scalars['String']>;
+  playTimeMinute?: Maybe<Scalars['Int']>;
+  playedAt?: Maybe<Scalars['Date']>;
+  title?: Maybe<Scalars['String']>;
+  user?: Maybe<Scalars['String']>;
 };
 
 /**
@@ -48,6 +74,12 @@ export type DeleteAccount = {
   __typename?: 'DeleteAccount';
   errors?: Maybe<Scalars['ExpectedErrorType']>;
   success?: Maybe<Scalars['Boolean']>;
+};
+
+export type ErrorType = {
+  __typename?: 'ErrorType';
+  field: Scalars['String'];
+  messages: Array<Scalars['String']>;
 };
 
 export type GameType = {
@@ -72,7 +104,7 @@ export type Mutation = {
    * User must be verified and confirm password.
    */
   archiveAccount?: Maybe<ArchiveAccount>;
-  createGame?: Maybe<CreateGameMutation>;
+  createGame?: Maybe<CreateGameMutationPayload>;
   /**
    * Delete account permanently or make `user.is_active=False`.
    *
@@ -222,15 +254,7 @@ export type MutationArchiveAccountArgs = {
 
 
 export type MutationCreateGameArgs = {
-  auther?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['Upload']>;
-  maxPlayerCount?: InputMaybe<Scalars['Int']>;
-  minPlayerCount?: InputMaybe<Scalars['Int']>;
-  note?: InputMaybe<Scalars['String']>;
-  playTimeMinute?: InputMaybe<Scalars['Int']>;
-  playedAt?: InputMaybe<Scalars['String']>;
-  title: Scalars['String'];
-  user?: InputMaybe<Scalars['Int']>;
+  input: CreateGameMutationInput;
 };
 
 
@@ -709,20 +733,12 @@ export type VerifyToken = {
   success?: Maybe<Scalars['Boolean']>;
 };
 
-export type Create_GameMutationVariables = Exact<{
-  title: Scalars['String'];
-  auther?: InputMaybe<Scalars['String']>;
-  playTimeMinute?: InputMaybe<Scalars['Int']>;
-  maxPlayerCount?: InputMaybe<Scalars['Int']>;
-  minPlayerCount?: InputMaybe<Scalars['Int']>;
-  note?: InputMaybe<Scalars['String']>;
-  image?: InputMaybe<Scalars['Upload']>;
-  playedAt?: InputMaybe<Scalars['String']>;
-  user: Scalars['Int'];
+export type CreateGameMutationVariables = Exact<{
+  input: CreateGameMutationInput;
 }>;
 
 
-export type Create_GameMutation = { __typename?: 'Mutation', createGame?: { __typename?: 'CreateGameMutation', game?: { __typename?: 'GameType', id: string, title: string, auther?: string | null, playTimeMinute?: number | null, maxPlayerCount?: number | null, minPlayerCount?: number | null, note?: string | null, image?: string | null, playedAt: any, user: { __typename?: 'UserType', id: string } } | null } | null };
+export type CreateGameMutation = { __typename?: 'Mutation', createGame?: { __typename?: 'CreateGameMutationPayload', game?: { __typename?: 'GameType', id: string, title: string, auther?: string | null, playTimeMinute?: number | null, maxPlayerCount?: number | null, minPlayerCount?: number | null, note?: string | null, image?: string | null, playedAt: any, user: { __typename?: 'UserType', id: string, username: string } } | null } | null };
 
 export type Played_GameMutationVariables = Exact<{
   userId: Scalars['Int'];
@@ -818,19 +834,9 @@ export type Get_User_By_UsernameQueryVariables = Exact<{
 export type Get_User_By_UsernameQuery = { __typename?: 'Query', userByUsername: { __typename?: 'UserType', id: string, username: string, email?: string | null } };
 
 
-export const Create_GameDocument = gql`
-    mutation CREATE_GAME($title: String!, $auther: String, $playTimeMinute: Int, $maxPlayerCount: Int, $minPlayerCount: Int, $note: String, $image: Upload, $playedAt: String, $user: Int!) {
-  createGame(
-    title: $title
-    auther: $auther
-    playTimeMinute: $playTimeMinute
-    maxPlayerCount: $maxPlayerCount
-    minPlayerCount: $minPlayerCount
-    note: $note
-    image: $image
-    playedAt: $playedAt
-    user: $user
-  ) {
+export const CreateGameDocument = gql`
+    mutation CreateGame($input: CreateGameMutationInput!) {
+  createGame(input: $input) {
     game {
       id
       title
@@ -843,45 +849,38 @@ export const Create_GameDocument = gql`
       playedAt
       user {
         id
+        username
       }
     }
   }
 }
     `;
-export type Create_GameMutationFn = Apollo.MutationFunction<Create_GameMutation, Create_GameMutationVariables>;
+export type CreateGameMutationFn = Apollo.MutationFunction<CreateGameMutation, CreateGameMutationVariables>;
 
 /**
- * __useCreate_GameMutation__
+ * __useCreateGameMutation__
  *
- * To run a mutation, you first call `useCreate_GameMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreate_GameMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreateGameMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateGameMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createGameMutation, { data, loading, error }] = useCreate_GameMutation({
+ * const [createGameMutation, { data, loading, error }] = useCreateGameMutation({
  *   variables: {
- *      title: // value for 'title'
- *      auther: // value for 'auther'
- *      playTimeMinute: // value for 'playTimeMinute'
- *      maxPlayerCount: // value for 'maxPlayerCount'
- *      minPlayerCount: // value for 'minPlayerCount'
- *      note: // value for 'note'
- *      image: // value for 'image'
- *      playedAt: // value for 'playedAt'
- *      user: // value for 'user'
+ *      input: // value for 'input'
  *   },
  * });
  */
-export function useCreate_GameMutation(baseOptions?: Apollo.MutationHookOptions<Create_GameMutation, Create_GameMutationVariables>) {
+export function useCreateGameMutation(baseOptions?: Apollo.MutationHookOptions<CreateGameMutation, CreateGameMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<Create_GameMutation, Create_GameMutationVariables>(Create_GameDocument, options);
+        return Apollo.useMutation<CreateGameMutation, CreateGameMutationVariables>(CreateGameDocument, options);
       }
-export type Create_GameMutationHookResult = ReturnType<typeof useCreate_GameMutation>;
-export type Create_GameMutationResult = Apollo.MutationResult<Create_GameMutation>;
-export type Create_GameMutationOptions = Apollo.BaseMutationOptions<Create_GameMutation, Create_GameMutationVariables>;
+export type CreateGameMutationHookResult = ReturnType<typeof useCreateGameMutation>;
+export type CreateGameMutationResult = Apollo.MutationResult<CreateGameMutation>;
+export type CreateGameMutationOptions = Apollo.BaseMutationOptions<CreateGameMutation, CreateGameMutationVariables>;
 export const Played_GameDocument = gql`
     mutation PLAYED_GAME($userId: Int!, $gameId: Int!) {
   playedGame(userId: $userId, gameId: $gameId) {

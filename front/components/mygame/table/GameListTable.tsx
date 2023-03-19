@@ -10,7 +10,7 @@ import Dropdown from '@components/common/dropdown/Dropdown';
 export type Game = {
     title: string
     image: string | null | undefined
-    date: Date | null
+    date: string | null
 }
 
 type TableProps = {
@@ -18,7 +18,6 @@ type TableProps = {
 }
 
 const GameListTable: React.FC<TableProps> = (props) => {
-
     return (
         <div className="flex flex-col overflow-visible">
             <div className="sm:-mx-6 lg:-mx-8">
@@ -27,7 +26,7 @@ const GameListTable: React.FC<TableProps> = (props) => {
                         <thead className="border-b font-medium dark:border-neutral-500">
                             <tr>
                                 <th scope="col" className="px-6 py-4"></th>
-                                <th scope="col" className="px-6 py-4"></th>
+                                {/**<th scope="col" className="px-6 py-4"></th>*/}
                                 <th scope="col" className="px-6 py-4">作品名</th>
                                 <th scope="col" className="px-6 py-4">日付</th>
                                 <th scope="col" className="px-6 py-4"></th>
@@ -36,6 +35,7 @@ const GameListTable: React.FC<TableProps> = (props) => {
                         <tbody>
                             {props.gameList && props.gameList.map((element, index) => (
                                 <TableRow
+                                    key={element.title}
                                     index={index + 1}
                                     image={element.image}
                                     title={element.title}
@@ -61,17 +61,18 @@ type TableRowProps = {
     index: number
     image: string | null | undefined
     title: string
-    date: Date | null
+    date: string | null
 }
 const TableRow: React.FC<TableRowProps> = ({ index, image, title, date }) => {
+    console.log(image)
     return (
         <tr className="border-b dark:border-neutral-500">
             <td className="whitespace-nowrap px-6 py-4 font-medium">{index}</td>
-            <td className="whitespace-nowrap px-6 py-4 font-medium">
-                {image && <Image layout='fill' src={image} alt={image} />}
-            </td>
+            {/**<td className="whitespace-nowrap px-6 py-4 font-medium">
+                {image && <Image layout='fill' src={image} alt={image} onError={(e) => console.log(e)}/>}
+    </td>*/}
             <td className="whitespace-nowrap px-6 py-4">{title}</td>
-            <td className="whitespace-nowrap px-6 py-4">{dateToString(date)}</td>
+            <td className="whitespace-nowrap px-6 py-4">{date}</td>
             <td className="whitespace-nowrap px-6 py-4"><OptionsMenuDropdown id={String(index)} /></td>
         </tr>
     )
@@ -83,8 +84,8 @@ type OptionsMenuDropdownProps = {
 const OptionsMenuDropdown: React.FC<OptionsMenuDropdownProps> = ({ id }) => {
     const ref = React.useRef(null)
     const [isVisible, setIsVisible] = React.useState<boolean>(false)
-    const menu = (url: string) => {
-        return [{ text: "詳細", url: `detail/${url}` }]
+    const menu = (id: string) => {
+        return [{ text: "詳細", url: `game/${id}` }]
     }
 
     const handleMenuClick = () => {

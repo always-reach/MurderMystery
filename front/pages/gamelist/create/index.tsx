@@ -9,9 +9,10 @@ import NumberForm from "@components/common/inputForm/number/NumberForm"
 import DateForm from "@components/common/inputForm/date/DateForm"
 import FileForm from "@components/common/inputForm/file/FileForm"
 import Button from "@components/common/button/Button"
-import { Create_GameMutationVariables, useCreate_GameMutation } from "@graphql/codegen"
 import useAuth from "@hooks/useAuth"
-import { dateFormatForGraphQL } from "@utils/dateUtil"
+import { CreateGameMutationInput, useCreateGameMutation } from "@graphql/codegen"
+import { isValidDate } from "@utils/dateUtil"
+import { useRouter } from "next/router"
 
 const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'];
 
@@ -30,19 +31,16 @@ const validateSchema = yup.object().shape({
         String(originalValue).trim() === '' ? null : value
     ),
     note: yup.string(),
-    image: yup.mixed()
-        .required('ファイルを選択してください。')
+    playedAt: yup.string().required("必須入力です")
         .test(
-            'fileSize',
-            'ファイルサイズが大きすぎます。1MB以下のファイルを選択してください。',
-            value => value && value[0] && value[0].size <= FILE_SIZE
-        )
-        .test(
-            'fileFormat',
-            'サポートされていないファイル形式です。jpeg、jpg、gif、pngのいずれかを選択してください。',
-            value => value && value[0] && SUPPORTED_FORMATS.includes(value[0].type)
-        ),
-    playedAt: yup.date()
+            "isValidDate", 
+            "不正な日付です",
+             (value: string | undefined) => {
+                if(value){
+                    return (isValidDate(value))
+                }
+                return true
+            })
 })
 
 type GameForm = {
@@ -52,33 +50,30 @@ type GameForm = {
     maxPlayerCount: number
     minPlayerCount: number
     note: string,
-    image: FileList,
-    playedAt: Date
+    playedAt: string
 }
 
 const GameCreate: NextPageWithLayout = () => {
     const auth = useAuth()
+    const router = useRouter()
     const { register, handleSubmit, formState: { errors } } = useForm<GameForm>({ mode: "onSubmit", resolver: yupResolver(validateSchema) })
-    const [createGame] = useCreate_GameMutation()
-
-
+    const [createGame] = useCreateGameMutation()
 
     const submit: SubmitHandler<GameForm> = async (gameForm) => {
-        console.log(gameForm)
         try {
-            const thumbnailImage = gameForm["image"][0] ?? null
-            const formattedDate = dateFormatForGraphQL(gameForm["playedAt"])
-            console.log({ thumbnailImage })
-            console.log({ formattedDate })
-            const response = await createGame({
-                variables: {
-                    ...gameForm,
-                    playedAt: formattedDate,
-                    image: thumbnailImage,
-                    user: Number(auth.state?.id)
-                }
-            })
-            console.log({ response })
+            const input: CreateGameMutationInput = {
+                title: gameForm.title,
+                auther: gameForm.auther,
+                playTimeMinute: gameForm.playTimeMinute,
+                maxPlayerCount: gameForm.maxPlayerCount,
+                minPlayerCount: gameForm.minPlayerCount,
+                note: gameForm.note,
+                playedAt: gameForm.playedAt,
+                user: auth.state?.id
+            }
+            await createGame({variables: { input }})
+            router.push("/gamelist")
+
         } catch (e) {
             console.log({ e })
         }
@@ -121,12 +116,6 @@ const GameCreate: NextPageWithLayout = () => {
                     {...register("playedAt")}
                     error={"playedAt" in errors}
                     errorMessage={errors.playedAt?.message ?? ""} />
-                <FileForm
-                    label="作品イメージ"
-                    accept="image/*"
-                    {...register("image")}
-                    error={"image" in errors}
-                    errorMessage={errors.image?.message ?? ""} />
                 <Button >登録する</Button>
             </form>
 
@@ -137,3 +126,4 @@ GameCreate.getAccessControl = (isSignIn) => {
     return !isSignIn ? { type: "replace", destination: "/signin" } : null
 }
 export default GameCreate
+
