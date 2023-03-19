@@ -1847,20 +1847,6 @@
                 {
                   "defaultValue": null,
                   "description": null,
-                  "name": "email",
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "String",
-                      "ofType": null
-                    }
-                  }
-                },
-                {
-                  "defaultValue": null,
-                  "description": null,
                   "name": "password",
                   "type": {
                     "kind": "NON_NULL",
@@ -1894,47 +1880,6 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "SignUpUserMutation",
-                "ofType": null
-              }
-            },
-            {
-              "args": [
-                {
-                  "defaultValue": null,
-                  "description": null,
-                  "name": "gameId",
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "Int",
-                      "ofType": null
-                    }
-                  }
-                },
-                {
-                  "defaultValue": null,
-                  "description": null,
-                  "name": "userId",
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "Int",
-                      "ofType": null
-                    }
-                  }
-                }
-              ],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "playedGame",
-              "type": {
-                "kind": "OBJECT",
-                "name": "PlayedGameMutation",
                 "ofType": null
               }
             },
@@ -1989,47 +1934,6 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "UpdateGameMutationPayload",
-                "ofType": null
-              }
-            },
-            {
-              "args": [
-                {
-                  "defaultValue": null,
-                  "description": null,
-                  "name": "gameId",
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "Int",
-                      "ofType": null
-                    }
-                  }
-                },
-                {
-                  "defaultValue": null,
-                  "description": null,
-                  "name": "userId",
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "Int",
-                      "ofType": null
-                    }
-                  }
-                }
-              ],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "removePlayedGame",
-              "type": {
-                "kind": "OBJECT",
-                "name": "RemovePlayedGameMutation",
                 "ofType": null
               }
             }
@@ -2942,29 +2846,6 @@
               "deprecationReason": null,
               "description": null,
               "isDeprecated": false,
-              "name": "game",
-              "type": {
-                "kind": "OBJECT",
-                "name": "GameType",
-                "ofType": null
-              }
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "kind": "OBJECT",
-          "name": "PlayedGameMutation",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": [
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
               "name": "id",
               "type": {
                 "kind": "SCALAR",
@@ -3605,29 +3486,6 @@
           "interfaces": null,
           "kind": "INPUT_OBJECT",
           "name": "UpdateGameMutationInput",
-          "possibleTypes": null
-        },
-        {
-          "description": null,
-          "enumValues": null,
-          "fields": [
-            {
-              "args": [],
-              "deprecationReason": null,
-              "description": null,
-              "isDeprecated": false,
-              "name": "game",
-              "type": {
-                "kind": "OBJECT",
-                "name": "GameType",
-                "ofType": null
-              }
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "kind": "OBJECT",
-          "name": "RemovePlayedGameMutation",
           "possibleTypes": null
         },
         {

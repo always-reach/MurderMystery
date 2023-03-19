@@ -7,7 +7,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import TextForm from "@components/common/inputForm/text/TextForm"
 import NumberForm from "@components/common/inputForm/number/NumberForm"
 import DateForm from "@components/common/inputForm/date/DateForm"
-import FileForm from "@components/common/inputForm/file/FileForm"
 import Button from "@components/common/button/Button"
 import useAuth from "@hooks/useAuth"
 import { CreateGameMutationInput, useCreateGameMutation } from "@graphql/codegen"

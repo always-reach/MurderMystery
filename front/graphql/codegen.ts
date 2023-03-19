@@ -130,7 +130,6 @@ export type Mutation = {
    * tokens, revoke all of them.
    */
   passwordReset?: Maybe<PasswordReset>;
-  playedGame?: Maybe<PlayedGameMutation>;
   /** Same as `grapgql_jwt` implementation, with standard output. */
   refreshToken?: Maybe<RefreshToken>;
   /**
@@ -154,7 +153,6 @@ export type Mutation = {
    * If allowed to not verified users login, return token.
    */
   register?: Maybe<Register>;
-  removePlayedGame?: Maybe<RemovePlayedGameMutation>;
   /**
    * Remove user secondary email.
    *
@@ -278,12 +276,6 @@ export type MutationPasswordResetArgs = {
 };
 
 
-export type MutationPlayedGameArgs = {
-  gameId: Scalars['Int'];
-  userId: Scalars['Int'];
-};
-
-
 export type MutationRefreshTokenArgs = {
   refreshToken?: InputMaybe<Scalars['String']>;
 };
@@ -295,12 +287,6 @@ export type MutationRegisterArgs = {
   password1: Scalars['String'];
   password2: Scalars['String'];
   username: Scalars['String'];
-};
-
-
-export type MutationRemovePlayedGameArgs = {
-  gameId: Scalars['Int'];
-  userId: Scalars['Int'];
 };
 
 
@@ -337,7 +323,6 @@ export type MutationSigninUserArgs = {
 
 
 export type MutationSignupUserArgs = {
-  email: Scalars['String'];
   password: Scalars['String'];
   username: Scalars['String'];
 };
@@ -453,11 +438,6 @@ export type PasswordReset = {
   success?: Maybe<Scalars['Boolean']>;
 };
 
-export type PlayedGameMutation = {
-  __typename?: 'PlayedGameMutation';
-  game?: Maybe<GameType>;
-};
-
 export type Query = {
   __typename?: 'Query';
   /** マダミス作品取得API */
@@ -555,11 +535,6 @@ export type Register = {
   refreshToken?: Maybe<Scalars['String']>;
   success?: Maybe<Scalars['Boolean']>;
   token?: Maybe<Scalars['String']>;
-};
-
-export type RemovePlayedGameMutation = {
-  __typename?: 'RemovePlayedGameMutation';
-  game?: Maybe<GameType>;
 };
 
 /**
@@ -791,22 +766,6 @@ export type UpdateGameMutationVariables = Exact<{
 
 export type UpdateGameMutation = { __typename?: 'Mutation', updateGame?: { __typename?: 'UpdateGameMutationPayload', game?: { __typename?: 'GameType', id: string, title: string, auther?: string | null, playTimeMinute?: number | null, maxPlayerCount?: number | null, minPlayerCount?: number | null, note?: string | null, image?: string | null, playedAt: any, user: { __typename?: 'UserType', id: string, username: string } } | null } | null };
 
-export type Played_GameMutationVariables = Exact<{
-  userId: Scalars['Int'];
-  gameId: Scalars['Int'];
-}>;
-
-
-export type Played_GameMutation = { __typename?: 'Mutation', playedGame?: { __typename?: 'PlayedGameMutation', game?: { __typename?: 'GameType', id: string, title: string, auther?: string | null, playTimeMinute?: number | null, maxPlayerCount?: number | null, minPlayerCount?: number | null, note?: string | null, image?: string | null, playedAt: any, user: { __typename?: 'UserType', id: string } } | null } | null };
-
-export type Remove_Played_GameMutationVariables = Exact<{
-  userId: Scalars['Int'];
-  gameId: Scalars['Int'];
-}>;
-
-
-export type Remove_Played_GameMutation = { __typename?: 'Mutation', removePlayedGame?: { __typename?: 'RemovePlayedGameMutation', game?: { __typename?: 'GameType', id: string, title: string, auther?: string | null, playTimeMinute?: number | null, maxPlayerCount?: number | null, minPlayerCount?: number | null, note?: string | null, image?: string | null, playedAt: any, user: { __typename?: 'UserType', id: string } } | null } | null };
-
 export type TokenAuthMutationVariables = Exact<{
   username: Scalars['String'];
   password: Scalars['String'];
@@ -846,7 +805,6 @@ export type Signin_UserMutation = { __typename?: 'Mutation', signinUser?: { __ty
 
 export type Signup_UserMutationVariables = Exact<{
   username: Scalars['String'];
-  email: Scalars['String'];
   password: Scalars['String'];
 }>;
 
@@ -986,100 +944,6 @@ export function useUpdateGameMutation(baseOptions?: Apollo.MutationHookOptions<U
 export type UpdateGameMutationHookResult = ReturnType<typeof useUpdateGameMutation>;
 export type UpdateGameMutationResult = Apollo.MutationResult<UpdateGameMutation>;
 export type UpdateGameMutationOptions = Apollo.BaseMutationOptions<UpdateGameMutation, UpdateGameMutationVariables>;
-export const Played_GameDocument = gql`
-    mutation PLAYED_GAME($userId: Int!, $gameId: Int!) {
-  playedGame(userId: $userId, gameId: $gameId) {
-    game {
-      id
-      title
-      auther
-      playTimeMinute
-      maxPlayerCount
-      minPlayerCount
-      note
-      image
-      playedAt
-      user {
-        id
-      }
-    }
-  }
-}
-    `;
-export type Played_GameMutationFn = Apollo.MutationFunction<Played_GameMutation, Played_GameMutationVariables>;
-
-/**
- * __usePlayed_GameMutation__
- *
- * To run a mutation, you first call `usePlayed_GameMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `usePlayed_GameMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [playedGameMutation, { data, loading, error }] = usePlayed_GameMutation({
- *   variables: {
- *      userId: // value for 'userId'
- *      gameId: // value for 'gameId'
- *   },
- * });
- */
-export function usePlayed_GameMutation(baseOptions?: Apollo.MutationHookOptions<Played_GameMutation, Played_GameMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<Played_GameMutation, Played_GameMutationVariables>(Played_GameDocument, options);
-      }
-export type Played_GameMutationHookResult = ReturnType<typeof usePlayed_GameMutation>;
-export type Played_GameMutationResult = Apollo.MutationResult<Played_GameMutation>;
-export type Played_GameMutationOptions = Apollo.BaseMutationOptions<Played_GameMutation, Played_GameMutationVariables>;
-export const Remove_Played_GameDocument = gql`
-    mutation REMOVE_PLAYED_GAME($userId: Int!, $gameId: Int!) {
-  removePlayedGame(userId: $userId, gameId: $gameId) {
-    game {
-      id
-      title
-      auther
-      playTimeMinute
-      maxPlayerCount
-      minPlayerCount
-      note
-      image
-      playedAt
-      user {
-        id
-      }
-    }
-  }
-}
-    `;
-export type Remove_Played_GameMutationFn = Apollo.MutationFunction<Remove_Played_GameMutation, Remove_Played_GameMutationVariables>;
-
-/**
- * __useRemove_Played_GameMutation__
- *
- * To run a mutation, you first call `useRemove_Played_GameMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useRemove_Played_GameMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [removePlayedGameMutation, { data, loading, error }] = useRemove_Played_GameMutation({
- *   variables: {
- *      userId: // value for 'userId'
- *      gameId: // value for 'gameId'
- *   },
- * });
- */
-export function useRemove_Played_GameMutation(baseOptions?: Apollo.MutationHookOptions<Remove_Played_GameMutation, Remove_Played_GameMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<Remove_Played_GameMutation, Remove_Played_GameMutationVariables>(Remove_Played_GameDocument, options);
-      }
-export type Remove_Played_GameMutationHookResult = ReturnType<typeof useRemove_Played_GameMutation>;
-export type Remove_Played_GameMutationResult = Apollo.MutationResult<Remove_Played_GameMutation>;
-export type Remove_Played_GameMutationOptions = Apollo.BaseMutationOptions<Remove_Played_GameMutation, Remove_Played_GameMutationVariables>;
 export const TokenAuthDocument = gql`
     mutation TokenAuth($username: String!, $password: String!) {
   tokenAuth(username: $username, password: $password) {
@@ -1269,8 +1133,8 @@ export type Signin_UserMutationHookResult = ReturnType<typeof useSignin_UserMuta
 export type Signin_UserMutationResult = Apollo.MutationResult<Signin_UserMutation>;
 export type Signin_UserMutationOptions = Apollo.BaseMutationOptions<Signin_UserMutation, Signin_UserMutationVariables>;
 export const Signup_UserDocument = gql`
-    mutation SIGNUP_USER($username: String!, $email: String!, $password: String!) {
-  signupUser(username: $username, email: $email, password: $password) {
+    mutation SIGNUP_USER($username: String!, $password: String!) {
+  signupUser(username: $username, password: $password) {
     user {
       id
       username
@@ -1295,7 +1159,6 @@ export type Signup_UserMutationFn = Apollo.MutationFunction<Signup_UserMutation,
  * const [signupUserMutation, { data, loading, error }] = useSignup_UserMutation({
  *   variables: {
  *      username: // value for 'username'
- *      email: // value for 'email'
  *      password: // value for 'password'
  *   },
  * });
