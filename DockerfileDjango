@@ -4,3 +4,4 @@ RUN apk --no-cache add build-base
 RUN apk --no-cache add postgresql-dev
 COPY requirements.txt ./
 RUN pip install -r requirements.txt
+ADD ./backend /usr/src/app
