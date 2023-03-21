@@ -62,7 +62,7 @@ const SignIn: NextPageWithLayout = () => {
         </div>)
 }
 
-SignIn.getAccessControl = (isSignIn) => {
+SignIn.getAccessControl = (isSignIn:boolean) => {
     return isSignIn ? { type: "replace", destination: "/gamelist" } : null
 }
 export default SignIn

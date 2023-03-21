@@ -12,7 +12,6 @@ import { NextPageWithLayout } from "./_app"
 import EmailDuplicateValidation from '../validation/EmailValidation'
 import UsernameDuplicateValidation from '../validation/UsernameValidation'
 import Divider from '@components/common/divider/Divider'
-import Email from '@components/common/inputForm/email/Email'
 import Password from '@components/common/inputForm/password/Password'
 import Button from '@components/common/button/Button'
 import TextForm from '@components/common/inputForm/text/TextForm'
@@ -41,13 +40,18 @@ const SignUp: NextPageWithLayout = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<SignUpInput>({ mode: "onSubmit", reValidateMode: "onSubmit", resolver: yupResolver(validateSchema) })
 
     const onSubmit: SubmitHandler<SignUpInput> = async (signUpInput) => {
-        await signUpUser({
+        try{
+        const response=await signUpUser({
             variables: {
                 username: signUpInput.username,
                 password: signUpInput.password
             }
         })
+        console.log({response})
         router.push("/signin")
+    }catch(e){
+        console.log(e)
+    }
 
 
     }
@@ -70,7 +74,7 @@ const SignUp: NextPageWithLayout = () => {
     )
 }
 
-SignUp.getAccessControl = (isSignin) => {
+SignUp.getAccessControl = (isSignin:boolean) => {
     return isSignin ? { type: "replace", destination: "/gamelist" } : null
 }
 
