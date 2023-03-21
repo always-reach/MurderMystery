@@ -9,7 +9,6 @@ import { useGet_User_By_UsernameLazyQuery, useSignup_UserMutation } from '../gra
 
 import { NextPageWithLayout } from "./_app"
 
-import EmailDuplicateValidation from '../validation/EmailValidation'
 import UsernameDuplicateValidation from '../validation/UsernameValidation'
 import Divider from '@components/common/divider/Divider'
 import Password from '@components/common/inputForm/password/Password'
@@ -26,7 +25,7 @@ type SignUpInput = {
 
 const SignUp: NextPageWithLayout = () => {
     const [getUserByUsername] = useGet_User_By_UsernameLazyQuery()
-    const [signUpUser] = useSignup_UserMutation()
+    const [signUpUser,error] = useSignup_UserMutation()
     const router = useRouter()
 
     const validateSchema = yup.object().shape({
@@ -48,6 +47,7 @@ const SignUp: NextPageWithLayout = () => {
             console.log({ response })
             router.push("/signin")
         } catch (e) {
+            console.log({error})
             console.log(e)
         }
 
