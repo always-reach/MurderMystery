@@ -1,9 +1,9 @@
 from .base import *
 
-ALLOWED_HOSTS = ["murder-mystery-kn9r26grs-always-reach.vercel.app"]
+ALLOWED_HOSTS = ["murder-mystery-blue.vercel.app"]
 
 CORS_ORIGIN_WHITELIST = [
-    "https://murder-mystery-kn9r26grs-always-reach.vercel.app"
+    "https://murder-mystery-blue.vercel.app"
 ]
 
 DATABASES = {
