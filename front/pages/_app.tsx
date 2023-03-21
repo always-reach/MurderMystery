@@ -7,9 +7,9 @@ import type { AppProps } from 'next/app'
 import { accessControl, GetAccessControl, useAccessControl } from '../access_control/AccessControl'
 import HeaderPresenter from '@components/header/HeaderContainer'
 
-console.log({endpoint:process.env.GRAPHQL_ENDPOINT})
+console.log({endpoint:process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT})
 const link = createUploadLink({
-  uri: process.env.GRAPHQL_ENDPOINT,
+  uri: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
   credentials: "include",
 })
 const cache = new InMemoryCache()
