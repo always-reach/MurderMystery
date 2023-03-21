@@ -1,6 +1,6 @@
 from .base import *
 
-ALLOWED_HOSTS = ["murder-mystery-blue.vercel.app"]
+ALLOWED_HOSTS = ["murder-mystery-blue.vercel.app", "murder-mystery.fly.dev"]
 
 CORS_ORIGIN_WHITELIST = [
     "https://murder-mystery-blue.vercel.app"
