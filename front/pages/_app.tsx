@@ -8,7 +8,7 @@ import { accessControl, GetAccessControl, useAccessControl } from '../access_con
 import HeaderPresenter from '@components/header/HeaderContainer'
 
 const link = createUploadLink({
-  uri: "http://localhost:8000/graphql",
+  uri: process.env.GRAPHQL_ENDPOINT,
   credentials: "include",
 })
 const cache = new InMemoryCache()

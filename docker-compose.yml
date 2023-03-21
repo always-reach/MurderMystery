@@ -43,6 +43,8 @@ services:
       - ./backend:/usr/src/app:cached
     ports:
       - "8000:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=backend.settings.local
     depends_on:
       - db
 
