@@ -7,7 +7,6 @@ import type { AppProps } from 'next/app'
 import { accessControl, GetAccessControl, useAccessControl } from '../access_control/AccessControl'
 import HeaderPresenter from '@components/header/HeaderContainer'
 
-console.log({endpoint:process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT})
 const link = createUploadLink({
   uri: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
   credentials: "include",
@@ -15,7 +14,7 @@ const link = createUploadLink({
 const cache = new InMemoryCache()
 export const client = new ApolloClient({
   cache,
-  link
+  link,
 })
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
