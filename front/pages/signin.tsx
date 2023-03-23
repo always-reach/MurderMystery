@@ -54,7 +54,6 @@ const SignIn: NextPageWithLayout = () => {
                         <Divider />
                         <div className="flex justify-evenly">
                             <HyperLink href="/signup">新規登録の方はこちら</HyperLink>
-                            <HyperLink href="/forgot">パスワードを忘れた</HyperLink>
                         </div>
                     </form>
                 </div>
@@ -62,7 +61,7 @@ const SignIn: NextPageWithLayout = () => {
         </div>)
 }
 
-SignIn.getAccessControl = (isSignIn) => {
+SignIn.getAccessControl = (isSignIn:boolean) => {
     return isSignIn ? { type: "replace", destination: "/gamelist" } : null
 }
 export default SignIn
