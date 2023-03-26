@@ -75,7 +75,6 @@ const SignIn: NextPageWithLayout = () => {
                         <Divider />
                         <div className="flex justify-evenly">
                             <HyperLink href="/signup">新規登録の方はこちら</HyperLink>
-                            <HyperLink href="/forgot">パスワードを忘れた</HyperLink>
                         </div>
                     </form>
                 </div>

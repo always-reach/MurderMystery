@@ -172,6 +172,7 @@ export type Mutation = {
   resendActivationEmail?: Maybe<ResendActivationEmail>;
   /** Same as `grapgql_jwt` implementation, with standard output. */
   revokeToken?: Maybe<RevokeToken>;
+  sendMail?: Maybe<SendEmailMutation>;
   /**
    * Send password reset email.
    *
@@ -302,6 +303,13 @@ export type MutationResendActivationEmailArgs = {
 
 export type MutationRevokeTokenArgs = {
   refreshToken?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationSendMailArgs = {
+  email: Scalars['String'];
+  message: Scalars['String'];
+  name: Scalars['String'];
 };
 
 
@@ -578,6 +586,11 @@ export type RevokeToken = {
   success?: Maybe<Scalars['Boolean']>;
 };
 
+export type SendEmailMutation = {
+  __typename?: 'SendEmailMutation';
+  success?: Maybe<Scalars['Boolean']>;
+};
+
 /**
  * Send password reset email.
  *
@@ -800,6 +813,15 @@ export type RevokeTokenMutationVariables = Exact<{
 
 
 export type RevokeTokenMutation = { __typename?: 'Mutation', revokeToken?: { __typename?: 'RevokeToken', success?: boolean | null, errors?: any | null } | null };
+
+export type Send_EmailMutationVariables = Exact<{
+  email: Scalars['String'];
+  name: Scalars['String'];
+  message: Scalars['String'];
+}>;
+
+
+export type Send_EmailMutation = { __typename?: 'Mutation', sendMail?: { __typename?: 'SendEmailMutation', success?: boolean | null } | null };
 
 export type Signin_UserMutationVariables = Exact<{
   username: Scalars['String'];
@@ -1107,6 +1129,41 @@ export function useRevokeTokenMutation(baseOptions?: Apollo.MutationHookOptions<
 export type RevokeTokenMutationHookResult = ReturnType<typeof useRevokeTokenMutation>;
 export type RevokeTokenMutationResult = Apollo.MutationResult<RevokeTokenMutation>;
 export type RevokeTokenMutationOptions = Apollo.BaseMutationOptions<RevokeTokenMutation, RevokeTokenMutationVariables>;
+export const Send_EmailDocument = gql`
+    mutation SEND_EMAIL($email: String!, $name: String!, $message: String!) {
+  sendMail(email: $email, name: $name, message: $message) {
+    success
+  }
+}
+    `;
+export type Send_EmailMutationFn = Apollo.MutationFunction<Send_EmailMutation, Send_EmailMutationVariables>;
+
+/**
+ * __useSend_EmailMutation__
+ *
+ * To run a mutation, you first call `useSend_EmailMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSend_EmailMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [sendEmailMutation, { data, loading, error }] = useSend_EmailMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *      name: // value for 'name'
+ *      message: // value for 'message'
+ *   },
+ * });
+ */
+export function useSend_EmailMutation(baseOptions?: Apollo.MutationHookOptions<Send_EmailMutation, Send_EmailMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<Send_EmailMutation, Send_EmailMutationVariables>(Send_EmailDocument, options);
+      }
+export type Send_EmailMutationHookResult = ReturnType<typeof useSend_EmailMutation>;
+export type Send_EmailMutationResult = Apollo.MutationResult<Send_EmailMutation>;
+export type Send_EmailMutationOptions = Apollo.BaseMutationOptions<Send_EmailMutation, Send_EmailMutationVariables>;
 export const Signin_UserDocument = gql`
     mutation SIGNIN_USER($username: String!, $password: String!) {
   signinUser(username: $username, password: $password) {

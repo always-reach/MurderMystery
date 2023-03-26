@@ -25,7 +25,7 @@ type SignUpInput = {
 
 const SignUp: NextPageWithLayout = () => {
     const [getUserByUsername] = useGet_User_By_UsernameLazyQuery()
-    const [signUpUser,error] = useSignup_UserMutation()
+    const [signUpUser, error] = useSignup_UserMutation()
     const router = useRouter()
 
     const validateSchema = yup.object().shape({
@@ -47,14 +47,13 @@ const SignUp: NextPageWithLayout = () => {
             console.log({ response })
             router.push("/signin")
         } catch (e) {
-            console.log({error})
+            console.log({ error })
             console.log(e)
         }
 
 
     }
 
-    console.log({errors})
 
     return (
         <div>
