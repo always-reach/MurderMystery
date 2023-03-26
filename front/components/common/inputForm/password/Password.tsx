@@ -3,16 +3,16 @@ import BaseInput, { BaseInputProps } from "@components/common/inputForm/template
 
 
 const Password = forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
-
+    const { placeholder, ...others } = props
 
     return (
         <BaseInput
             type="password"
-            {...props}
+            {...others}
             autoComplete="current-password"
-            placeholder="パスワード"
+            placeholder={placeholder ?? "パスワード"}
             ref={ref} />
     )
 })
-Password.displayName="Password"
+Password.displayName = "Password"
 export default Password

@@ -27,7 +27,7 @@ class UsersManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(verbose_name="ユーザー名", unique=True, blank=False, null=False, max_length=150)
     password = models.CharField(verbose_name="パスワード", blank=False, null=False, max_length=128)
-    email = models.EmailField(verbose_name="メールアドレス", unique=True, blank=True, null=True)
+    email = models.EmailField(verbose_name="メールアドレス", unique=True)
     is_active = models.BooleanField(verbose_name="ログイン可不可", default=True)
     is_staff = models.BooleanField(verbose_name="管理画面ログイン可不可", default=True)
 

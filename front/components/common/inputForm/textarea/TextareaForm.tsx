@@ -3,7 +3,7 @@ import ErrorMessage from "@components/common/inputForm/error/ErrorMessage"
 
 type TextareaFormProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
     error: boolean,
-    errorMessage: string,
+    errorMessage?: string,
     label?: string
 }
 
