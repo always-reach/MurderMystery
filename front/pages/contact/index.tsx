@@ -8,6 +8,7 @@ import TextareaForm from "@components/common/inputForm/textarea/TextareaForm";
 import { NextPageWithLayout } from "../_app";
 import { useSend_EmailMutation } from '@graphql/codegen';
 import Button from '@components/common/button/Button';
+import { useRouter } from 'next/router';
 
 type Contact = {
     email: string
@@ -22,10 +23,16 @@ const validateSchema = yup.object().shape({
 })
 
 const ContactForm: NextPageWithLayout = () => {
+    const router = useRouter();
     const { register, handleSubmit, formState: { errors } } = useForm<Contact>({ mode: "onSubmit", resolver: yupResolver(validateSchema) })
     const [sendMail,{loading}] = useSend_EmailMutation()
     const [isSend, setIsSend] = React.useState<boolean>(false)
     const [sendResultMessage, setSendResultMessage] = React.useState<string>("送信に成功しました")
+
+    React.useEffect(() => {
+        // /testにアクセスした場合は/signinにリダイレクトする
+        router.push('/gamelist');
+      }, []);
 
     const submit: SubmitHandler<Contact> = async (formInput) => {
 

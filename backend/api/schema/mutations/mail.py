@@ -16,8 +16,9 @@ class SendEmailMutation(graphene.Mutation):
     def mutate(_, __, name, email, message):
         try:
             mail_message = f"{name}さんからのお問合せです。{message}"
-            count = send_mail("MurderMysteryお問合せ", mail_message, email, ["bytheway811@gmail.com"],
-                              fail_silently=False)
+            #迷惑メール?のすごいくるから一旦停止
+            #send_mail("MurderMysteryお問合せ", mail_message, email, ["bytheway811@gmail.com"],
+            #                  fail_silently=False)
             return SendEmailMutation(success=True)
         except BadHeaderError | SMTPException:
             return SendEmailMutation(success=False)
