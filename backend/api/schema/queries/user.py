@@ -10,11 +10,6 @@ class UserType(DjangoObjectType):
         fields = "__all__"
 
 
-class GameType(DjangoObjectType):
-    class Meta:
-        model = Game
-        fields = "__all__"
-
 
 class Query(graphene.ObjectType):
     """
@@ -26,9 +21,7 @@ class Query(graphene.ObjectType):
                                    description="メールアドレス検索API")
     user_by_username = graphene.Field(graphene.NonNull(UserType), username=graphene.String(required=True),
                                       description="ユーザー名検索API")
-    all_game_masts = graphene.List(graphene.NonNull(GameType), description="マダミス作品取得API")
-    game_by_user_id = graphene.List(graphene.NonNull(GameType), user_id=graphene.Int(required=True),
-                                    description="履修済み作品検索API")
+
 
     @staticmethod
     def resolve_all_users(_, __):
@@ -70,22 +63,3 @@ class Query(graphene.ObjectType):
             return User.objects.all().get(username=username)
         except User.DoesNotExist:
             return GraphQLError("ユーザーが存在しません")
-
-    @staticmethod
-    def resolve_all_game_masts(_, __):
-        """
-        Game全件検索
-        Parameters
-        ----------
-        _ 使わない変数 root
-        __ 使わない変数 info
-
-        Returns Game全件
-        -------
-
-        """
-        return Game.objects.all()
-
-    @staticmethod
-    def resolve_game_by_user_id(_, __, user_id):
-        return User.objects.get(id=user_id).played_title.all()

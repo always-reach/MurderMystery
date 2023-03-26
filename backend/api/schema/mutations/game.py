@@ -11,10 +11,11 @@ class GameType(DjangoObjectType):
         model = Game
         fields = "__all__"
 
+
 class CreateGameMutation(SerializerMutation):
     class Meta:
         serializer_class = GameSerializer
-        model_operations = ['create','update']
+        model_operations = ['create', 'update']
         lookup_field = "id"
 
     game = graphene.Field(GameType)
@@ -23,6 +24,7 @@ class CreateGameMutation(SerializerMutation):
     def perform_mutate(cls, serializer, info):
         game = serializer.save()
         return CreateGameMutation(game=game)
+
 
 class UpdateGameMutation(SerializerMutation):
     class Meta:
@@ -36,3 +38,8 @@ class UpdateGameMutation(SerializerMutation):
     def perform_mutate(cls, serializer, info):
         game = serializer.save()
         return CreateGameMutation(game=game)
+
+
+class Mutation(graphene.ObjectType):
+    create_game = CreateGameMutation.Field()
+    update_game = UpdateGameMutation.Field()

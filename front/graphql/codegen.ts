@@ -93,7 +93,7 @@ export type GameType = {
   playTimeMinute?: Maybe<Scalars['Int']>;
   playedAt: Scalars['Date'];
   title: Scalars['String'];
-  user: UserType;
+  user: UserNode;
 };
 
 export type Mutation = {
@@ -325,12 +325,13 @@ export type MutationSendSecondaryEmailActivationArgs = {
 
 
 export type MutationSigninUserArgs = {
+  email: Scalars['String'];
   password: Scalars['String'];
-  username: Scalars['String'];
 };
 
 
 export type MutationSignupUserArgs = {
+  email: Scalars['String'];
   password: Scalars['String'];
   username: Scalars['String'];
 };
@@ -448,14 +449,10 @@ export type PasswordReset = {
 
 export type Query = {
   __typename?: 'Query';
-  /** マダミス作品取得API */
-  allGameMasts?: Maybe<Array<GameType>>;
   /** ユーザー取得API */
   allUsers?: Maybe<Array<UserType>>;
   gameById?: Maybe<GameType>;
   gameByUser?: Maybe<Array<Maybe<GameType>>>;
-  /** 履修済み作品検索API */
-  gameByUserId?: Maybe<Array<GameType>>;
   me?: Maybe<UserNode>;
   user?: Maybe<UserNode>;
   /** メールアドレス検索API */
@@ -473,11 +470,6 @@ export type QueryGameByIdArgs = {
 
 export type QueryGameByUserArgs = {
   user: Scalars['Int'];
-};
-
-
-export type QueryGameByUserIdArgs = {
-  userId: Scalars['Int'];
 };
 
 
@@ -686,7 +678,7 @@ export type UpdateGameMutationPayload = {
 export type UserNode = Node & {
   __typename?: 'UserNode';
   archived?: Maybe<Scalars['Boolean']>;
-  email?: Maybe<Scalars['String']>;
+  email: Scalars['String'];
   /** The ID of the object */
   id: Scalars['ID'];
   isActive: Scalars['Boolean'];
@@ -718,7 +710,7 @@ export type UserNodeEdge = {
 
 export type UserType = {
   __typename?: 'UserType';
-  email?: Maybe<Scalars['String']>;
+  email: Scalars['String'];
   id: Scalars['ID'];
   isActive: Scalars['Boolean'];
   isStaff: Scalars['Boolean'];
@@ -776,14 +768,14 @@ export type CreateGameMutationVariables = Exact<{
 }>;
 
 
-export type CreateGameMutation = { __typename?: 'Mutation', createGame?: { __typename?: 'CreateGameMutationPayload', game?: { __typename?: 'GameType', id: string, title: string, auther?: string | null, playTimeMinute?: number | null, maxPlayerCount?: number | null, minPlayerCount?: number | null, note?: string | null, image?: string | null, playedAt: any, user: { __typename?: 'UserType', id: string, username: string } } | null } | null };
+export type CreateGameMutation = { __typename?: 'Mutation', createGame?: { __typename?: 'CreateGameMutationPayload', game?: { __typename?: 'GameType', id: string, title: string, auther?: string | null, playTimeMinute?: number | null, maxPlayerCount?: number | null, minPlayerCount?: number | null, note?: string | null, image?: string | null, playedAt: any, user: { __typename?: 'UserNode', id: string, username: string } } | null } | null };
 
 export type UpdateGameMutationVariables = Exact<{
   input: UpdateGameMutationInput;
 }>;
 
 
-export type UpdateGameMutation = { __typename?: 'Mutation', updateGame?: { __typename?: 'UpdateGameMutationPayload', game?: { __typename?: 'GameType', id: string, title: string, auther?: string | null, playTimeMinute?: number | null, maxPlayerCount?: number | null, minPlayerCount?: number | null, note?: string | null, image?: string | null, playedAt: any, user: { __typename?: 'UserType', id: string, username: string } } | null } | null };
+export type UpdateGameMutation = { __typename?: 'Mutation', updateGame?: { __typename?: 'UpdateGameMutationPayload', game?: { __typename?: 'GameType', id: string, title: string, auther?: string | null, playTimeMinute?: number | null, maxPlayerCount?: number | null, minPlayerCount?: number | null, note?: string | null, image?: string | null, playedAt: any, user: { __typename?: 'UserNode', id: string, username: string } } | null } | null };
 
 export type TokenAuthMutationVariables = Exact<{
   username: Scalars['String'];
@@ -824,46 +816,35 @@ export type Send_EmailMutationVariables = Exact<{
 export type Send_EmailMutation = { __typename?: 'Mutation', sendMail?: { __typename?: 'SendEmailMutation', success?: boolean | null } | null };
 
 export type Signin_UserMutationVariables = Exact<{
-  username: Scalars['String'];
+  email: Scalars['String'];
   password: Scalars['String'];
 }>;
 
 
-export type Signin_UserMutation = { __typename?: 'Mutation', signinUser?: { __typename?: 'SignInUserMutation', user?: { __typename?: 'UserType', id: string, username: string, email?: string | null } | null } | null };
+export type Signin_UserMutation = { __typename?: 'Mutation', signinUser?: { __typename?: 'SignInUserMutation', user?: { __typename?: 'UserType', id: string, username: string, email: string } | null } | null };
 
 export type Signup_UserMutationVariables = Exact<{
   username: Scalars['String'];
+  email: Scalars['String'];
   password: Scalars['String'];
 }>;
 
 
-export type Signup_UserMutation = { __typename?: 'Mutation', signupUser?: { __typename?: 'SignUpUserMutation', user?: { __typename?: 'UserType', id: string, username: string, email?: string | null } | null } | null };
-
-export type Get_All_Game_MastQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type Get_All_Game_MastQuery = { __typename?: 'Query', allGameMasts?: Array<{ __typename?: 'GameType', id: string, title: string, auther?: string | null, playTimeMinute?: number | null, maxPlayerCount?: number | null, minPlayerCount?: number | null, note?: string | null, image?: string | null, playedAt: any, user: { __typename?: 'UserType', id: string } }> | null };
+export type Signup_UserMutation = { __typename?: 'Mutation', signupUser?: { __typename?: 'SignUpUserMutation', user?: { __typename?: 'UserType', id: string, username: string, email: string } | null } | null };
 
 export type Get_Game_Mast_By_UserQueryVariables = Exact<{
   User: Scalars['Int'];
 }>;
 
 
-export type Get_Game_Mast_By_UserQuery = { __typename?: 'Query', gameByUser?: Array<{ __typename?: 'GameType', id: string, title: string, auther?: string | null, playTimeMinute?: number | null, maxPlayerCount?: number | null, minPlayerCount?: number | null, note?: string | null, image?: string | null, playedAt: any, user: { __typename?: 'UserType', id: string } } | null> | null };
+export type Get_Game_Mast_By_UserQuery = { __typename?: 'Query', gameByUser?: Array<{ __typename?: 'GameType', id: string, title: string, auther?: string | null, playTimeMinute?: number | null, maxPlayerCount?: number | null, minPlayerCount?: number | null, note?: string | null, image?: string | null, playedAt: any, user: { __typename?: 'UserNode', id: string } } | null> | null };
 
 export type Get_Game_Mast_By_IdQueryVariables = Exact<{
   Id: Scalars['Int'];
 }>;
 
 
-export type Get_Game_Mast_By_IdQuery = { __typename?: 'Query', gameById?: { __typename?: 'GameType', id: string, title: string, auther?: string | null, playTimeMinute?: number | null, maxPlayerCount?: number | null, minPlayerCount?: number | null, note?: string | null, image?: string | null, playedAt: any, user: { __typename?: 'UserType', id: string } } | null };
-
-export type Get_Game_Mast_By_User_IdQueryVariables = Exact<{
-  userId: Scalars['Int'];
-}>;
-
-
-export type Get_Game_Mast_By_User_IdQuery = { __typename?: 'Query', gameByUserId?: Array<{ __typename?: 'GameType', id: string, title: string, auther?: string | null, playTimeMinute?: number | null, maxPlayerCount?: number | null, minPlayerCount?: number | null, note?: string | null, image?: string | null, playedAt: any, user: { __typename?: 'UserType', id: string } }> | null };
+export type Get_Game_Mast_By_IdQuery = { __typename?: 'Query', gameById?: { __typename?: 'GameType', id: string, title: string, auther?: string | null, playTimeMinute?: number | null, maxPlayerCount?: number | null, minPlayerCount?: number | null, note?: string | null, image?: string | null, playedAt: any, user: { __typename?: 'UserNode', id: string } } | null };
 
 export type Get_All_UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -875,14 +856,14 @@ export type Get_User_By_EmailQueryVariables = Exact<{
 }>;
 
 
-export type Get_User_By_EmailQuery = { __typename?: 'Query', userByEmail: { __typename?: 'UserType', id: string, username: string, email?: string | null } };
+export type Get_User_By_EmailQuery = { __typename?: 'Query', userByEmail: { __typename?: 'UserType', id: string, username: string, email: string } };
 
 export type Get_User_By_UsernameQueryVariables = Exact<{
   username: Scalars['String'];
 }>;
 
 
-export type Get_User_By_UsernameQuery = { __typename?: 'Query', userByUsername: { __typename?: 'UserType', id: string, username: string, email?: string | null } };
+export type Get_User_By_UsernameQuery = { __typename?: 'Query', userByUsername: { __typename?: 'UserType', id: string, username: string, email: string } };
 
 
 export const CreateGameDocument = gql`
@@ -1165,8 +1146,8 @@ export type Send_EmailMutationHookResult = ReturnType<typeof useSend_EmailMutati
 export type Send_EmailMutationResult = Apollo.MutationResult<Send_EmailMutation>;
 export type Send_EmailMutationOptions = Apollo.BaseMutationOptions<Send_EmailMutation, Send_EmailMutationVariables>;
 export const Signin_UserDocument = gql`
-    mutation SIGNIN_USER($username: String!, $password: String!) {
-  signinUser(username: $username, password: $password) {
+    mutation SIGNIN_USER($email: String!, $password: String!) {
+  signinUser(email: $email, password: $password) {
     user {
       id
       username
@@ -1190,7 +1171,7 @@ export type Signin_UserMutationFn = Apollo.MutationFunction<Signin_UserMutation,
  * @example
  * const [signinUserMutation, { data, loading, error }] = useSignin_UserMutation({
  *   variables: {
- *      username: // value for 'username'
+ *      email: // value for 'email'
  *      password: // value for 'password'
  *   },
  * });
@@ -1203,8 +1184,8 @@ export type Signin_UserMutationHookResult = ReturnType<typeof useSignin_UserMuta
 export type Signin_UserMutationResult = Apollo.MutationResult<Signin_UserMutation>;
 export type Signin_UserMutationOptions = Apollo.BaseMutationOptions<Signin_UserMutation, Signin_UserMutationVariables>;
 export const Signup_UserDocument = gql`
-    mutation SIGNUP_USER($username: String!, $password: String!) {
-  signupUser(username: $username, password: $password) {
+    mutation SIGNUP_USER($username: String!, $email: String!, $password: String!) {
+  signupUser(username: $username, email: $email, password: $password) {
     user {
       id
       username
@@ -1229,6 +1210,7 @@ export type Signup_UserMutationFn = Apollo.MutationFunction<Signup_UserMutation,
  * const [signupUserMutation, { data, loading, error }] = useSignup_UserMutation({
  *   variables: {
  *      username: // value for 'username'
+ *      email: // value for 'email'
  *      password: // value for 'password'
  *   },
  * });
@@ -1240,51 +1222,6 @@ export function useSignup_UserMutation(baseOptions?: Apollo.MutationHookOptions<
 export type Signup_UserMutationHookResult = ReturnType<typeof useSignup_UserMutation>;
 export type Signup_UserMutationResult = Apollo.MutationResult<Signup_UserMutation>;
 export type Signup_UserMutationOptions = Apollo.BaseMutationOptions<Signup_UserMutation, Signup_UserMutationVariables>;
-export const Get_All_Game_MastDocument = gql`
-    query GET_ALL_GAME_MAST {
-  allGameMasts {
-    id
-    title
-    auther
-    playTimeMinute
-    maxPlayerCount
-    minPlayerCount
-    note
-    image
-    playedAt
-    user {
-      id
-    }
-  }
-}
-    `;
-
-/**
- * __useGet_All_Game_MastQuery__
- *
- * To run a query within a React component, call `useGet_All_Game_MastQuery` and pass it any options that fit your needs.
- * When your component renders, `useGet_All_Game_MastQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGet_All_Game_MastQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGet_All_Game_MastQuery(baseOptions?: Apollo.QueryHookOptions<Get_All_Game_MastQuery, Get_All_Game_MastQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<Get_All_Game_MastQuery, Get_All_Game_MastQueryVariables>(Get_All_Game_MastDocument, options);
-      }
-export function useGet_All_Game_MastLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Get_All_Game_MastQuery, Get_All_Game_MastQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<Get_All_Game_MastQuery, Get_All_Game_MastQueryVariables>(Get_All_Game_MastDocument, options);
-        }
-export type Get_All_Game_MastQueryHookResult = ReturnType<typeof useGet_All_Game_MastQuery>;
-export type Get_All_Game_MastLazyQueryHookResult = ReturnType<typeof useGet_All_Game_MastLazyQuery>;
-export type Get_All_Game_MastQueryResult = Apollo.QueryResult<Get_All_Game_MastQuery, Get_All_Game_MastQueryVariables>;
 export const Get_Game_Mast_By_UserDocument = gql`
     query GET_GAME_MAST_BY_USER($User: Int!) {
   gameByUser(user: $User) {
@@ -1377,52 +1314,6 @@ export function useGet_Game_Mast_By_IdLazyQuery(baseOptions?: Apollo.LazyQueryHo
 export type Get_Game_Mast_By_IdQueryHookResult = ReturnType<typeof useGet_Game_Mast_By_IdQuery>;
 export type Get_Game_Mast_By_IdLazyQueryHookResult = ReturnType<typeof useGet_Game_Mast_By_IdLazyQuery>;
 export type Get_Game_Mast_By_IdQueryResult = Apollo.QueryResult<Get_Game_Mast_By_IdQuery, Get_Game_Mast_By_IdQueryVariables>;
-export const Get_Game_Mast_By_User_IdDocument = gql`
-    query GET_GAME_MAST_BY_USER_ID($userId: Int!) {
-  gameByUserId(userId: $userId) {
-    id
-    title
-    auther
-    playTimeMinute
-    maxPlayerCount
-    minPlayerCount
-    note
-    image
-    playedAt
-    user {
-      id
-    }
-  }
-}
-    `;
-
-/**
- * __useGet_Game_Mast_By_User_IdQuery__
- *
- * To run a query within a React component, call `useGet_Game_Mast_By_User_IdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGet_Game_Mast_By_User_IdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGet_Game_Mast_By_User_IdQuery({
- *   variables: {
- *      userId: // value for 'userId'
- *   },
- * });
- */
-export function useGet_Game_Mast_By_User_IdQuery(baseOptions: Apollo.QueryHookOptions<Get_Game_Mast_By_User_IdQuery, Get_Game_Mast_By_User_IdQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<Get_Game_Mast_By_User_IdQuery, Get_Game_Mast_By_User_IdQueryVariables>(Get_Game_Mast_By_User_IdDocument, options);
-      }
-export function useGet_Game_Mast_By_User_IdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Get_Game_Mast_By_User_IdQuery, Get_Game_Mast_By_User_IdQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<Get_Game_Mast_By_User_IdQuery, Get_Game_Mast_By_User_IdQueryVariables>(Get_Game_Mast_By_User_IdDocument, options);
-        }
-export type Get_Game_Mast_By_User_IdQueryHookResult = ReturnType<typeof useGet_Game_Mast_By_User_IdQuery>;
-export type Get_Game_Mast_By_User_IdLazyQueryHookResult = ReturnType<typeof useGet_Game_Mast_By_User_IdLazyQuery>;
-export type Get_Game_Mast_By_User_IdQueryResult = Apollo.QueryResult<Get_Game_Mast_By_User_IdQuery, Get_Game_Mast_By_User_IdQueryVariables>;
 export const Get_All_UsersDocument = gql`
     query GET_ALL_USERS {
   allUsers {

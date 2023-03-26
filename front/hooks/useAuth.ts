@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useReactiveVar } from '@apollo/client'
-import { Signin_UserMutation, useRevokeTokenMutation, useSignin_UserMutation, useTokenAuthMutation, useVerifyTokenMutation } from '@graphql/codegen'
+import { useRevokeTokenMutation, useSignin_UserMutation, useTokenAuthMutation, useVerifyTokenMutation } from '@graphql/codegen'
 import { client } from '../pages/_app'
 import { signInVar, userStateVar } from '@state/atom'
 
@@ -36,9 +36,10 @@ const useAuth = () => {
         return state?.signinUser?.user
     }
 
-    const signIn = async (username: string, password: string): Promise<boolean> => {
+    const signIn = async (email: string, password: string): Promise<boolean> => {
         try {
-            const signInResponse = await userSignIn({ variables: { username, password } })
+            const signInResponse = await userSignIn({ variables: { email, password } })
+            const username=signInResponse.data?.signinUser?.user?.username!
             const response = await tokenAuth({ variables: { username, password } })
             if (response.data?.tokenAuth?.token) {
                 localStorage.setItem("token", response.data?.tokenAuth?.token)
