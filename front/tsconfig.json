@@ -21,7 +21,8 @@
       "@hooks/*":["./hooks/*"],
       "@graphql/*":["./graphql/*"],
       "@state/*":["./state/*"],
-      "@utils/*":["./utils/*"]
+      "@utils/*":["./utils/*"],
+      "@validation/*":["./validation/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

@@ -1,19 +1,17 @@
-
 import * as yup from 'yup'
 import { useRouter } from 'next/router'
 import { SubmitHandler, useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
 
-import { NextPageWithLayout } from "./_app"
-
-import UsernameDuplicateValidation from '../validation/UsernameValidation'
 import Divider from '@components/common/divider/Divider'
 import Password from '@components/common/inputForm/password/Password'
 import Button from '@components/common/button/Button'
 import TextForm from '@components/common/inputForm/text/TextForm'
 import Email from '@components/common/inputForm/email/Email'
-import EmailDuplicateValidation from '../validation/EmailValidation'
 import { useGet_User_By_EmailLazyQuery, useGet_User_By_UsernameLazyQuery, useSignup_UserMutation } from '@graphql/codegen'
+import { NextPageWithLayout } from '../_app'
+import UsernameDuplicateValidation from '@validation/UsernameValidation'
+import EmailDuplicateValidation from '@validation/EmailValidation'
 
 
 
@@ -81,5 +79,3 @@ SignUp.getAccessControl = (isSignin: boolean) => {
 }
 
 export default SignUp
-
-
