@@ -2,7 +2,7 @@ import * as React from 'react'
 import ErrorMessage from "@components/common/inputForm/error/ErrorMessage"
 
 type InputProps = JSX.IntrinsicElements["input"]
-export type BaseInputProps = InputProps & { error: boolean, errorMessage: string, label?: string }
+export type BaseInputProps = InputProps & { error: boolean, errorMessage?: string, label?: string }
 
 const BaseInput=React.memo(React.forwardRef<HTMLInputElement, BaseInputProps>((props, ref) => {
     const { className, error, errorMessage, ...others } = props
