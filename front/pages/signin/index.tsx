@@ -4,7 +4,7 @@ import { useRouter } from "next/router"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
 
-import { NextPageWithLayout } from "./_app"
+import { NextPageWithLayout } from "../_app"
 
 import useAuth from "@hooks/useAuth"
 import ErrorCard from "@components/common/cards/errorCard/ErrorCard"
@@ -26,14 +26,35 @@ const validateSchema = yup.object().shape({
 })
 
 const SignIn: NextPageWithLayout = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm<SignInInput>({ mode: "onSubmit", resolver: yupResolver(validateSchema) })
+    const { register, setValue, handleSubmit, formState: { errors } } = useForm<SignInInput>({ mode: "onSubmit", resolver: yupResolver(validateSchema) })
     const router = useRouter()
     const auth = useAuth()
+    const [rememberMe, setRememberMe] = React.useState<boolean>(false)
     const [errorMessage, setErrorMessage] = React.useState("")
+
+    React.useEffect(() => {
+        const userName = localStorage.getItem("name")
+        const password = localStorage.getItem("password")
+        const rememberMe = localStorage.getItem("rememberMe")
+        if (userName) setValue("username", userName)
+        if (password) setValue("password", password)
+        if (password) setRememberMe(true)
+
+    }, [])
 
     const onSubmit: SubmitHandler<SignInInput> = async (loginInput) => {
         const isSignIn = await auth.signIn(loginInput.username, loginInput.password)
         if (isSignIn) {
+            if (rememberMe) {
+                localStorage.setItem("name", loginInput.username)
+                localStorage.setItem("password", loginInput.password)
+                localStorage.setItem("rememberMe", "rememberMe")
+            } else {
+                localStorage.removeItem("name")
+                localStorage.removeItem("password")
+                localStorage.removeItem("rememberMe")
+            }
+
             router.push("/gamelist")
         } else {
             setErrorMessage("メールアドレス、またはパスワードが間違っています")
@@ -48,7 +69,7 @@ const SignIn: NextPageWithLayout = () => {
                         <div className="mx-auto w-7/12">
                             <TextForm placeholder="ユーザー名" {...register("username", { required: true })} error={"username" in errors} errorMessage={errors.username?.message ?? ""} />
                             <Password {...register("password", { required: true })} error={"password" in errors} errorMessage={errors.password?.message ?? ""} />
-                            <CheckBox id="checkbox" label="ログイン状態を保持する" />
+                            <CheckBox id="checkbox" checked={rememberMe} onChange={() => setRememberMe(!rememberMe)} label="入力を記憶する" />
                             <Button className="mx-auto" type="submit" >ログインする</Button>
                         </div>
                         <Divider />
@@ -61,7 +82,7 @@ const SignIn: NextPageWithLayout = () => {
         </div>)
 }
 
-SignIn.getAccessControl = (isSignIn:boolean) => {
+SignIn.getAccessControl = (isSignIn: boolean) => {
     return isSignIn ? { type: "replace", destination: "/gamelist" } : null
 }
 export default SignIn
