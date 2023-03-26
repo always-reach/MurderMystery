@@ -3,9 +3,10 @@ from graphql_auth import mutations
 from graphene_django import DjangoObjectType
 from graphql import GraphQLError
 from django.utils import timezone
-from ..models import User, Game
-from ..serializer import UserSerializer
-from api.schema.mutations.game import CreateGameMutation,UpdateGameMutation
+from api.models import User, Game
+from api.serializer import UserSerializer
+from api.schema.mutations.game import CreateGameMutation, UpdateGameMutation
+from api.schema.mutations.mail import SendEmailMutation
 
 
 class AuthMutation(graphene.ObjectType):
@@ -72,7 +73,7 @@ class SignUpUserMutation(graphene.Mutation):
 
     @staticmethod
     def mutate(_, __, username, password):
-        serializer = UserSerializer(data={"username": username, "password": password })
+        serializer = UserSerializer(data={"username": username, "password": password})
         if serializer.is_valid():
             serializer.save()
             user = User.objects.get(username=username)
@@ -81,11 +82,9 @@ class SignUpUserMutation(graphene.Mutation):
         return SignUpUserMutation(user=user)
 
 
-
-
-
 class Mutation(AuthMutation, graphene.ObjectType):
     signin_user = SignInUserMutation.Field()
     signup_user = SignUpUserMutation.Field()
     create_game = CreateGameMutation.Field()
     update_game = UpdateGameMutation.Field()
+    send_mail = SendEmailMutation.Field()

@@ -1,3 +1,4 @@
+import * as React from 'react'
 import * as yup from 'yup'
 import { SubmitHandler, useForm } from "react-hook-form"
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -5,6 +6,8 @@ import Email from "@components/common/inputForm/email/Email";
 import TextForm from "@components/common/inputForm/text/TextForm";
 import TextareaForm from "@components/common/inputForm/textarea/TextareaForm";
 import { NextPageWithLayout } from "../_app";
+import { useSend_EmailMutation } from '@graphql/codegen';
+import Button from '@components/common/button/Button';
 
 type Contact = {
     email: string
@@ -14,15 +17,28 @@ type Contact = {
 
 const validateSchema = yup.object().shape({
     email: yup.string().required("必須入力です"),
-    name: yup.string(),
+    name: yup.string().required("必須入力です"),
     message: yup.string().required("必須入力です"),
 })
 
 const ContactForm: NextPageWithLayout = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<Contact>({ mode: "onSubmit", resolver: yupResolver(validateSchema) })
+    const [sendMail,{loading}] = useSend_EmailMutation()
+    const [isSend, setIsSend] = React.useState<boolean>(false)
+    const [sendResultMessage, setSendResultMessage] = React.useState<string>("送信に成功しました")
 
-    const submit = async (e: any) => {
-        console.log(e)
+    const submit: SubmitHandler<Contact> = async (formInput) => {
+
+        sendMail({ variables: formInput })
+            .then(response => {
+                setSendResultMessage(response.errors ? "送信に失敗しました" : "送信に成功しました")
+                setIsSend(true)
+            }).catch(error => {
+                console.log(error)
+                setSendResultMessage("送信に失敗しました")
+                setIsSend(true)
+            })
+
     };
 
     return (
@@ -61,17 +77,13 @@ const ContactForm: NextPageWithLayout = () => {
                     />
                 </div>
                 <div className="flex justify-center">
-                    <button
-                        type="submit"
-                        className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${true ? 'opacity-50 cursor-wait' : ''
-                            }`}
-                    >
+                    <Button type="submit" disabled={loading}>
                         送信する
-                    </button>
+                    </Button>
                 </div>
-                {true && (
+                {isSend && (
                     <div className="mt-4 p-4 bg-green-100 text-green-700 border rounded">
-                        メール送信成功時のメッセージ
+                        {sendResultMessage}
                     </div>
                 )}
             </form>
