@@ -1,6 +1,7 @@
 import graphene
 from django.conf import settings
 from django.core.mail import send_mail, BadHeaderError
+from django_graphql_ratelimit import ratelimit
 from graphql import GraphQLResolveInfo
 from smtplib import SMTPException
 
@@ -16,6 +17,8 @@ class SendEmailMutation(graphene.Mutation):
     success = graphene.Boolean()
 
     @staticmethod
+    @ratelimit(key="ip", rate="10/m", block=True)
+    @ratelimit(key="gql:email", rate="5/m", block=True)
     def mutate(_, info: GraphQLResolveInfo, name, email, message):
         user: User = info.context.user
         if user.is_authenticated:

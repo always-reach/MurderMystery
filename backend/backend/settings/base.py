@@ -56,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    "django_graphql_ratelimit.middleware.ParseClientIpMiddleware",
 ]
 
 ROOT_URLCONF = 'backend.urls'
