@@ -29,16 +29,11 @@ const ContactForm: NextPageWithLayout = () => {
     const [isSend, setIsSend] = React.useState<boolean>(false)
     const [sendResultMessage, setSendResultMessage] = React.useState<string>("送信に成功しました")
 
-    React.useEffect(() => {
-        // /testにアクセスした場合は/signinにリダイレクトする
-        router.push('/gamelist');
-      }, []);
-
     const submit: SubmitHandler<Contact> = async (formInput) => {
 
         sendMail({ variables: formInput })
             .then(response => {
-                setSendResultMessage(response.errors ? "送信に失敗しました" : "送信に成功しました")
+                setSendResultMessage(response.data?.sendMail?.success ? "送信に成功しました" : "送信に失敗しました")
                 setIsSend(true)
             }).catch(error => {
                 console.log(error)
