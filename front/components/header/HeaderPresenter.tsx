@@ -13,7 +13,14 @@ export const HeaderPresenter: React.FC<HeaderProps> = (props) => {
     return (
         <nav className="flex items-center justify-between flex-wrap bg-teal-500 p-6">
             <div className="flex items-center flex-shrink-0 text-white mr-6">
-                <span className="font-semibold text-xl tracking-tight">Murder Mystery</span>
+                <span className="font-semibold text-xl tracking-tight">
+                    <Link href="/gamelist" >
+                        <a>
+                            Murder Mystery
+                        </a>
+                    </Link>
+
+                </span>
             </div>
             {props.isSignin &&
                 <div className="grow flex items-center w-auto">
@@ -23,11 +30,22 @@ export const HeaderPresenter: React.FC<HeaderProps> = (props) => {
                                 トップ
                             </a>
                         </Link>
-                        {/**<Link href="/setting">
+                        <Link href="/profile">
                             <a className="inline-block mt-0 text-teal-200 hover:text-white mr-4">
-                                設定
+                                プロフィール
                             </a>
-            </Link>*/}
+                        </Link>
+                        <Link href="/privacyPolicy" >
+                            <a className="inline-block mt-0 text-teal-200 hover:text-white mr-4">
+                                プライバシーポリシー
+                            </a>
+                        </Link>
+                        <Link href="/contact" >
+                            <a className="inline-block mt-0 text-teal-200 hover:text-white mr-4">
+                                お問合せ
+                            </a>
+                        </Link>
+
                     </div>
 
                     <div>

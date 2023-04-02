@@ -94,6 +94,6 @@ const ContactForm: NextPageWithLayout = () => {
 }
 
 ContactForm.getAccessControl = (isSignIn) => {
-    return isSignIn ? { type: "replace", destination: "/signin" } : null
+    return !isSignIn ? { type: "replace", destination: "/signin" } : null
 }
 export default ContactForm
