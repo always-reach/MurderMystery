@@ -2,6 +2,7 @@ front/.next
 front/node_modules
 front/yarn.lock
 front/package-lock.json
+front/storybook-static
 
 backend/**.DS_Store
 backend/**/__pycache__
