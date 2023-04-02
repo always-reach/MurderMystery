@@ -1,7 +1,11 @@
+import graphene
+from django.conf import settings
+from django.core.mail import send_mail, BadHeaderError
+from django_graphql_ratelimit import ratelimit
+from graphql import GraphQLResolveInfo
 from smtplib import SMTPException
 
-import graphene
-from django.core.mail import send_mail, BadHeaderError
+from api.models import User
 
 
 class SendEmailMutation(graphene.Mutation):
@@ -13,14 +17,23 @@ class SendEmailMutation(graphene.Mutation):
     success = graphene.Boolean()
 
     @staticmethod
-    def mutate(_, __, name, email, message):
-        try:
-            mail_message = f"{name}さんからのお問合せです。{message}"
-            #迷惑メール?のすごいくるから一旦停止
-            #send_mail("MurderMysteryお問合せ", mail_message, email, ["bytheway811@gmail.com"],
-            #                  fail_silently=False)
-            return SendEmailMutation(success=True)
-        except BadHeaderError | SMTPException:
+    @ratelimit(key="ip", rate="10/m", block=True)
+    @ratelimit(key="gql:email", rate="5/m", block=True)
+    def mutate(_, info: GraphQLResolveInfo, name, email, message):
+        user: User = info.context.user
+        if user.is_authenticated:
+            try:
+                mail_message = f"{name}さんからのお問合せです。{message}"
+                send_mail("MurderMysteryお問合せ",
+                          mail_message,
+                          email,
+                          [settings.EMAIL_HOST_USER],
+                          fail_silently=False)
+                return SendEmailMutation(success=True)
+            except (BadHeaderError, SMTPException) as e:
+                print(e)
+                return SendEmailMutation(success=False)
+        else:
             return SendEmailMutation(success=False)
 
 

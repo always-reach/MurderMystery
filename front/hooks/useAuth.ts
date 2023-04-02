@@ -2,27 +2,14 @@ import * as React from 'react'
 import { useReactiveVar } from '@apollo/client'
 import { useRevokeTokenMutation, useSignin_UserMutation, useTokenAuthMutation, useVerifyTokenMutation } from '@graphql/codegen'
 import { client } from '../pages/_app'
-import { signInVar, userStateVar } from '@state/atom'
+import { signInVar, State, userStateVar } from '@state/atom'
 
-type State = {
-    __typename?: "UserType" | undefined;
-    id: string;
-    username: string;
-    email?: string | null | undefined;
-} | null | undefined
 
-export type AuthProps = {
-    state: State;
-    isSignIn: boolean;
-    signIn: (username: string, password: string) => Promise<boolean>;
-    signOut: () => Promise<void>;
-    verify: () => Promise<void>;
-}
 
 const useAuth = () => {
     const state = useReactiveVar(userStateVar)
     const isSignIn = useReactiveVar(signInVar)
-    const [userSignIn] = useSignin_UserMutation({ client })
+    const [userSignIn] = useSignin_UserMutation({ client, fetchPolicy: "no-cache" })
     const [tokenAuth] = useTokenAuthMutation({ client })
     const [tokenVerify] = useVerifyTokenMutation({ client })
     const [revokeToken] = useRevokeTokenMutation({ client })
@@ -32,20 +19,20 @@ const useAuth = () => {
         verify()
     }, [])
 
-    const getState = (): State => {
-        return state?.signinUser?.user
-    }
-
     const signIn = async (email: string, password: string): Promise<boolean> => {
         try {
+            await client.resetStore()
             const signInResponse = await userSignIn({ variables: { email, password } })
-            const username=signInResponse.data?.signinUser?.user?.username!
+            const username = signInResponse.data?.signinUser?.user?.username!
             const response = await tokenAuth({ variables: { username, password } })
             if (response.data?.tokenAuth?.token) {
                 localStorage.setItem("token", response.data?.tokenAuth?.token)
                 localStorage.setItem("refreshToken", response.data?.tokenAuth?.refreshToken)
             }
-            userStateVar(signInResponse.data)
+            userStateVar({ 
+                id: signInResponse.data?.signinUser?.user?.id!, 
+                username: signInResponse.data?.signinUser?.user?.username!, 
+                email: signInResponse.data?.signinUser?.user?.email! })
             signInVar(true)
             return true
         } catch (e) {
@@ -88,8 +75,12 @@ const useAuth = () => {
         }
     }
 
+    const updateUserState = (data: State) => {
+        userStateVar(data)
+    }
 
-    return { state: getState(), isSignIn, signIn, signOut, verify }
+
+    return { state, isSignIn, updateUserState, signIn, signOut, verify }
 }
 
 export default useAuth
