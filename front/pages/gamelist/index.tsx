@@ -34,8 +34,8 @@ const GameList: NextPageWithLayout = () => {
         </div>)
 }
 
-GameList.getAccessControl = (isSignIn) => {
+GameList.getAccessControl = (isSignIn: boolean) => {
     console.log({ GameList: isSignIn })
-    return !isSignIn ? { type: "replace", destination: "/signin" } : null
+    return isSignIn ? null : { type: "replace", destination: "/signin" }
 }
 export default GameList

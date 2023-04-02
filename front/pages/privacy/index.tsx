@@ -39,6 +39,7 @@ const PrivacyPolicy: NextPageWithLayout = () => {
 
 
 PrivacyPolicy.getAccessControl = (isSignIn: boolean) => {
-    return isSignIn ? { type: "replace", destination: "/gamelist" } : null
+    console.log({PrivacyPolicy:isSignIn})
+    return isSignIn ? null : { type: "replace", destination: "/signin" }
 }
 export default PrivacyPolicy
