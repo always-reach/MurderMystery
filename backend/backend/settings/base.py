@@ -11,10 +11,13 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 import datetime
+import environ
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+env = environ.Env()
+environ.Env.read_env("./.env")
 AUTH_USER_MODEL = 'api.User'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -53,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    "django_graphql_ratelimit.middleware.ParseClientIpMiddleware",
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -74,8 +78,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -165,9 +167,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
+EMAIL_HOST = env("MAIL_HOST")
+EMAIL_PORT = env("MAIL_PORT")
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'bytheway811@gmail.com'
-EMAIL_HOST_PASSWORD = 'gamydzaymutkgxuu'
+EMAIL_HOST_USER = env("DEVELOPER_MAIL_ADDRESS")
+EMAIL_HOST_PASSWORD = env("GOOGLE_APP_PASSWORD")
 EMAIL_USE_TLS = True

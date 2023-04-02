@@ -44,7 +44,7 @@ class SignUpUserMutation(graphene.Mutation):
         password = graphene.String(required=True)
 
     @staticmethod
-    def mutate(_, __, username, email, password):
+    def mutate(_, info, username, email, password):
         serializer = UserSerializer(data={"username": username, "email": email, "password": password})
         if serializer.is_valid():
             serializer.save()
