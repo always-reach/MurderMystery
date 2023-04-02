@@ -8,7 +8,8 @@ import TextareaForm from "@components/common/inputForm/textarea/TextareaForm";
 import { NextPageWithLayout } from "../_app";
 import { useSend_EmailMutation } from '@graphql/codegen';
 import Button from '@components/common/button/Button';
-import { useRouter } from 'next/router';
+import Toast from '@components/common/toast/Toast';
+import useAuth from '@hooks/useAuth';
 
 type Contact = {
     email: string
@@ -23,10 +24,18 @@ const validateSchema = yup.object().shape({
 })
 
 const ContactForm: NextPageWithLayout = () => {
-    const router = useRouter();
-    const { register, handleSubmit, formState: { errors } } = useForm<Contact>({ mode: "onSubmit", resolver: yupResolver(validateSchema) })
-    const [sendMail,{loading}] = useSend_EmailMutation()
+    const auth=useAuth()
+    const { register, handleSubmit, formState: { errors } } = useForm<Contact>({ 
+        mode: "onSubmit", 
+        resolver: yupResolver(validateSchema),
+        defaultValues: {
+            name: auth.state?.username ?? "",
+            email: auth.state?.email ?? ""
+        }
+    })
+    const [sendMail, { loading }] = useSend_EmailMutation()
     const [isSend, setIsSend] = React.useState<boolean>(false)
+    const [isSendSuccess, setIsSendSuccess] = React.useState<boolean>(false)
     const [sendResultMessage, setSendResultMessage] = React.useState<string>("送信に成功しました")
 
     const submit: SubmitHandler<Contact> = async (formInput) => {
@@ -35,10 +44,12 @@ const ContactForm: NextPageWithLayout = () => {
             .then(response => {
                 setSendResultMessage(response.data?.sendMail?.success ? "送信に成功しました" : "送信に失敗しました")
                 setIsSend(true)
+                setIsSendSuccess(true)
             }).catch(error => {
                 console.log(error)
                 setSendResultMessage("送信に失敗しました")
                 setIsSend(true)
+                setIsSendSuccess(false)
             })
 
     };
@@ -84,9 +95,7 @@ const ContactForm: NextPageWithLayout = () => {
                     </Button>
                 </div>
                 {isSend && (
-                    <div className="mt-4 p-4 bg-green-100 text-green-700 border rounded">
-                        {sendResultMessage}
-                    </div>
+                    <Toast color={isSendSuccess ? "primary" : "warning"}>{sendResultMessage}</Toast>
                 )}
             </form>
         </div>
@@ -94,6 +103,6 @@ const ContactForm: NextPageWithLayout = () => {
 }
 
 ContactForm.getAccessControl = (isSignIn) => {
-    return !isSignIn ? { type: "replace", destination: "/signin" } : null
+    return isSignIn ? null : { type: "replace", destination: "/signin" }
 }
 export default ContactForm

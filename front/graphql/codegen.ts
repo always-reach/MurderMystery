@@ -220,6 +220,7 @@ export type Mutation = {
    */
   updateAccount?: Maybe<UpdateAccount>;
   updateGame?: Maybe<UpdateGameMutationPayload>;
+  updateUser?: Maybe<UpdateUserMutation>;
   /**
    * Verify user account.
    *
@@ -358,6 +359,14 @@ export type MutationUpdateAccountArgs = {
 
 export type MutationUpdateGameArgs = {
   input: UpdateGameMutationInput;
+};
+
+
+export type MutationUpdateUserArgs = {
+  email?: InputMaybe<Scalars['String']>;
+  id: Scalars['ID'];
+  password?: InputMaybe<Scalars['String']>;
+  username?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -675,6 +684,11 @@ export type UpdateGameMutationPayload = {
   user?: Maybe<Scalars['String']>;
 };
 
+export type UpdateUserMutation = {
+  __typename?: 'UpdateUserMutation';
+  user?: Maybe<UserType>;
+};
+
 export type UserNode = Node & {
   __typename?: 'UserNode';
   archived?: Maybe<Scalars['Boolean']>;
@@ -831,6 +845,16 @@ export type Signup_UserMutationVariables = Exact<{
 
 
 export type Signup_UserMutation = { __typename?: 'Mutation', signupUser?: { __typename?: 'SignUpUserMutation', user?: { __typename?: 'UserType', id: string, username: string, email: string } | null } | null };
+
+export type Update_UserMutationVariables = Exact<{
+  id: Scalars['ID'];
+  username?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type Update_UserMutation = { __typename?: 'Mutation', updateUser?: { __typename?: 'UpdateUserMutation', user?: { __typename?: 'UserType', id: string, username: string, email: string } | null } | null };
 
 export type Get_Game_Mast_By_UserQueryVariables = Exact<{
   User: Scalars['Int'];
@@ -1222,6 +1246,46 @@ export function useSignup_UserMutation(baseOptions?: Apollo.MutationHookOptions<
 export type Signup_UserMutationHookResult = ReturnType<typeof useSignup_UserMutation>;
 export type Signup_UserMutationResult = Apollo.MutationResult<Signup_UserMutation>;
 export type Signup_UserMutationOptions = Apollo.BaseMutationOptions<Signup_UserMutation, Signup_UserMutationVariables>;
+export const Update_UserDocument = gql`
+    mutation Update_User($id: ID!, $username: String, $email: String, $password: String) {
+  updateUser(id: $id, username: $username, email: $email, password: $password) {
+    user {
+      id
+      username
+      email
+    }
+  }
+}
+    `;
+export type Update_UserMutationFn = Apollo.MutationFunction<Update_UserMutation, Update_UserMutationVariables>;
+
+/**
+ * __useUpdate_UserMutation__
+ *
+ * To run a mutation, you first call `useUpdate_UserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdate_UserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserMutation, { data, loading, error }] = useUpdate_UserMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      username: // value for 'username'
+ *      email: // value for 'email'
+ *      password: // value for 'password'
+ *   },
+ * });
+ */
+export function useUpdate_UserMutation(baseOptions?: Apollo.MutationHookOptions<Update_UserMutation, Update_UserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<Update_UserMutation, Update_UserMutationVariables>(Update_UserDocument, options);
+      }
+export type Update_UserMutationHookResult = ReturnType<typeof useUpdate_UserMutation>;
+export type Update_UserMutationResult = Apollo.MutationResult<Update_UserMutation>;
+export type Update_UserMutationOptions = Apollo.BaseMutationOptions<Update_UserMutation, Update_UserMutationVariables>;
 export const Get_Game_Mast_By_UserDocument = gql`
     query GET_GAME_MAST_BY_USER($User: Int!) {
   gameByUser(user: $User) {
