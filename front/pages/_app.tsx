@@ -6,8 +6,7 @@ import { createUploadLink } from "apollo-upload-client";
 import type { AppProps } from 'next/app'
 import { accessControl, GetAccessControl, useAccessControl } from '../access_control/AccessControl'
 import HeaderPresenter from '@components/header/HeaderContainer'
-
-console.log(process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT)
+import{ Analytics } from'@vercel/analytics/react';
 const link = createUploadLink({
   uri: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
   credentials: "include",
@@ -34,6 +33,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     <ApolloProvider client={client}>
         <HeaderPresenter />
         <Component {...pageProps} />
+        <Analytics />
     </ApolloProvider>
 
   )
